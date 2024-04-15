@@ -1,0 +1,123 @@
+syntax = "proto3";
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+message PbVector3{
+  int32 x = 1;
+  int32 y = 2;
+  int32 z = 3;
+}
+
+message EntityTRS{
+  int64 EntityID = 1;
+  PbVector3 position = 2;
+  PbVector3 rotation = 3;
+  PbVector3 scale = 4;
+  double speed = 5;
+  PbVector3 InputVector = 6;
+}
+
+message CreateSceneReq {
+  string scene_name = 1;
+  bool reset_data = 2;
+  int64 actor_id = 3;
+}
+
+message CreateSceneRes {
+  int32 scene_id = 1;
+  uint32 line = 2;
+  string ip = 3;
+  int32 port = 4;
+}
+
+message CreateSceneFinishNtf {
+   string token = 1;
+   uint32 scene_id = 2;
+   string ip = 3;
+   int32 port = 4;
+}
+
+message SceneList{
+  string scene_name = 1;
+  int32 scene_id = 2;
+  int32 player_count = 3;
+}
+
+message SceneListReq{
+}
+
+message SceneListRes{
+  repeated SceneList scene_list = 1;
+}
+
+message EnterSceneReq{
+  uint32 scene_id = 1;
+  int64 actor_id = 2;
+  string token = 3;
+  int32 profession = 4;
+}
+
+message EnterSceneRes{
+  int64 self_actor_id = 1;
+}
+
+message EnterDefaultSceneReq{
+}
+
+message EnterDefaultSceneRes{
+  int64 entity_id = 1;
+}
+
+message PlayerEnterSceneNtf{
+  int64 entity_id = 1;
+  int32 profession = 2;
+  EntityTRS trs = 3;
+}
+
+message PlayerLeaveSceneNtf {
+  EntityTRS trs = 1;
+}
+
+message LeaveSceneReq{
+}
+
+message LeaveSceneRes{
+}
+
+message ClientMessagePackage{
+  bytes content = 1;
+}
+
+message SceneMessagePush {
+  ClientMessagePackage client_message = 1;
+  bool filter_self = 2;
+  uint32 message_id = 3;
+}
+
+message SyncSceneMessageNtf {
+  ClientMessagePackage scene_message = 1;
+  uint32 message_id = 2;
+}
+
+message ServerSceneFinishLoadingNtf{
+}
+
+message ClientSceneFinishLoadingReq{
+}
+
+message ClientSceneFinishLoadingRes{
+}
+
+message ResetSceneReq{
+}
+
+message ResetSceneRes{
+}
+
+message ClientSyncMovePush{
+  EntityTRS trs = 1;
+}
+
+message PlayerMoveToNtf{
+  EntityTRS trs = 1;
+}

@@ -1,0 +1,26 @@
+server:
+  port: 9080
+  type: 5
+
+spring:
+  application:
+    name: team.V1
+  cloud:
+    config:
+      enabled:  false
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+
+
+discovery:
+  endpoints:
+    - http://localhost:2379
+    - http://localhost:2379
+  watch-servers:
+    - service-name-prefix: router.V1
+
+redis:
+  url: "redis://172.18.2.101:6379/0"
