@@ -1,10 +1,12 @@
 package com.ares.discovery;
 
+import com.ares.core.utils.JsonUtil;
 import com.ares.discovery.utils.BytesUtils;
 import com.ares.discovery.utils.NetUtils;
-import com.ares.core.utils.JsonUtil;
 import com.ares.transport.bean.ServerNodeInfo;
-import io.etcd.jetcd.*;
+import io.etcd.jetcd.Client;
+import io.etcd.jetcd.KV;
+import io.etcd.jetcd.Lease;
 import io.etcd.jetcd.lease.LeaseKeepAliveResponse;
 import io.etcd.jetcd.options.PutOption;
 import io.grpc.stub.CallStreamObserver;
@@ -16,44 +18,48 @@ import java.util.Map;
 public class EtcdRegister {
     private final Client client;
     private final String appName;
-    private final  int port;
-    private final  int areaId;
-    private final  int serveType;
+    private final int port;
+    private final int areaId;
+    private final int serveType;
     private ServerNodeInfo serverNodeInfo;
-    public EtcdRegister(Client client, int serverType,String appName, int port, int areaId) {
-       this.client = client;
-       this.appName = appName;
-       this.port = port;
-       this.areaId = areaId;
-       this.serveType = serverType;
-    }
-    public  void startRegister(){
-        String addr = NetUtils.getIpAddress().get(0);
-        String serviceId = NetUtils.createServiceId(appName,addr, port, areaId);
 
-        serverNodeInfo  = new ServerNodeInfo();
+    public EtcdRegister(Client client, int serverType, String appName, int port, int areaId) {
+        this.client = client;
+        this.appName = appName;
+        this.port = port;
+        this.areaId = areaId;
+        this.serveType = serverType;
+
+        String addr = NetUtils.getIpAddress().get(0);
+        String serviceId = NetUtils.createServiceId(appName, addr, port, areaId);
+        serverNodeInfo = new ServerNodeInfo();
         serverNodeInfo.setIp(addr);
         serverNodeInfo.setPort(port);
         serverNodeInfo.setServiceId(serviceId);
         serverNodeInfo.setAreaId(areaId);
         serverNodeInfo.setServiceName(appName);
         serverNodeInfo.setServerType(serveType);
-        log.info("#### start register me:{}", serverNodeInfo);
-
-        putWithLease(serviceId, JsonUtil.toJsonString(serverNodeInfo));
     }
-    public ServerNodeInfo getMyselfNodeInfo(){
+
+    public void startRegister() {
+        log.info("#### start register me:{}", serverNodeInfo);
+        putWithLease(serverNodeInfo.getServiceId(), JsonUtil.toJsonString(serverNodeInfo));
+    }
+
+    public ServerNodeInfo getMyselfNodeInfo() {
         return serverNodeInfo;
     }
 
-    public void updateServerNodeInfo(ServerNodeInfo serverNodeInfo){
+    public void updateServerNodeInfo(ServerNodeInfo serverNodeInfo) {
         putWithLease(serverNodeInfo.getServiceId(), JsonUtil.toJsonString(serverNodeInfo));
     }
-    public void updateServerNodeInfo(Map<String, String> metadata){
+
+    public void updateServerNodeInfo(Map<String, String> metadata) {
         serverNodeInfo.getMetaData().putAll(metadata);
         updateServerNodeInfo(serverNodeInfo);
 
     }
+
     private Client getClient() {
         return client;
     }
@@ -61,7 +67,7 @@ public class EtcdRegister {
     private void putWithLease(String key, String value) {
         Lease leaseClient = getClient().getLeaseClient();
 
-        leaseClient.grant(10).thenAccept(result -> {
+        leaseClient.grant(60).thenAccept(result -> {
             // 租约ID
             long leaseId = result.getID();
 
@@ -106,12 +112,12 @@ public class EtcdRegister {
                              */
                             @Override
                             public void onNext(LeaseKeepAliveResponse value) {
-                               // System.out.println("续租完成");
+                                // System.out.println("续租完成");
                             }
 
                             @Override
                             public void onError(Throwable t) {
-                                System.out.println(t);
+                                log.error("error", t);
                             }
 
                             @Override
