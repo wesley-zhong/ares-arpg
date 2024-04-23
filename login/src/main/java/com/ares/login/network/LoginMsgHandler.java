@@ -6,6 +6,7 @@ import com.ares.core.bean.AresPacket;
 import com.ares.core.service.ServiceMgr;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.core.tcp.AresTcpHandler;
+import com.ares.core.thread.AresThreadPool;
 import com.ares.core.thread.LogicProcessThreadPool;
 import com.ares.core.thread.LogicThreadPoolGroup;
 import com.ares.login.configuration.ThreadPoolType;
@@ -46,7 +47,7 @@ public class LoginMsgHandler implements AresTcpHandler {
         }
         int length = aresPacket.getRecvByteBuf().readableBytes();
         Object paraObj = calledMethod.getParser().parseFrom(new ByteBufInputStream(aresPacket.getRecvByteBuf(), length));
-        LogicProcessThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
+        AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
         logicProcessThreadPool.execute(aresTKcpContext, calledMethod, msgHeader.getMsgId(), paraObj);
     }
 
@@ -63,7 +64,7 @@ public class LoginMsgHandler implements AresTcpHandler {
     @Override
     public void onServerConnected(Channel aresTKcpContext) {
         ProtoInner.InnerServerHandShakeReq handleShake = ProtoInner.InnerServerHandShakeReq.newBuilder().setServiceName(appName).build();
-        AresPacket aresPacket = AresPacket.create(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_REQ_VALUE, handleShake);
+        AresPacket aresPacket = AresPacket.create(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_REQ_VALUE, handleShake);
         aresTKcpContext.writeAndFlush(aresPacket);
         log.info("###### handshake send to {}  msg: {}", aresTKcpContext, handleShake);
     }

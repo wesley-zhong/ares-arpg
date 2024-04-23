@@ -31,25 +31,34 @@ public class InnerHandShake implements AresController {
 
 
     //as sever receive client handshake
-    @MsgId(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_REQ_VALUE)
+    @MsgId(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_REQ_VALUE)
     public void innerHandShake(long id, ProtoInner.InnerServerHandShakeReq innerLoginRequest) {
         ServerNodeInfo mySelfNode = discoveryService.getEtcdRegister().getMyselfNodeInfo();
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
-        ServerType from = ServerType.from(innerLoginRequest.getServiceName());
-        peerConn.addPeerConn(from.getValue(),  innerLoginRequest.getServiceId(), aresTKcpContext.getCtx());
+
+        ServerNodeInfo serverNodeInfo = new ServerNodeInfo();//discoveryService.getEtcdDiscovery().getServerList().get(innerLoginRequest.getServiceId());
+        ServerType serverType = ServerType.from(innerLoginRequest.getServiceName());
+        serverNodeInfo.setServerType(serverType.getValue());
+        serverNodeInfo.setServiceName(innerLoginRequest.getServiceName());
+        serverNodeInfo.setServiceId(innerLoginRequest.getServiceId());
+
+        TcpConnServerInfo tcpConnServerInfo = peerConn.addPeerConn(serverNodeInfo, aresTKcpContext.getCtx());
+        aresTKcpContext.cacheObj(tcpConnServerInfo);
+
+
         log.info("####  from: {} innerHandShake :{}  finish", aresTKcpContext, innerLoginRequest);
         ProtoInner.InnerServerHandShakeRes response = ProtoInner.InnerServerHandShakeRes.newBuilder()
                 .setServiceId(mySelfNode.getServiceId())
                 .setServiceName(mySelfNode.getServiceName()).build();
-        AresPacket aresPacket = AresPacket.create(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_RES_VALUE, response);
+        AresPacket aresPacket = AresPacket.create(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_RES_VALUE, response);
         aresTKcpContext.send(aresPacket);
 
         //to do rewrite
-        ServerNodeInfo serverNodeInfo = new ServerNodeInfo();
-        serverNodeInfo.setAreaId(innerLoginRequest.getAreaId());
-        serverNodeInfo.setServiceName(innerLoginRequest.getServiceName());
-        serverNodeInfo.setServiceId(innerLoginRequest.getServiceId());
-        TcpConnServerInfo tcpConnServerInfo = new TcpConnServerInfo(aresTKcpContext.getCtx().channel(), serverNodeInfo);
-        aresTKcpContext.cacheObj(tcpConnServerInfo);
+//        ServerNodeInfo serverNodeInfo = new ServerNodeInfo();
+//        serverNodeInfo.setAreaId(innerLoginRequest.getAreaId());
+//        serverNodeInfo.setServiceName(innerLoginRequest.getServiceName());
+//        serverNodeInfo.setServiceId(innerLoginRequest.getServiceId());
+//        TcpConnServerInfo tcpConnServerInfo = new TcpConnServerInfo(aresTKcpContext.getCtx().channel(), serverNodeInfo);
+      //  aresTKcpContext.cacheObj(tcpConnServerInfo);
     }
 }

@@ -14,8 +14,7 @@ public class Configuration {
 
     @Bean
     public AresTcpClientConn aresTcpClient(@Autowired  AresTcpHandler  aresTcpHandler){
-        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn();
-        aresTcpClientConn.initWithMsgEncoder(aresTcpHandler,new AresPacketMsgEncoder());
+        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn(aresTcpHandler,new AresPacketMsgEncoder());
         return aresTcpClientConn;
     }
 
@@ -23,5 +22,4 @@ public class Configuration {
     public AresTcpHandler aresTcpHandler(){
         return new ClientMsgHandler();
     }
-
 }

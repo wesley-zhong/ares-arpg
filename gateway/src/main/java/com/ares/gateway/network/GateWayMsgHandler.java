@@ -6,13 +6,11 @@ import com.ares.core.bean.AresPacket;
 import com.ares.core.service.ServiceMgr;
 import com.ares.core.tcp.AresServerTcpHandler;
 import com.ares.core.tcp.AresTKcpContext;
-import com.ares.core.thread.LogicProcessThreadPool;
+import com.ares.core.thread.AresThreadPool;
 import com.ares.core.thread.LogicThreadPoolGroup;
-import com.ares.discovery.DiscoveryService;
 import com.ares.gateway.bean.PlayerSession;
 import com.ares.gateway.configuration.ThreadPoolType;
 import com.ares.gateway.service.SessionService;
-import com.ares.transport.client.AresTcpClient;
 import com.game.protoGen.ProtoCommon;
 import com.game.protoGen.ProtoInner;
 import io.netty.buffer.ByteBufInputStream;
@@ -21,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Slf4j
@@ -28,15 +27,12 @@ public class GateWayMsgHandler implements AresServerTcpHandler {
     @Autowired
     private ServiceMgr serviceMgr;
     @Autowired
-    private AresTcpClient aresTcpClient;
-    @Autowired
     private PeerConn peerConn;
-
     @Autowired
     private SessionService sessionService;
-    @Autowired
-    private DiscoveryService discoveryService;
 
+    private volatile long start = System.currentTimeMillis();
+    private AtomicInteger atomicInteger = new AtomicInteger(0);
 
     @Override
     public void handleMsgRcv(AresTKcpContext aresTKcpContext) throws IOException {
@@ -51,9 +47,14 @@ public class GateWayMsgHandler implements AresServerTcpHandler {
             if (playerSession != null) {
                 uid = playerSession.getUid();
             }
+            //player first connect
+            long hashCode = uid;
+            if (hashCode == 0) {
+                hashCode = Math.abs(aresTKcpContext.getCtx().channel().id().asShortText().hashCode());
+            }
             Object paraObj = calledMethod.getParser().parseFrom(new ByteBufInputStream(aresPacket.getRecvByteBuf(), length));
-            LogicProcessThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.IO.getValue());
-            logicProcessThreadPool.execute(uid, aresTKcpContext, calledMethod, uid, paraObj);
+            AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.IO.getValue());
+            logicProcessThreadPool.execute(hashCode, aresTKcpContext, calledMethod, uid, paraObj);
             return;
         }
         peerConn.innerRedirectTo(ServerType.GAME, playerSession.getUid(), aresPacket);
@@ -85,8 +86,8 @@ public class GateWayMsgHandler implements AresServerTcpHandler {
         if (cacheObj instanceof PlayerSession playerSession) {
             ProtoInner.InnerPlayerDisconnectRequest disconnectRequest = ProtoInner.InnerPlayerDisconnectRequest.newBuilder()
                     .setUid(playerSession.getUid()).build();
-            peerConn.sendToGameMsg(playerSession.getUid(), ProtoInner.InnerProtoCode.INNER_PLAYER_DISCONNECT_REQ_VALUE, disconnectRequest);
-            LogicProcessThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.IO.getValue());
+            peerConn.sendToGameMsg(playerSession.getUid(), ProtoInner.InnerMsgId.INNER_PLAYER_DISCONNECT_REQ_VALUE, disconnectRequest);
+            AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.IO.getValue());
             logicProcessThreadPool.execute(playerSession.getUid(), playerSession, sessionService::playerDisconnect);
         }
     }

@@ -19,25 +19,24 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class InnerHandShake implements AresController {
     @Autowired
-    private PeerConn  peerConn;
+    private PeerConn peerConn;
     @Autowired
     private AresTcpClient aresTcpClient;
     @Autowired
     @Lazy
     private OnDiscoveryWatchService onDiscoveryWatchService;
 
-    @MsgId(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_RES_VALUE)
+    @MsgId(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_RES_VALUE)
     public void innerHandShakeRes(long pid, ProtoInner.InnerServerHandShakeRes innerServerHandShakeRes) {
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
-        ServerNodeInfo serverNodeInfo = onDiscoveryWatchService.getServerNodeInfo(innerServerHandShakeRes.getServiceId());
-        peerConn.addPeerConn(serverNodeInfo, aresTKcpContext.getCtx());
-
-        log.info("#### innerHandShakeRes   Response :{}  finish  from: {}", innerServerHandShakeRes,aresTKcpContext);
-        TcpConnServerInfo tcpConnServerInfo = aresTcpClient.getTcpConnServerInfo(innerServerHandShakeRes.getAreaId(), innerServerHandShakeRes.getServiceName());
-        if(tcpConnServerInfo == null){
-            log.error("server connect error  service name ={} serviceName ={}",innerServerHandShakeRes.getServiceId(), innerServerHandShakeRes.getServiceName());
+    //    ServerNodeInfo serverNodeInfo = onDiscoveryWatchService.getServerNodeInfo(innerServerHandShakeRes.getServiceId());
+        log.info("#### innerHandShakeRes   Response :{}  finish  from: {}", innerServerHandShakeRes, aresTKcpContext);
+        TcpConnServerInfo tcpConnServerInfo = aresTcpClient.getTcpConnServerInfo(innerServerHandShakeRes.getServiceName(),innerServerHandShakeRes.getServiceId());
+        if (tcpConnServerInfo == null) {
+            log.error("server connect error  service name ={} serviceName ={}", innerServerHandShakeRes.getServiceId(), innerServerHandShakeRes.getServiceName());
             return;
         }
+        peerConn.addPeerConn(tcpConnServerInfo);
         aresTKcpContext.cacheObj(tcpConnServerInfo);
     }
 }

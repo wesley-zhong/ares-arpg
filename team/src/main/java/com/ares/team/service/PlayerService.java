@@ -9,11 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class PlayerService {
-    @Autowired
-    private TeamPlayerMgr teamPlayerMgr;
-    @Autowired
-    private PeerConn peerConn;
-
 
     public void timerTaskTest(BeanTest beanTest) {
         log.info("------ come from timer task {}", beanTest);

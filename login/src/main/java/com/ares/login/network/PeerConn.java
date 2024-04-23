@@ -6,6 +6,7 @@ import com.ares.core.bean.AresPacket;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.transport.peer.PeerConnBase;
 import com.google.protobuf.Message;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +73,7 @@ public class PeerConn extends PeerConnBase {
     }
 
     @Override
-    public ChannelHandlerContext loadBalance(int serverType, long uid, Map<String, ChannelHandlerContext> channelConMap) {
+    public Channel loadBalance(int serverType, long uid) {
         return null;
     }
 }

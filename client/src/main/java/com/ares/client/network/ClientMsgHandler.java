@@ -5,6 +5,7 @@ import com.ares.core.bean.AresPacket;
 import com.ares.core.service.ServiceMgr;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.core.tcp.AresTcpHandler;
+import com.ares.core.utils.AresContextThreadLocal;
 import com.game.protoGen.ProtoCommon;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.channel.Channel;
@@ -24,7 +25,7 @@ public class ClientMsgHandler implements AresTcpHandler {
     public void handleMsgRcv(AresTKcpContext aresTKcpContext) throws IOException {
         AresPacket aresPacket = aresTKcpContext.getRcvPackage();
         ProtoCommon.MsgHeader msgHeader = aresPacket.getRecvHeader();
-        log.info("-------------------  receive header  ={}", msgHeader);
+     //   log.info("-------------------  receive header  ={}", msgHeader);
         AresMsgIdMethod calledMethod = serviceMgr.getCalledMethod(msgHeader.getMsgId());
         if (calledMethod == null) {
             log.error("msgId ====== {} not register", msgHeader.getMsgId());
@@ -32,6 +33,7 @@ public class ClientMsgHandler implements AresTcpHandler {
         }
         int length = aresPacket.getRecvByteBuf().readableBytes();
         Object paraObj = calledMethod.getParser().parseFrom(new ByteBufInputStream(aresPacket.getRecvByteBuf(), length));
+        AresContextThreadLocal.cache(aresTKcpContext);
         calledMethod.getAresServiceProxy().callMethod(calledMethod, paraObj);
     }
 

@@ -30,6 +30,7 @@ public class SessionServiceImp implements SessionService {
 
     @Override
     public void gameLogin(AresTKcpContext aresTKcpContext, ProtoGame.GameLoginReq loginRequest) {
+        log.info("----------------  game loginReq={}", loginRequest);
         /****
          * do something
          //         */;
@@ -46,7 +47,7 @@ public class SessionServiceImp implements SessionService {
                 .setUid(loginRequest.getUid())
                 .setToken(loginRequest.getGameToken()).build();
 
-        peerConn.sendToGameMsg(loginRequest.getUid(), ProtoInner.InnerProtoCode.INNER_TO_GAME_LOGIN_REQ_VALUE, innerLoginRequest);
+        peerConn.sendToGameMsg(loginRequest.getUid(), ProtoInner.InnerMsgId.INNER_TO_GAME_LOGIN_REQ_VALUE, innerLoginRequest);
     }
 
 

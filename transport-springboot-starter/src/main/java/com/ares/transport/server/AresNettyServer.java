@@ -45,6 +45,12 @@ public class AresNettyServer implements InitializingBean {
     private long tcpServerHeartBeatTime;
     @Value("${first.total.ignore.read.idle.count:0}")
     private int firstTotalIgnoreReadIdleCount;
+    @Value("${netty.server.SO_SNDBUF:32768}")
+    private int soSndBuf;
+    @Value("${netty.server.SO_RCVBUF:32768}")
+    private int soRevBuf;
+    @Value("${netty.server.WATER_MARK:32768}")
+    private int waterMark;
 
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
@@ -64,10 +70,10 @@ public class AresNettyServer implements InitializingBean {
         log.info("#####isUseEpoll:{}", useLinux());
         ServerBootstrap b = new ServerBootstrap();
         int cpuNum = Runtime.getRuntime().availableProcessors();
-        int eventCount = cpuNum * 2;//2 * cpuNum
+        // int eventCount = cpuNum * 2;//2 * cpuNum
         if (useLinux()) {
-            bossGroup = new EpollEventLoopGroup(cpuNum);
-            workerGroup = new EpollEventLoopGroup();
+            bossGroup = new EpollEventLoopGroup(1);
+            workerGroup = new EpollEventLoopGroup(4);
         } else {
             bossGroup = new NioEventLoopGroup(1);
             workerGroup = new NioEventLoopGroup(4);
@@ -94,9 +100,9 @@ public class AresNettyServer implements InitializingBean {
                 })
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
-                .childOption(ChannelOption.SO_SNDBUF, 512 * 1024)
-                .childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(512 * 1024, 1024 * 1024))
-                .childOption(ChannelOption.SO_RCVBUF, 512 * 1024)
+                .childOption(ChannelOption.SO_SNDBUF, soSndBuf)
+                .childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(waterMark, waterMark))
+                .childOption(ChannelOption.SO_RCVBUF, soRevBuf)
                 .childOption(ChannelOption.TCP_NODELAY, true);
 
         int newPort = tcpPort == 0 ? port : tcpPort;

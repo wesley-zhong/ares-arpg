@@ -6,6 +6,7 @@ import com.ares.core.bean.AresPacket;
 import com.ares.core.service.ServiceMgr;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.core.tcp.AresTcpHandler;
+import com.ares.core.thread.AresThreadPool;
 import com.ares.core.thread.LogicProcessThreadPool;
 import com.ares.core.thread.LogicThreadPoolGroup;
 import com.game.protoGen.ProtoCommon;
@@ -45,12 +46,13 @@ public class RouterMsgHandler implements AresTcpHandler {
                 peerConn.sendToGame(uid, aresPacket);
                 return;
             }
-            log.error("XXXXXXXXXXXXXXX msgId ={} to server type ={} error", msgId, toServerType);
+            log.error("XXXXXXXXXXXXXXX from server ={}  msgId ={} to server type ={} error", aresTKcpContext, msgId, toServerType);
             return;
         }
         int length = aresPacket.getRecvByteBuf().readableBytes();
         Object paraObj = calledMethod.getParser().parseFrom(new ByteBufInputStream(aresPacket.getRecvByteBuf(), length));
-        LogicProcessThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
+
+        AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
         logicProcessThreadPool.execute(aresTKcpContext, calledMethod, uid, paraObj);
     }
 

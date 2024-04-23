@@ -1,9 +1,14 @@
 syntax = "proto3";
 option java_package = "com.game.protoGen";
 option go_package = "/protoGen";
+import  "ProtoTeam.proto";
+
+enum  InnerErrCode{
+  INNER_SUCCESS = 0;
+}
 
 
-enum  InnerProtoCode{
+enum  InnerMsgId{
   INNER_INVALID = 0;
   INNER_SERVER_HAND_SHAKE_REQ = -1;
   INNER_SERVER_HAND_SHAKE_RES = -2;
@@ -19,7 +24,19 @@ enum  InnerProtoCode{
 
   INNER_PLAYER_DISCONNECT_REQ = -14;
   INNER_PLAYER_DISCONNECT_RES = -15;
+
+  INNER_CREATE_TEAM_REQ = -16;
+  INNER_CREATE_TEAM_RES = -17;
+  INNER_JOIN_TEAM_REQ = -18;
+  INNER_JOIN_TEAM_RES = -19;
+
+
+  //performance test
+
+  INNER_GATEWAY_PERFORMANCE_REQ = -2000000;
+  INNER_GATEWAY_PERFORMANCE_RES = -2000001;
 }
+
 
 
 message  InnerHeartBeatRequest{
@@ -37,6 +54,7 @@ message InnerGameLoginRequest {
 
 message InnerGameLoginResponse {
   int64  uid = 1;
+  int32  errCode = 2;
 }
 
 message InnerWorldLoginRequest{
@@ -88,4 +106,20 @@ message KickOutResponse {
 }
 
 
+message InnerCreateTeamReq{
+  TeamMemberInfo teamMember = 1;
+  string teamName = 2;
+  string  teamDes = 3;
+}
+
+message InnerJoinTeamReq{
+  int64  teamId = 1;
+  TeamMemberInfo teamMember = 2;
+}
+
+message  InnerCreateTeamRes{
+  int64  owner = 1;
+  TeamInfo teamInfo = 2;
+  int32  errCode = 3;
+}
 

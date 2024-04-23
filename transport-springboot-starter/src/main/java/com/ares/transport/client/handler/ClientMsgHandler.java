@@ -33,7 +33,6 @@ public class ClientMsgHandler extends ChannelInboundHandlerAdapter {
         try {
             aresPacket.parseHeader();
             if (aresPacket.getMsgId() == FMsgId.PONG) {
-                aresPacket.release();
                 return;
             }
             aresTcpHandler.handleMsgRcv(aresPacketEx);

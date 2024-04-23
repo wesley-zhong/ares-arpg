@@ -13,7 +13,6 @@ public class ServerNodeInfo {
     private String ip;
     private boolean available;
     private int port;
-    private int areaId;
     private int onlineCount;
     private Map<String, String> metaData = new HashMap<>();
 
@@ -33,5 +32,10 @@ public class ServerNodeInfo {
             return oS.getServiceId().equals(this.getServiceId());
         }
         return false;
+    }
+
+    @Override
+    public String toString(){
+        return serviceId;
     }
 }

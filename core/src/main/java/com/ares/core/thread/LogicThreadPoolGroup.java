@@ -6,27 +6,53 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LogicThreadPoolGroup {
     public static LogicThreadPoolGroup INSTANCE;
-    private LogicProcessThreadPool[] serverRpcProcessThreadPools;
+    private AresThreadPool[] aresThreadPools;
+    private AresThreadPool[] aresVirtualThreadPools;
 
     public LogicThreadPoolGroup(int threadPoolTypeCount) {
-        serverRpcProcessThreadPools = new LogicProcessThreadPool[threadPoolTypeCount];
+        aresThreadPools = new LogicProcessThreadPool[threadPoolTypeCount];
+        INSTANCE = this;
+    }
+
+    public LogicThreadPoolGroup(int threadTypeCount, int virtualThreadCount) {
+        aresThreadPools = new LogicProcessThreadPool[threadTypeCount];
+        aresVirtualThreadPools = new VirtualThreadPool[virtualThreadCount];
         INSTANCE = this;
     }
 
     public void createThreadPool(int threadPoolType, int logicAysnThreadCount) {
-        serverRpcProcessThreadPools[threadPoolType] = LogicProcessThreadPool.create(logicAysnThreadCount);
+        aresThreadPools[threadPoolType] = LogicProcessThreadPool.create(logicAysnThreadCount);
     }
 
-    public LogicProcessThreadPool selectThreadPool(int threadPoolType) {
-        return serverRpcProcessThreadPools[threadPoolType];
+    public void createVirtualThreadPool(int threadPoolType, int threadCount) {
+        aresVirtualThreadPools[threadPoolType] = VirtualThreadPool.create(threadCount);
+    }
+
+    public AresThreadPool selectThreadPool(int threadPoolType) {
+        return aresThreadPools[threadPoolType];
+    }
+
+    public AresThreadPool selectVirtualThreadPool(int threadPoolType) {
+        return aresVirtualThreadPools[threadPoolType];
     }
 
 
     public void shutDown() {
-        for (LogicProcessThreadPool serverRpcProcessThreadPool : serverRpcProcessThreadPools) {
-            if (serverRpcProcessThreadPool != null) {
-                serverRpcProcessThreadPool.shutDown();
+        if (aresThreadPools != null) {
+            for (AresThreadPool aresThreadPool : aresThreadPools) {
+                if (aresThreadPool != null) {
+                    aresThreadPool.shutDown();
+                }
             }
+            aresThreadPools = null;
+        }
+        if (aresVirtualThreadPools != null) {
+            for (AresThreadPool aresThreadPool : aresVirtualThreadPools) {
+                if (aresThreadPool != null) {
+                    aresThreadPool.shutDown();
+                }
+            }
+            aresVirtualThreadPools = null;
         }
     }
 }

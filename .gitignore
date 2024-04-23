@@ -24,3 +24,10 @@
 hs_err_pid*
 replay_pid*
 
+.idea
+
+discovery-springboot-starter/target/
+login/target/
+router/target/
+client/src/main/java/com/game/
+common/src/main/java/com/game/

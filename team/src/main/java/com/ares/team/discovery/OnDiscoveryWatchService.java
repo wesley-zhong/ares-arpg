@@ -6,6 +6,7 @@ import com.ares.transport.bean.ServerNodeSortedMap;
 import com.ares.transport.client.AresTcpClient;
 import io.etcd.jetcd.watch.WatchEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,9 @@ public class OnDiscoveryWatchService implements com.ares.discovery.transfer.OnDi
     @Lazy
     private DiscoveryService discoveryService;
 
+    @Value("${client.connCount:8}")
+    private int clientConnCount;
+
     @Override
     public ServerNodeInfo getServerNodeInfo(String serviceId) {
         return discoveryService.getEtcdDiscovery().getServerList().get(serviceId);
@@ -28,7 +32,7 @@ public class OnDiscoveryWatchService implements com.ares.discovery.transfer.OnDi
     public Void onWatchServiceChange(WatchEvent.EventType eventType, ServerNodeInfo serverNodeInfo) {
         if (eventType == WatchEvent.EventType.PUT) {
             serverNodeSortedMap.add(serverNodeInfo);
-            aresTcpClient.connect(serverNodeInfo);
+            aresTcpClient.connect(serverNodeInfo, clientConnCount);
             return null;
         }
         if (eventType == WatchEvent.EventType.DELETE) {

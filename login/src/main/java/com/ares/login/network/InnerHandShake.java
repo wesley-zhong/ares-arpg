@@ -31,17 +31,17 @@ public class InnerHandShake implements AresController {
 
 
     //as sever receive client handshake
-    @MsgId(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_RES_VALUE)
+    @MsgId(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_RES_VALUE)
     public void innerHandShakeRes(long pid, ProtoInner.InnerServerHandShakeRes innerServerHandShakeRes) {
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
 
         ServerNodeInfo serverNodeInfo = onDiscoveryWatch.getServerNodeInfo(innerServerHandShakeRes.getServiceId());
         peerConn.addPeerConn(serverNodeInfo, aresTKcpContext.getCtx());
 
-        log.info("#### innerHandShakeRes   Response :{}  finish  from: {}", innerServerHandShakeRes,aresTKcpContext);
-        TcpConnServerInfo tcpConnServerInfo = aresTcpClient.getTcpConnServerInfo(innerServerHandShakeRes.getAreaId(), innerServerHandShakeRes.getServiceName());
-        if(tcpConnServerInfo == null){
-            log.error("server connect error  service name ={} serviceName ={}",innerServerHandShakeRes.getServiceId(), innerServerHandShakeRes.getServiceName());
+        log.info("#### innerHandShakeRes   Response :{}  finish  from: {}", innerServerHandShakeRes, aresTKcpContext);
+        TcpConnServerInfo tcpConnServerInfo = aresTcpClient.getTcpConnServerInfo(innerServerHandShakeRes.getServiceName(), innerServerHandShakeRes.getServiceId());
+        if (tcpConnServerInfo == null) {
+            log.error("server connect error  service name ={} serviceName ={}", innerServerHandShakeRes.getServiceId(), innerServerHandShakeRes.getServiceName());
             return;
         }
         aresTKcpContext.cacheObj(tcpConnServerInfo);

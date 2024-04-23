@@ -5,12 +5,13 @@ import com.ares.core.bean.AresPacket;
 import com.ares.core.service.ServiceMgr;
 import com.ares.core.tcp.AresClientTcpHandler;
 import com.ares.core.tcp.AresTKcpContext;
-import com.ares.core.thread.LogicProcessThreadPool;
+import com.ares.core.thread.AresThreadPool;
 import com.ares.core.thread.LogicThreadPoolGroup;
 import com.ares.discovery.DiscoveryService;
 import com.ares.gateway.configuration.ThreadPoolType;
 import com.ares.gateway.service.SessionService;
 import com.ares.transport.bean.ServerNodeInfo;
+import com.ares.transport.bean.TcpConnServerInfo;
 import com.ares.transport.client.AresTcpClient;
 import com.game.protoGen.ProtoCommon;
 import com.game.protoGen.ProtoInner;
@@ -48,8 +49,8 @@ public class InnerMsgHandler implements AresClientTcpHandler {
         if (calledMethod != null) {
             int length = aresPacket.getRecvByteBuf().readableBytes();
             Object paraObj = calledMethod.getParser().parseFrom(new ByteBufInputStream(aresPacket.getRecvByteBuf(), length));
-            LogicProcessThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.IO.getValue());
-            logicProcessThreadPool.execute(aresTKcpContext, calledMethod, uid, paraObj);
+            AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.IO.getValue());
+            logicProcessThreadPool.execute(uid, aresTKcpContext, calledMethod, uid, paraObj);
             return;
         }
         directSendToClient(uid, aresPacket);
@@ -62,7 +63,12 @@ public class InnerMsgHandler implements AresClientTcpHandler {
 
     @Override
     public void onClientClosed(AresTKcpContext aresTKcpContext) {
-
+        if (aresTKcpContext.getCacheObj() == null) {
+            return;
+        }
+        TcpConnServerInfo tcpConnServerInfo = (TcpConnServerInfo) aresTKcpContext.getCacheObj();
+        //this should remmove
+        peerConn.delete(tcpConnServerInfo.getServerNodeInfo());
     }
 
     @Override
@@ -77,7 +83,7 @@ public class InnerMsgHandler implements AresClientTcpHandler {
                 .setServiceName(myNodeInfo.getServiceId()).build();
 
         ProtoCommon.MsgHeader header = ProtoCommon.MsgHeader.newBuilder()
-                .setMsgId(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_REQ_VALUE).build();
+                .setMsgId(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_REQ_VALUE).build();
         AresPacket aresPacket = AresPacket.create(header, handleShake);
         aresTKcpContext.writeAndFlush(aresPacket);
         log.info("######  handshake send to {}  msg: {}", aresTKcpContext, handleShake);

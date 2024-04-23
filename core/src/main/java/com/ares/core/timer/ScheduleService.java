@@ -19,7 +19,7 @@ public class ScheduleService {
         INSTANCE = this;
     }
 
-    public <T> AresTimerTask<?> executeTimerTaskWithMS(int hashCode, EventFunction<T> function, T extraData, long timeOut) {
+    public <T> AresTimerTask<?> executeTimerTaskWithMS(long hashCode, EventFunction<T> function, T extraData, long timeOut) {
         return executeTimerTask(hashCode, function, extraData, timeOut, TimeUnit.MILLISECONDS);
     }
 
@@ -27,7 +27,7 @@ public class ScheduleService {
         return executeTimerTask(0, function, extraData, timeOut, TimeUnit.MILLISECONDS);
     }
 
-    public <T> AresTimerTask<?> executeTimerTask(int hashCode, EventFunction<T> function, T extraData, long timeOut, TimeUnit timeUnit) {
+    public <T> AresTimerTask<?> executeTimerTask(long hashCode, EventFunction<T> function, T extraData, long timeOut, TimeUnit timeUnit) {
         AresTimerTask aresTimerTask = AresTimerTask.NewTimerTask(extraData, function);
         Timeout timeout = HASHED_WHEEL_TIMER.newTimeout(aresTimerTask, timeOut, timeUnit);
         aresTimerTask.setAresTimerTaskConsumer(aresTimerTaskConsumer);

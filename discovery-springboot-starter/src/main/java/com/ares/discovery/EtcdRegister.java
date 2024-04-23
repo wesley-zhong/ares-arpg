@@ -36,7 +36,6 @@ public class EtcdRegister {
         serverNodeInfo.setIp(addr);
         serverNodeInfo.setPort(port);
         serverNodeInfo.setServiceId(serviceId);
-        serverNodeInfo.setAreaId(areaId);
         serverNodeInfo.setServiceName(appName);
         serverNodeInfo.setServerType(serveType);
     }

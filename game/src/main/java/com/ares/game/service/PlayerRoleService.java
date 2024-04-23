@@ -51,14 +51,14 @@ public class PlayerRoleService {
     }
 
     public void asynUpdateTest(RoleDO roleDO) {
-        for (int i = 0; i < 2000; i++) {
-            roleDO.setCountTest(roleDO.getCountTest() + 1);
-            roleDAO.asynUpInsert(roleDO);
-           // roleDAO.upInsert(roleDO);
-        }
+//        for (int i = 0; i < 2000; i++) {
+//            roleDO.setCountTest(roleDO.getCountTest() + 1);
+//            roleDAO.asynUpInsert(roleDO);
+//           // roleDAO.upInsert(roleDO);
+//        }
     }
 
     public void onTimerTest(TimerBeanTest timerBeanTest) {
-        log.info("============ onTimerTest msg ={}", timerBeanTest.msg);
+      //  log.info("============ onTimerTest msg ={}", timerBeanTest.msg);
     }
 }

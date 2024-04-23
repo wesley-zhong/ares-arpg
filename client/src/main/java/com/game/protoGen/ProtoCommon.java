@@ -15,26 +15,30 @@ public final class ProtoCommon {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code ProtoError}
+   * Protobuf enum {@code ErrCode}
    */
-  public enum ProtoError
+  public enum ErrCode
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>SUCCESS = 0;</code>
      */
     SUCCESS(0),
     /**
-     * <code>FAILED = 1;</code>
+     * <code>UNKNOWN = 1;</code>
      */
-    FAILED(1),
+    UNKNOWN(1),
     /**
-     * <code>INVALID_LOGIN_TOKEN = 2;</code>
+     * <code>FAILED = 2;</code>
      */
-    INVALID_LOGIN_TOKEN(2),
+    FAILED(2),
     /**
-     * <code>INVALID_GAME_TICKET = 3;</code>
+     * <code>INVALID_LOGIN_TOKEN = 3;</code>
      */
-    INVALID_GAME_TICKET(3),
+    INVALID_LOGIN_TOKEN(3),
+    /**
+     * <code>INVALID_GAME_TICKET = 4;</code>
+     */
+    INVALID_GAME_TICKET(4),
     /**
      * <code>INVALID_PARAM = 10;</code>
      */
@@ -51,6 +55,34 @@ public final class ProtoCommon {
      * <code>COST_NOT_ENOUGH = 13;</code>
      */
     COST_NOT_ENOUGH(13),
+    /**
+     * <code>ERR_ALREADY_IN_SCENE = 14;</code>
+     */
+    ERR_ALREADY_IN_SCENE(14),
+    /**
+     * <code>ERR_NOT_IN_SCENE = 15;</code>
+     */
+    ERR_NOT_IN_SCENE(15),
+    /**
+     * <code>ERR_NOT_EXIST_SCENE = 16;</code>
+     */
+    ERR_NOT_EXIST_SCENE(16),
+    /**
+     * <pre>
+     *------team-ERROR  -500-600-----------
+     * </pre>
+     *
+     * <code>TEAM_ERROR_ALREADY_IN_TEAM = 500;</code>
+     */
+    TEAM_ERROR_ALREADY_IN_TEAM(500),
+    /**
+     * <code>TEAM_NOT_EXIST = 501;</code>
+     */
+    TEAM_NOT_EXIST(501),
+    /**
+     * <code>TEAM_REACH_MAX = 502;</code>
+     */
+    TEAM_REACH_MAX(502),
     UNRECOGNIZED(-1),
     ;
 
@@ -59,17 +91,21 @@ public final class ProtoCommon {
      */
     public static final int SUCCESS_VALUE = 0;
     /**
-     * <code>FAILED = 1;</code>
+     * <code>UNKNOWN = 1;</code>
      */
-    public static final int FAILED_VALUE = 1;
+    public static final int UNKNOWN_VALUE = 1;
     /**
-     * <code>INVALID_LOGIN_TOKEN = 2;</code>
+     * <code>FAILED = 2;</code>
      */
-    public static final int INVALID_LOGIN_TOKEN_VALUE = 2;
+    public static final int FAILED_VALUE = 2;
     /**
-     * <code>INVALID_GAME_TICKET = 3;</code>
+     * <code>INVALID_LOGIN_TOKEN = 3;</code>
      */
-    public static final int INVALID_GAME_TICKET_VALUE = 3;
+    public static final int INVALID_LOGIN_TOKEN_VALUE = 3;
+    /**
+     * <code>INVALID_GAME_TICKET = 4;</code>
+     */
+    public static final int INVALID_GAME_TICKET_VALUE = 4;
     /**
      * <code>INVALID_PARAM = 10;</code>
      */
@@ -86,6 +122,34 @@ public final class ProtoCommon {
      * <code>COST_NOT_ENOUGH = 13;</code>
      */
     public static final int COST_NOT_ENOUGH_VALUE = 13;
+    /**
+     * <code>ERR_ALREADY_IN_SCENE = 14;</code>
+     */
+    public static final int ERR_ALREADY_IN_SCENE_VALUE = 14;
+    /**
+     * <code>ERR_NOT_IN_SCENE = 15;</code>
+     */
+    public static final int ERR_NOT_IN_SCENE_VALUE = 15;
+    /**
+     * <code>ERR_NOT_EXIST_SCENE = 16;</code>
+     */
+    public static final int ERR_NOT_EXIST_SCENE_VALUE = 16;
+    /**
+     * <pre>
+     *------team-ERROR  -500-600-----------
+     * </pre>
+     *
+     * <code>TEAM_ERROR_ALREADY_IN_TEAM = 500;</code>
+     */
+    public static final int TEAM_ERROR_ALREADY_IN_TEAM_VALUE = 500;
+    /**
+     * <code>TEAM_NOT_EXIST = 501;</code>
+     */
+    public static final int TEAM_NOT_EXIST_VALUE = 501;
+    /**
+     * <code>TEAM_REACH_MAX = 502;</code>
+     */
+    public static final int TEAM_REACH_MAX_VALUE = 502;
 
 
     public final int getNumber() {
@@ -100,33 +164,40 @@ public final class ProtoCommon {
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
-    public static ProtoError valueOf(int value) {
+    public static ErrCode valueOf(int value) {
       return forNumber(value);
     }
 
-    public static ProtoError forNumber(int value) {
+    public static ErrCode forNumber(int value) {
       switch (value) {
         case 0: return SUCCESS;
-        case 1: return FAILED;
-        case 2: return INVALID_LOGIN_TOKEN;
-        case 3: return INVALID_GAME_TICKET;
+        case 1: return UNKNOWN;
+        case 2: return FAILED;
+        case 3: return INVALID_LOGIN_TOKEN;
+        case 4: return INVALID_GAME_TICKET;
         case 10: return INVALID_PARAM;
         case 11: return NAME_LENGTH_INVALID;
         case 12: return NOTICE_LENGTH_INVALID;
         case 13: return COST_NOT_ENOUGH;
+        case 14: return ERR_ALREADY_IN_SCENE;
+        case 15: return ERR_NOT_IN_SCENE;
+        case 16: return ERR_NOT_EXIST_SCENE;
+        case 500: return TEAM_ERROR_ALREADY_IN_TEAM;
+        case 501: return TEAM_NOT_EXIST;
+        case 502: return TEAM_REACH_MAX;
         default: return null;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<ProtoError>
+    public static com.google.protobuf.Internal.EnumLiteMap<ErrCode>
         internalGetValueMap() {
       return internalValueMap;
     }
     private static final com.google.protobuf.Internal.EnumLiteMap<
-        ProtoError> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<ProtoError>() {
-            public ProtoError findValueByNumber(int number) {
-              return ProtoError.forNumber(number);
+        ErrCode> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ErrCode>() {
+            public ErrCode findValueByNumber(int number) {
+              return ErrCode.forNumber(number);
             }
           };
 
@@ -143,9 +214,9 @@ public final class ProtoCommon {
       return com.game.protoGen.ProtoCommon.getDescriptor().getEnumTypes().get(0);
     }
 
-    private static final ProtoError[] VALUES = values();
+    private static final ErrCode[] VALUES = values();
 
-    public static ProtoError valueOf(
+    public static ErrCode valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -159,17 +230,23 @@ public final class ProtoCommon {
 
     private final int value;
 
-    private ProtoError(int value) {
+    private ErrCode(int value) {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:ProtoError)
+    // @@protoc_insertion_point(enum_scope:ErrCode)
   }
 
   /**
-   * Protobuf enum {@code ProtoCode}
+   * <pre>
+   * REQ&lt;-&gt;RES 客户端到服务器请求应答
+   * NTF 服务端到客户端的通知
+   * PUSH 客户端到服务器的通知
+   * </pre>
+   *
+   * Protobuf enum {@code MsgId}
    */
-  public enum ProtoCode
+  public enum MsgId
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>INVALID = 0;</code>
@@ -220,33 +297,177 @@ public final class ProtoCommon {
      */
     GAME_LOGIN_RES(17),
     /**
-     * <code>RPC_ENTER_SCENE_REQ = 100;</code>
+     * <pre>
+     * scene 100-199
+     * </pre>
+     *
+     * <code>CREATE_SCENE_REQ = 100;</code>
      */
-    RPC_ENTER_SCENE_REQ(100),
+    CREATE_SCENE_REQ(100),
     /**
-     * <code>LOGIN_INIT_REQUEST = 200;</code>
+     * <code>CREATE_SCENE_RES = 101;</code>
      */
-    LOGIN_INIT_REQUEST(200),
+    CREATE_SCENE_RES(101),
     /**
-     * <code>PERFORMANCE_TEST_REQ = 201;</code>
+     * <code>CREATE_SCENE_FINISH_NTF = 102;</code>
      */
-    PERFORMANCE_TEST_REQ(201),
+    CREATE_SCENE_FINISH_NTF(102),
     /**
-     * <code>PERFORMANCE_TEST_RES = 202;</code>
+     * <code>SCENE_LIST_REQ = 103;</code>
      */
-    PERFORMANCE_TEST_RES(202),
+    SCENE_LIST_REQ(103),
     /**
-     * <code>DIRECT_TO_TEAM_REQ = 203;</code>
+     * <code>SCENE_LIST_RES = 104;</code>
      */
-    DIRECT_TO_TEAM_REQ(203),
+    SCENE_LIST_RES(104),
     /**
-     * <code>DIRECT_TO_TEAM_RES = 204;</code>
+     * <code>ENTER_SCENE_REQ = 105;</code>
      */
-    DIRECT_TO_TEAM_RES(204),
+    ENTER_SCENE_REQ(105),
     /**
-     * <code>RPC_REQ_TEST = 205;</code>
+     * <code>ENTER_SCENE_RES = 106;</code>
      */
-    RPC_REQ_TEST(205),
+    ENTER_SCENE_RES(106),
+    /**
+     * <code>ENTER_DEFAULT_SCENE_REQ = 107;</code>
+     */
+    ENTER_DEFAULT_SCENE_REQ(107),
+    /**
+     * <code>ENTER_DEFAULT_SCENE_RES = 108;</code>
+     */
+    ENTER_DEFAULT_SCENE_RES(108),
+    /**
+     * <code>PLAYER_ENTER_SCENE_NTF = 109;</code>
+     */
+    PLAYER_ENTER_SCENE_NTF(109),
+    /**
+     * <code>PLAYER_LEAVE_SCENE_NTF = 110;</code>
+     */
+    PLAYER_LEAVE_SCENE_NTF(110),
+    /**
+     * <code>LEAVE_SCENE_REQ = 111;</code>
+     */
+    LEAVE_SCENE_REQ(111),
+    /**
+     * <code>LEAVE_SCENE_RES = 112;</code>
+     */
+    LEAVE_SCENE_RES(112),
+    /**
+     * <code>SCENE_MESSAGE_PUSH = 113;</code>
+     */
+    SCENE_MESSAGE_PUSH(113),
+    /**
+     * <code>SYNC_SCENE_MESSAGE_NTF = 114;</code>
+     */
+    SYNC_SCENE_MESSAGE_NTF(114),
+    /**
+     * <code>SERVER_SCENE_FINISH_LOADING_NTF = 115;</code>
+     */
+    SERVER_SCENE_FINISH_LOADING_NTF(115),
+    /**
+     * <code>CLIENT_SCENE_FINISH_LOADING_REQ = 116;</code>
+     */
+    CLIENT_SCENE_FINISH_LOADING_REQ(116),
+    /**
+     * <code>CLIENT_SCENE_FINISH_LOADING_RES = 117;</code>
+     */
+    CLIENT_SCENE_FINISH_LOADING_RES(117),
+    /**
+     * <code>RESET_SCENE_REQ = 118;</code>
+     */
+    RESET_SCENE_REQ(118),
+    /**
+     * <code>RESET_SCENE_RES = 119;</code>
+     */
+    RESET_SCENE_RES(119),
+    /**
+     * <code>CLIENT_SYNC_MOVE_PUSH = 120;</code>
+     */
+    CLIENT_SYNC_MOVE_PUSH(120),
+    /**
+     * <code>PLAYER_MOVE_TO_NTF = 121;</code>
+     */
+    PLAYER_MOVE_TO_NTF(121),
+    /**
+     * <pre>
+     *  team 500-600
+     * </pre>
+     *
+     * <code>TEAM_CREATE_REQ = 500;</code>
+     */
+    TEAM_CREATE_REQ(500),
+    /**
+     * <code>TEAM_CREATE_RES = 501;</code>
+     */
+    TEAM_CREATE_RES(501),
+    /**
+     * <code>TEAM_INFO_NTF = 502;</code>
+     */
+    TEAM_INFO_NTF(502),
+    /**
+     * <pre>
+     *----
+     * </pre>
+     *
+     * <code>TEAM_LIST_REQ = 503;</code>
+     */
+    TEAM_LIST_REQ(503),
+    /**
+     * <code>TEAM_LIST_RES = 504;</code>
+     */
+    TEAM_LIST_RES(504),
+    /**
+     * <pre>
+     *------
+     * </pre>
+     *
+     * <code>TEAM_DETAIL_REQ = 505;</code>
+     */
+    TEAM_DETAIL_REQ(505),
+    /**
+     * <code>TEAM_DETAIL_RES = 506;</code>
+     */
+    TEAM_DETAIL_RES(506),
+    /**
+     * <code>TEAM_JOIN_REQ = 507;</code>
+     */
+    TEAM_JOIN_REQ(507),
+    /**
+     * <code>TEAM_JOIN_RES = 508;</code>
+     */
+    TEAM_JOIN_RES(508),
+    /**
+     * <code>TEAM_EXIT_REQ = 509;</code>
+     */
+    TEAM_EXIT_REQ(509),
+    /**
+     * <code>TEAM_DISMISS = 510;</code>
+     */
+    TEAM_DISMISS(510),
+    /**
+     * <code>LOGIN_INIT_REQUEST = 2000;</code>
+     */
+    LOGIN_INIT_REQUEST(2000),
+    /**
+     * <code>PERFORMANCE_TEST_REQ = 2001;</code>
+     */
+    PERFORMANCE_TEST_REQ(2001),
+    /**
+     * <code>PERFORMANCE_TEST_RES = 2002;</code>
+     */
+    PERFORMANCE_TEST_RES(2002),
+    /**
+     * <code>DIRECT_TO_TEAM_REQ = 2003;</code>
+     */
+    DIRECT_TO_TEAM_REQ(2003),
+    /**
+     * <code>DIRECT_TO_TEAM_RES = 2004;</code>
+     */
+    DIRECT_TO_TEAM_RES(2004),
+    /**
+     * <code>RPC_REQ_TEST = 2005;</code>
+     */
+    RPC_REQ_TEST(2005),
     UNRECOGNIZED(-1),
     ;
 
@@ -299,33 +520,177 @@ public final class ProtoCommon {
      */
     public static final int GAME_LOGIN_RES_VALUE = 17;
     /**
-     * <code>RPC_ENTER_SCENE_REQ = 100;</code>
+     * <pre>
+     * scene 100-199
+     * </pre>
+     *
+     * <code>CREATE_SCENE_REQ = 100;</code>
      */
-    public static final int RPC_ENTER_SCENE_REQ_VALUE = 100;
+    public static final int CREATE_SCENE_REQ_VALUE = 100;
     /**
-     * <code>LOGIN_INIT_REQUEST = 200;</code>
+     * <code>CREATE_SCENE_RES = 101;</code>
      */
-    public static final int LOGIN_INIT_REQUEST_VALUE = 200;
+    public static final int CREATE_SCENE_RES_VALUE = 101;
     /**
-     * <code>PERFORMANCE_TEST_REQ = 201;</code>
+     * <code>CREATE_SCENE_FINISH_NTF = 102;</code>
      */
-    public static final int PERFORMANCE_TEST_REQ_VALUE = 201;
+    public static final int CREATE_SCENE_FINISH_NTF_VALUE = 102;
     /**
-     * <code>PERFORMANCE_TEST_RES = 202;</code>
+     * <code>SCENE_LIST_REQ = 103;</code>
      */
-    public static final int PERFORMANCE_TEST_RES_VALUE = 202;
+    public static final int SCENE_LIST_REQ_VALUE = 103;
     /**
-     * <code>DIRECT_TO_TEAM_REQ = 203;</code>
+     * <code>SCENE_LIST_RES = 104;</code>
      */
-    public static final int DIRECT_TO_TEAM_REQ_VALUE = 203;
+    public static final int SCENE_LIST_RES_VALUE = 104;
     /**
-     * <code>DIRECT_TO_TEAM_RES = 204;</code>
+     * <code>ENTER_SCENE_REQ = 105;</code>
      */
-    public static final int DIRECT_TO_TEAM_RES_VALUE = 204;
+    public static final int ENTER_SCENE_REQ_VALUE = 105;
     /**
-     * <code>RPC_REQ_TEST = 205;</code>
+     * <code>ENTER_SCENE_RES = 106;</code>
      */
-    public static final int RPC_REQ_TEST_VALUE = 205;
+    public static final int ENTER_SCENE_RES_VALUE = 106;
+    /**
+     * <code>ENTER_DEFAULT_SCENE_REQ = 107;</code>
+     */
+    public static final int ENTER_DEFAULT_SCENE_REQ_VALUE = 107;
+    /**
+     * <code>ENTER_DEFAULT_SCENE_RES = 108;</code>
+     */
+    public static final int ENTER_DEFAULT_SCENE_RES_VALUE = 108;
+    /**
+     * <code>PLAYER_ENTER_SCENE_NTF = 109;</code>
+     */
+    public static final int PLAYER_ENTER_SCENE_NTF_VALUE = 109;
+    /**
+     * <code>PLAYER_LEAVE_SCENE_NTF = 110;</code>
+     */
+    public static final int PLAYER_LEAVE_SCENE_NTF_VALUE = 110;
+    /**
+     * <code>LEAVE_SCENE_REQ = 111;</code>
+     */
+    public static final int LEAVE_SCENE_REQ_VALUE = 111;
+    /**
+     * <code>LEAVE_SCENE_RES = 112;</code>
+     */
+    public static final int LEAVE_SCENE_RES_VALUE = 112;
+    /**
+     * <code>SCENE_MESSAGE_PUSH = 113;</code>
+     */
+    public static final int SCENE_MESSAGE_PUSH_VALUE = 113;
+    /**
+     * <code>SYNC_SCENE_MESSAGE_NTF = 114;</code>
+     */
+    public static final int SYNC_SCENE_MESSAGE_NTF_VALUE = 114;
+    /**
+     * <code>SERVER_SCENE_FINISH_LOADING_NTF = 115;</code>
+     */
+    public static final int SERVER_SCENE_FINISH_LOADING_NTF_VALUE = 115;
+    /**
+     * <code>CLIENT_SCENE_FINISH_LOADING_REQ = 116;</code>
+     */
+    public static final int CLIENT_SCENE_FINISH_LOADING_REQ_VALUE = 116;
+    /**
+     * <code>CLIENT_SCENE_FINISH_LOADING_RES = 117;</code>
+     */
+    public static final int CLIENT_SCENE_FINISH_LOADING_RES_VALUE = 117;
+    /**
+     * <code>RESET_SCENE_REQ = 118;</code>
+     */
+    public static final int RESET_SCENE_REQ_VALUE = 118;
+    /**
+     * <code>RESET_SCENE_RES = 119;</code>
+     */
+    public static final int RESET_SCENE_RES_VALUE = 119;
+    /**
+     * <code>CLIENT_SYNC_MOVE_PUSH = 120;</code>
+     */
+    public static final int CLIENT_SYNC_MOVE_PUSH_VALUE = 120;
+    /**
+     * <code>PLAYER_MOVE_TO_NTF = 121;</code>
+     */
+    public static final int PLAYER_MOVE_TO_NTF_VALUE = 121;
+    /**
+     * <pre>
+     *  team 500-600
+     * </pre>
+     *
+     * <code>TEAM_CREATE_REQ = 500;</code>
+     */
+    public static final int TEAM_CREATE_REQ_VALUE = 500;
+    /**
+     * <code>TEAM_CREATE_RES = 501;</code>
+     */
+    public static final int TEAM_CREATE_RES_VALUE = 501;
+    /**
+     * <code>TEAM_INFO_NTF = 502;</code>
+     */
+    public static final int TEAM_INFO_NTF_VALUE = 502;
+    /**
+     * <pre>
+     *----
+     * </pre>
+     *
+     * <code>TEAM_LIST_REQ = 503;</code>
+     */
+    public static final int TEAM_LIST_REQ_VALUE = 503;
+    /**
+     * <code>TEAM_LIST_RES = 504;</code>
+     */
+    public static final int TEAM_LIST_RES_VALUE = 504;
+    /**
+     * <pre>
+     *------
+     * </pre>
+     *
+     * <code>TEAM_DETAIL_REQ = 505;</code>
+     */
+    public static final int TEAM_DETAIL_REQ_VALUE = 505;
+    /**
+     * <code>TEAM_DETAIL_RES = 506;</code>
+     */
+    public static final int TEAM_DETAIL_RES_VALUE = 506;
+    /**
+     * <code>TEAM_JOIN_REQ = 507;</code>
+     */
+    public static final int TEAM_JOIN_REQ_VALUE = 507;
+    /**
+     * <code>TEAM_JOIN_RES = 508;</code>
+     */
+    public static final int TEAM_JOIN_RES_VALUE = 508;
+    /**
+     * <code>TEAM_EXIT_REQ = 509;</code>
+     */
+    public static final int TEAM_EXIT_REQ_VALUE = 509;
+    /**
+     * <code>TEAM_DISMISS = 510;</code>
+     */
+    public static final int TEAM_DISMISS_VALUE = 510;
+    /**
+     * <code>LOGIN_INIT_REQUEST = 2000;</code>
+     */
+    public static final int LOGIN_INIT_REQUEST_VALUE = 2000;
+    /**
+     * <code>PERFORMANCE_TEST_REQ = 2001;</code>
+     */
+    public static final int PERFORMANCE_TEST_REQ_VALUE = 2001;
+    /**
+     * <code>PERFORMANCE_TEST_RES = 2002;</code>
+     */
+    public static final int PERFORMANCE_TEST_RES_VALUE = 2002;
+    /**
+     * <code>DIRECT_TO_TEAM_REQ = 2003;</code>
+     */
+    public static final int DIRECT_TO_TEAM_REQ_VALUE = 2003;
+    /**
+     * <code>DIRECT_TO_TEAM_RES = 2004;</code>
+     */
+    public static final int DIRECT_TO_TEAM_RES_VALUE = 2004;
+    /**
+     * <code>RPC_REQ_TEST = 2005;</code>
+     */
+    public static final int RPC_REQ_TEST_VALUE = 2005;
 
 
     public final int getNumber() {
@@ -340,11 +705,11 @@ public final class ProtoCommon {
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
-    public static ProtoCode valueOf(int value) {
+    public static MsgId valueOf(int value) {
       return forNumber(value);
     }
 
-    public static ProtoCode forNumber(int value) {
+    public static MsgId forNumber(int value) {
       switch (value) {
         case 0: return INVALID;
         case 1: return ERROR_MESSAGE;
@@ -358,26 +723,58 @@ public final class ProtoCommon {
         case 15: return KICK_OUT_RESPONSE;
         case 16: return GAME_LOGIN_REQ;
         case 17: return GAME_LOGIN_RES;
-        case 100: return RPC_ENTER_SCENE_REQ;
-        case 200: return LOGIN_INIT_REQUEST;
-        case 201: return PERFORMANCE_TEST_REQ;
-        case 202: return PERFORMANCE_TEST_RES;
-        case 203: return DIRECT_TO_TEAM_REQ;
-        case 204: return DIRECT_TO_TEAM_RES;
-        case 205: return RPC_REQ_TEST;
+        case 100: return CREATE_SCENE_REQ;
+        case 101: return CREATE_SCENE_RES;
+        case 102: return CREATE_SCENE_FINISH_NTF;
+        case 103: return SCENE_LIST_REQ;
+        case 104: return SCENE_LIST_RES;
+        case 105: return ENTER_SCENE_REQ;
+        case 106: return ENTER_SCENE_RES;
+        case 107: return ENTER_DEFAULT_SCENE_REQ;
+        case 108: return ENTER_DEFAULT_SCENE_RES;
+        case 109: return PLAYER_ENTER_SCENE_NTF;
+        case 110: return PLAYER_LEAVE_SCENE_NTF;
+        case 111: return LEAVE_SCENE_REQ;
+        case 112: return LEAVE_SCENE_RES;
+        case 113: return SCENE_MESSAGE_PUSH;
+        case 114: return SYNC_SCENE_MESSAGE_NTF;
+        case 115: return SERVER_SCENE_FINISH_LOADING_NTF;
+        case 116: return CLIENT_SCENE_FINISH_LOADING_REQ;
+        case 117: return CLIENT_SCENE_FINISH_LOADING_RES;
+        case 118: return RESET_SCENE_REQ;
+        case 119: return RESET_SCENE_RES;
+        case 120: return CLIENT_SYNC_MOVE_PUSH;
+        case 121: return PLAYER_MOVE_TO_NTF;
+        case 500: return TEAM_CREATE_REQ;
+        case 501: return TEAM_CREATE_RES;
+        case 502: return TEAM_INFO_NTF;
+        case 503: return TEAM_LIST_REQ;
+        case 504: return TEAM_LIST_RES;
+        case 505: return TEAM_DETAIL_REQ;
+        case 506: return TEAM_DETAIL_RES;
+        case 507: return TEAM_JOIN_REQ;
+        case 508: return TEAM_JOIN_RES;
+        case 509: return TEAM_EXIT_REQ;
+        case 510: return TEAM_DISMISS;
+        case 2000: return LOGIN_INIT_REQUEST;
+        case 2001: return PERFORMANCE_TEST_REQ;
+        case 2002: return PERFORMANCE_TEST_RES;
+        case 2003: return DIRECT_TO_TEAM_REQ;
+        case 2004: return DIRECT_TO_TEAM_RES;
+        case 2005: return RPC_REQ_TEST;
         default: return null;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<ProtoCode>
+    public static com.google.protobuf.Internal.EnumLiteMap<MsgId>
         internalGetValueMap() {
       return internalValueMap;
     }
     private static final com.google.protobuf.Internal.EnumLiteMap<
-        ProtoCode> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<ProtoCode>() {
-            public ProtoCode findValueByNumber(int number) {
-              return ProtoCode.forNumber(number);
+        MsgId> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<MsgId>() {
+            public MsgId findValueByNumber(int number) {
+              return MsgId.forNumber(number);
             }
           };
 
@@ -394,9 +791,9 @@ public final class ProtoCommon {
       return com.game.protoGen.ProtoCommon.getDescriptor().getEnumTypes().get(1);
     }
 
-    private static final ProtoCode[] VALUES = values();
+    private static final MsgId[] VALUES = values();
 
-    public static ProtoCode valueOf(
+    public static MsgId valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -410,11 +807,11 @@ public final class ProtoCommon {
 
     private final int value;
 
-    private ProtoCode(int value) {
+    private MsgId(int value) {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:ProtoCode)
+    // @@protoc_insertion_point(enum_scope:MsgId)
   }
 
   public interface MsgHeaderOrBuilder extends
@@ -3519,23 +3916,47 @@ public final class ProtoCommon {
       "\022\n\nclientTime\030\001 \001(\003\022\022\n\nserverTime\030\002 \001(\003\"" +
       "-\n\nRpcReqTest\022\016\n\006someId\030\001 \001(\005\022\017\n\007someStr" +
       "\030\002 \001(\t\"2\n\rRpcReqRespons\022\017\n\007someId2\030\001 \001(\005" +
-      "\022\020\n\010someStr2\030\002 \001(\t*\263\001\n\nProtoError\022\013\n\007SUC" +
-      "CESS\020\000\022\n\n\006FAILED\020\001\022\027\n\023INVALID_LOGIN_TOKE",
-      "N\020\002\022\027\n\023INVALID_GAME_TICKET\020\003\022\021\n\rINVALID_" +
-      "PARAM\020\n\022\027\n\023NAME_LENGTH_INVALID\020\013\022\031\n\025NOTI" +
-      "CE_LENGTH_INVALID\020\014\022\023\n\017COST_NOT_ENOUGH\020\r" +
-      "*\265\003\n\tProtoCode\022\013\n\007INVALID\020\000\022\021\n\rERROR_MES" +
-      "SAGE\020\001\022\026\n\022HEART_BEAT_REQUEST\020\002\022\027\n\023HEART_" +
-      "BEAT_RESPONSE\020\003\022\025\n\021ACCOUNT_LOGIN_REQ\020\n\022\025" +
-      "\n\021ACCOUNT_LOGIN_RES\020\013\022\022\n\016LOGOUT_REQUEST\020" +
-      "\014\022\023\n\017LOGOUT_RESPONSE\020\r\022\024\n\020KICK_OUT_REQUE" +
-      "ST\020\016\022\025\n\021KICK_OUT_RESPONSE\020\017\022\022\n\016GAME_LOGI" +
-      "N_REQ\020\020\022\022\n\016GAME_LOGIN_RES\020\021\022\027\n\023RPC_ENTER",
-      "_SCENE_REQ\020d\022\027\n\022LOGIN_INIT_REQUEST\020\310\001\022\031\n" +
-      "\024PERFORMANCE_TEST_REQ\020\311\001\022\031\n\024PERFORMANCE_" +
-      "TEST_RES\020\312\001\022\027\n\022DIRECT_TO_TEAM_REQ\020\313\001\022\027\n\022" +
-      "DIRECT_TO_TEAM_RES\020\314\001\022\021\n\014RPC_REQ_TEST\020\315\001" +
-      "B\036\n\021com.game.protoGenZ\t/protoGenb\006proto3"
+      "\022\020\n\010someStr2\030\002 \001(\t*\321\002\n\007ErrCode\022\013\n\007SUCCES" +
+      "S\020\000\022\013\n\007UNKNOWN\020\001\022\n\n\006FAILED\020\002\022\027\n\023INVALID_",
+      "LOGIN_TOKEN\020\003\022\027\n\023INVALID_GAME_TICKET\020\004\022\021" +
+      "\n\rINVALID_PARAM\020\n\022\027\n\023NAME_LENGTH_INVALID" +
+      "\020\013\022\031\n\025NOTICE_LENGTH_INVALID\020\014\022\023\n\017COST_NO" +
+      "T_ENOUGH\020\r\022\030\n\024ERR_ALREADY_IN_SCENE\020\016\022\024\n\020" +
+      "ERR_NOT_IN_SCENE\020\017\022\027\n\023ERR_NOT_EXIST_SCEN" +
+      "E\020\020\022\037\n\032TEAM_ERROR_ALREADY_IN_TEAM\020\364\003\022\023\n\016" +
+      "TEAM_NOT_EXIST\020\365\003\022\023\n\016TEAM_REACH_MAX\020\366\003*\262" +
+      "\t\n\005MsgId\022\013\n\007INVALID\020\000\022\021\n\rERROR_MESSAGE\020\001" +
+      "\022\026\n\022HEART_BEAT_REQUEST\020\002\022\027\n\023HEART_BEAT_R" +
+      "ESPONSE\020\003\022\025\n\021ACCOUNT_LOGIN_REQ\020\n\022\025\n\021ACCO",
+      "UNT_LOGIN_RES\020\013\022\022\n\016LOGOUT_REQUEST\020\014\022\023\n\017L" +
+      "OGOUT_RESPONSE\020\r\022\024\n\020KICK_OUT_REQUEST\020\016\022\025" +
+      "\n\021KICK_OUT_RESPONSE\020\017\022\022\n\016GAME_LOGIN_REQ\020" +
+      "\020\022\022\n\016GAME_LOGIN_RES\020\021\022\024\n\020CREATE_SCENE_RE" +
+      "Q\020d\022\024\n\020CREATE_SCENE_RES\020e\022\033\n\027CREATE_SCEN" +
+      "E_FINISH_NTF\020f\022\022\n\016SCENE_LIST_REQ\020g\022\022\n\016SC" +
+      "ENE_LIST_RES\020h\022\023\n\017ENTER_SCENE_REQ\020i\022\023\n\017E" +
+      "NTER_SCENE_RES\020j\022\033\n\027ENTER_DEFAULT_SCENE_" +
+      "REQ\020k\022\033\n\027ENTER_DEFAULT_SCENE_RES\020l\022\032\n\026PL" +
+      "AYER_ENTER_SCENE_NTF\020m\022\032\n\026PLAYER_LEAVE_S",
+      "CENE_NTF\020n\022\023\n\017LEAVE_SCENE_REQ\020o\022\023\n\017LEAVE" +
+      "_SCENE_RES\020p\022\026\n\022SCENE_MESSAGE_PUSH\020q\022\032\n\026" +
+      "SYNC_SCENE_MESSAGE_NTF\020r\022#\n\037SERVER_SCENE" +
+      "_FINISH_LOADING_NTF\020s\022#\n\037CLIENT_SCENE_FI" +
+      "NISH_LOADING_REQ\020t\022#\n\037CLIENT_SCENE_FINIS" +
+      "H_LOADING_RES\020u\022\023\n\017RESET_SCENE_REQ\020v\022\023\n\017" +
+      "RESET_SCENE_RES\020w\022\031\n\025CLIENT_SYNC_MOVE_PU" +
+      "SH\020x\022\026\n\022PLAYER_MOVE_TO_NTF\020y\022\024\n\017TEAM_CRE" +
+      "ATE_REQ\020\364\003\022\024\n\017TEAM_CREATE_RES\020\365\003\022\022\n\rTEAM" +
+      "_INFO_NTF\020\366\003\022\022\n\rTEAM_LIST_REQ\020\367\003\022\022\n\rTEAM",
+      "_LIST_RES\020\370\003\022\024\n\017TEAM_DETAIL_REQ\020\371\003\022\024\n\017TE" +
+      "AM_DETAIL_RES\020\372\003\022\022\n\rTEAM_JOIN_REQ\020\373\003\022\022\n\r" +
+      "TEAM_JOIN_RES\020\374\003\022\022\n\rTEAM_EXIT_REQ\020\375\003\022\021\n\014" +
+      "TEAM_DISMISS\020\376\003\022\027\n\022LOGIN_INIT_REQUEST\020\320\017" +
+      "\022\031\n\024PERFORMANCE_TEST_REQ\020\321\017\022\031\n\024PERFORMAN" +
+      "CE_TEST_RES\020\322\017\022\027\n\022DIRECT_TO_TEAM_REQ\020\323\017\022" +
+      "\027\n\022DIRECT_TO_TEAM_RES\020\324\017\022\021\n\014RPC_REQ_TEST" +
+      "\020\325\017B\036\n\021com.game.protoGenZ\t/protoGenb\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

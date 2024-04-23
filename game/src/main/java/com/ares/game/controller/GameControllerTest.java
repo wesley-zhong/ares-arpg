@@ -16,7 +16,7 @@ public class GameControllerTest implements AresController {
     @Autowired
     private RedisDAO redisDAO;
 
-    @MsgId(ProtoCommon.ProtoCode.RPC_REQ_TEST_VALUE)
+    @MsgId(ProtoCommon.MsgId.RPC_REQ_TEST_VALUE)
     public ProtoCommon.RpcReqRespons callRpcTest(long uid, ProtoCommon.RpcReqTest reqTest) {
         log.info("------------------ receive rpc = {}", reqTest);
         String key = "redis_key_test";

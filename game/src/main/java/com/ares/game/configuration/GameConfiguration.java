@@ -42,8 +42,7 @@ public class GameConfiguration implements InitializingBean {
 
     @Bean
     public AresTcpClientConn aresTcpClientConn(@Autowired AresTcpHandler aresTcpHandler) {
-        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn();
-        aresTcpClientConn.initWithMsgEncoder(aresTcpHandler, new InnerMsgEncoder());
+        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn(aresTcpHandler, new InnerMsgEncoder());
         return aresTcpClientConn;
     }
 
@@ -103,8 +102,9 @@ public class GameConfiguration implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         SnowFlake.init(areaId, ServerType.GAME.getValue());
-        LogicThreadPoolGroup logicThreadPoolGroup = new LogicThreadPoolGroup(2);
+        LogicThreadPoolGroup logicThreadPoolGroup = new LogicThreadPoolGroup(2, 1);
         logicThreadPoolGroup.createThreadPool(ThreadPoolType.PLAYER_LOGIN.getValue(), 4);
         logicThreadPoolGroup.createThreadPool(ThreadPoolType.LOGIC.getValue(), 4);
+        // logicThreadPoolGroup.createVirtualThreadPool(VirtualThreadPoolType.LOGIC.getValue(), 2000);
     }
 }

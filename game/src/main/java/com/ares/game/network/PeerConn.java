@@ -5,12 +5,14 @@ import com.ares.common.bean.ServerType;
 import com.ares.core.bean.AresPacket;
 import com.ares.game.discovery.OnDiscoveryWatchService;
 import com.ares.transport.bean.ServerNodeInfo;
+import com.ares.transport.bean.TcpConnServerInfo;
 import com.ares.transport.peer.PeerConnBase;
 import com.game.protoGen.ProtoCommon;
 import com.google.protobuf.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.CompositeByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class PeerConn extends PeerConnBase {
     private OnDiscoveryWatchService onDiscoveryWatchService;
     private final Map<Long, GamePlayerInterTransferInfo> playerIdContext = new ConcurrentHashMap<>();
 
-    //send msg to team byu router server
+    //send msg to team by router server
     public void routerToTeam(long uid, int msgId, Message body) {
         routerTo(ServerType.TEAM, uid, msgId, body);
     }
@@ -42,23 +44,27 @@ public class PeerConn extends PeerConnBase {
         send(ServerType.GATEWAY, uid, msgId, body);
     }
 
+    public void sendGateWayErrorMsg(long uid, int msgId, int errCode) {
+        send(ServerType.GATEWAY, uid, msgId, errCode);
+    }
+
     public void recordPlayerFromContext(ServerType serverType, long playerId, ChannelHandlerContext channelHandlerContext) {
         GamePlayerInterTransferInfo gamePlayerInterTransferInfo = playerIdContext.get(playerId);
         if (gamePlayerInterTransferInfo == null) {
             gamePlayerInterTransferInfo = new GamePlayerInterTransferInfo();
-            gamePlayerInterTransferInfo.setContext(serverType.getValue(), channelHandlerContext);
+            gamePlayerInterTransferInfo.setContext(serverType.getValue(), channelHandlerContext.channel());
             playerIdContext.put(playerId, gamePlayerInterTransferInfo);
         }
-        gamePlayerInterTransferInfo.setContext(serverType.getValue(), channelHandlerContext);
+        gamePlayerInterTransferInfo.setContext(serverType.getValue(), channelHandlerContext.channel());
     }
 
     @Override
-    public ChannelHandlerContext loadBalance(int serverType, long uid, Map<String, ChannelHandlerContext> channelConMap) {
+    public Channel loadBalance(int serverType, long uid) {
         GamePlayerInterTransferInfo channelHandlerContext = playerIdContext.get(uid);
         if (channelHandlerContext != null) {
-            ChannelHandlerContext contextByType = channelHandlerContext.getContextByType(serverType);
-            if (contextByType != null) {
-                return contextByType;
+            Channel channel = channelHandlerContext.getContextByType(serverType);
+            if (channel != null) {
+                return channel;
             }
         }
         // channelHandlerContext it should be first create when player login
@@ -68,12 +74,13 @@ public class PeerConn extends PeerConnBase {
             return null;
         }
         ServerNodeInfo lowerLoadServerNodeInfo = onDiscoveryWatchService.getLowerLoadServerNodeInfo(serverType);
-        ChannelHandlerContext context = getServerConnByServerInfo(lowerLoadServerNodeInfo);
-        if (context == null) {
+        TcpConnServerInfo tcpConnServerInfo = getServerConnByServerInfo(lowerLoadServerNodeInfo);
+        if (tcpConnServerInfo == null) {
             return null;
         }
-        channelHandlerContext.setContext(serverType, context);
-        return context;
+        Channel roubinChannel = tcpConnServerInfo.roubinChannel();
+        channelHandlerContext.setContext(serverType, roubinChannel);
+        return roubinChannel;
     }
 
     /**
@@ -96,13 +103,12 @@ public class PeerConn extends PeerConnBase {
         }
 
         byte[] header = innerHeader.toByteArray();
-
         int totalLen = 1 + readableBytes + header.length;
 
         CompositeByteBuf byteBufs = ByteBufAllocator.DEFAULT.compositeDirectBuffer();
         ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(5 + header.length);
-        buffer.writeInt(totalLen);
-        buffer.writeByte(header.length)
+        buffer.writeInt(totalLen)
+                .writeByte(header.length)
                 .writeBytes(header);
 
         byteBufs.addComponents(true, buffer, aresPacket.getRecvByteBuf().retain());

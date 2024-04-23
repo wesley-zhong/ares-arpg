@@ -23,3 +23,9 @@ discovery:
 
 redis:
   url: "redis://172.18.2.101:6379/0"
+
+netty:
+  server:
+    SO_SNDBUF: 16777216
+    SO_RCVBUF: 16777216
+    WATER_MARK: 16777216

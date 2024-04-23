@@ -33,6 +33,12 @@ public class AppTest
      */
     public void testApp()
     {
+        long start = System.currentTimeMillis();
+        for(int i = 0 ; i < 10000; i ++){
+            byte[] bytes = new byte[512];
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("-----cost time = " +(end - start));
         assertTrue( true );
     }
 }

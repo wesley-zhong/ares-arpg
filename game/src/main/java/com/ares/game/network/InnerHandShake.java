@@ -38,49 +38,42 @@ public class InnerHandShake implements AresController {
 
 
     //as sever receive client handshake
-    @MsgId(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_REQ_VALUE)
+    @MsgId(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_REQ_VALUE)
     public void innerHandShake(long id, ProtoInner.InnerServerHandShakeReq innerLoginRequest) {
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
-        int serverType = ServerType.from(innerLoginRequest.getServiceName()).getValue();
-        peerConn.addPeerConn(serverType, innerLoginRequest.getServiceId(), aresTKcpContext.getCtx());
-        log.info("#### receive innerHandShake :{} from: {}  finish",innerLoginRequest, aresTKcpContext);
 
+        ServerNodeInfo serverNodeInfo = new ServerNodeInfo();//discoveryService.getEtcdDiscovery().getServerList().get(innerLoginRequest.getServiceId());
+        ServerType serverType = ServerType.from(innerLoginRequest.getServiceName());
+        serverNodeInfo.setServerType(serverType.getValue());
+        serverNodeInfo.setServiceName(innerLoginRequest.getServiceName());
+        serverNodeInfo.setServiceId(innerLoginRequest.getServiceId());
+
+        TcpConnServerInfo tcpConnServerInfo = peerConn.addPeerConn(serverNodeInfo, aresTKcpContext.getCtx());
+        aresTKcpContext.cacheObj(tcpConnServerInfo);
+
+        log.info("#### receive innerHandShake :{} from: {}  finish", innerLoginRequest, aresTKcpContext);
         ServerNodeInfo myselfNodeInfo = discoveryService.getEtcdRegister().getMyselfNodeInfo();
         ProtoInner.InnerServerHandShakeRes response = ProtoInner.InnerServerHandShakeRes.newBuilder().setAreaId(areaId)
                 .setServiceName(myselfNodeInfo.getServiceName())
                 .setServiceId(myselfNodeInfo.getServiceId()).build();
-        AresPacket aresPacket = AresPacket.create(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_RES_VALUE, response);
+        AresPacket aresPacket = AresPacket.create(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_RES_VALUE, response);
         aresTKcpContext.send(aresPacket);
-
-
-        //record current context's serverInfo
-        ServerNodeInfo serverNodeInfo = new ServerNodeInfo();
-        serverNodeInfo.setAreaId(innerLoginRequest.getAreaId());
-        serverNodeInfo.setServiceName(innerLoginRequest.getServiceName());
-        serverNodeInfo.setServiceId(innerLoginRequest.getServiceId());
-        serverNodeInfo.setServerType(ServerType.from(innerLoginRequest.getServiceName()).getValue());
-        TcpConnServerInfo tcpConnServerInfo = new TcpConnServerInfo(aresTKcpContext.getCtx().channel(), serverNodeInfo);
-        aresTKcpContext.cacheObj(tcpConnServerInfo);
     }
 
     // as client receive from my handshake msg
-    @MsgId(ProtoInner.InnerProtoCode.INNER_SERVER_HAND_SHAKE_RES_VALUE)
+    @MsgId(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_RES_VALUE)
     public void innerHandShakeRes(long id, ProtoInner.InnerServerHandShakeRes innerServerHandShakeRes) {
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
         ServerNodeInfo serverNodeInfo = onDiscoveryWatch.getServerNodeInfo(innerServerHandShakeRes.getServiceId());
-        if(serverNodeInfo == null){
+        if (serverNodeInfo == null) {
             log.error("XXXXXXXXXXXXXXXX service id ={} not found", innerServerHandShakeRes.getServiceId());
             return;
         }
-        peerConn.addPeerConn(serverNodeInfo,aresTKcpContext.getCtx());
+        peerConn.addPeerConn(serverNodeInfo, aresTKcpContext.getCtx());
         log.info("####  innerHandShakeRes from: {}  Response :{}  finish", aresTKcpContext, innerServerHandShakeRes);
 
         //can be remove
-        TcpConnServerInfo tcpConnServerInfo = aresTcpClient.getTcpConnServerInfo(innerServerHandShakeRes.getAreaId(), innerServerHandShakeRes.getServiceName());
-        if (tcpConnServerInfo == null) {
-            log.error("server connect error  service name ={} areaId ={}", innerServerHandShakeRes.getServiceName(), innerServerHandShakeRes.getAreaId());
-            return;
-        }
+        TcpConnServerInfo tcpConnServerInfo = peerConn.addPeerConn(serverNodeInfo, aresTKcpContext.getCtx());
         aresTKcpContext.cacheObj(tcpConnServerInfo);
     }
 }

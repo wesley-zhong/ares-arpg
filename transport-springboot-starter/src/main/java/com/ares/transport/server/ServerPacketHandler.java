@@ -51,12 +51,10 @@ public class ServerPacketHandler extends ChannelInboundHandlerAdapter {
             //check signature
             boolean ret = checkValid(aresMsgEx, aresPacket.getMsgId());
             if (!ret) {
-                aresPacket.release();
                 return;
             }
             //process heart beat
             if (aresPacket.getMsgId() == FMsgId.PING) {
-                aresPacket.release();
                 sendPing(aresMsgEx.getCtx());
                 return;
             }

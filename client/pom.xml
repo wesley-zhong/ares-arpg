@@ -35,7 +35,7 @@
     </dependencies>
 
     <build>
-        <finalName>gateway</finalName>
+        <finalName>client</finalName>
         <extensions>
             <extension>
                 <groupId>kr.motd.maven</groupId>

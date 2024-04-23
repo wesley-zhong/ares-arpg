@@ -1,36 +1,34 @@
 package com.ares.game.network;
 
 import com.ares.common.bean.ServerType;
-import io.netty.channel.ChannelHandlerContext;
-import lombok.Setter;
+import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
-
 
 
 @Slf4j
 public class GamePlayerInterTransferInfo {
-    private ChannelHandlerContext gatewayCtx;
-    private ChannelHandlerContext routerCtx;
+    private Channel gatewayCtx;
+    private Channel routerCtx;
 
 
-    public ChannelHandlerContext getContextByType(int serverType){
-        if(serverType == ServerType.GATEWAY.getValue()){
+    public Channel getContextByType(int serverType) {
+        if (serverType == ServerType.GATEWAY.getValue()) {
             return gatewayCtx;
         }
-        if(serverType == ServerType.ROUTER.getValue()){
-            return  routerCtx;
+        if (serverType == ServerType.ROUTER.getValue()) {
+            return routerCtx;
         }
         return null;
     }
 
-    public void setContext(int serverType, ChannelHandlerContext channelHandlerContext){
-        if(serverType == ServerType.GATEWAY.getValue()){
-             this.gatewayCtx =  channelHandlerContext;
-             return;
+    public void setContext(int serverType, Channel channel) {
+        if (serverType == ServerType.GATEWAY.getValue()) {
+            this.gatewayCtx = channel;
+            return;
         }
-        if(serverType == ServerType.ROUTER.getValue()){
-          this.routerCtx = channelHandlerContext;
-          return;
+        if (serverType == ServerType.ROUTER.getValue()) {
+            this.routerCtx = channel;
+            return;
         }
         log.error("serverType ={} not allowed here", serverType);
     }

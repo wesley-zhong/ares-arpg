@@ -6,15 +6,13 @@ import com.ares.core.bean.AresPacket;
 import com.ares.dal.game.UserOnlineService;
 import com.ares.dal.game.UserOnlineStateDO;
 import com.ares.transport.bean.ServerNodeInfo;
+import com.ares.transport.bean.TcpConnServerInfo;
 import com.ares.transport.peer.PeerConnBase;
 import com.router.discovery.OnDiscoveryWatchService;
-import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.Map;
 
 
 @Component
@@ -38,11 +36,10 @@ public class PeerConn extends PeerConnBase {
 
 
     @Override
-    public ChannelHandlerContext loadBalance(int serverType, long uid, Map<String, ChannelHandlerContext> channelConMap) {
-        if (CollectionUtils.isEmpty(channelConMap)) {
-            log.error("loadBalance  uid ={}  serverType={} not found ", uid, serverType);
-            return null;
-        }
+    public Channel loadBalance(int serverType, long uid) {
+        /**
+         * 暂时先这样
+         */
         UserOnlineStateDO userOnlineStateDO = userOnlineService.getUserOnlineStateDO(uid);
         if (userOnlineStateDO == null) {
             log.error("error=====, loadBalance  uid={}", uid);
@@ -53,14 +50,21 @@ public class PeerConn extends PeerConnBase {
         if (serverType == ServerType.TEAM.getValue()) {
             targetServId = userOnlineStateDO.getTsrId();
         }
-        ChannelHandlerContext channelHandlerContext = channelConMap.get(targetServId);
-        if (channelHandlerContext == null
-                || !channelHandlerContext.channel().isActive()) {
-            ServerNodeInfo lowerLoadServerNodeInfo = onDiscoveryWatchService.getLowerLoadServerNodeInfo(serverType);
-            userOnlineStateDO.setServerId(lowerLoadServerNodeInfo.getServiceId(), serverType);
-            userOnlineService.saveUserOnlineDo(userOnlineStateDO);
-            return channelConMap.get(lowerLoadServerNodeInfo.getServiceId());
+
+        TcpConnServerInfo serverTcpConnInfo = getServerTcpConnInfo(serverType, targetServId);
+        if (serverTcpConnInfo == null) {
+            return null;
         }
-        return channelHandlerContext;
+        Channel channel = serverTcpConnInfo.roubinChannel();
+        if (channel != null) {
+            return channel;
+
+        }
+
+        ServerNodeInfo lowerLoadServerNodeInfo = onDiscoveryWatchService.getLowerLoadServerNodeInfo(serverType);
+        userOnlineStateDO.setServerId(lowerLoadServerNodeInfo.getServiceId(), serverType);
+        userOnlineService.saveUserOnlineDo(userOnlineStateDO);
+        serverTcpConnInfo = getTcpConnServerInfo(lowerLoadServerNodeInfo);
+        return serverTcpConnInfo.roubinChannel();
     }
 }

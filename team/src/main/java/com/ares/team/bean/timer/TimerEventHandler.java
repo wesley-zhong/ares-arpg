@@ -1,5 +1,6 @@
 package com.ares.team.bean.timer;
 
+import com.ares.core.thread.AresThreadPool;
 import com.ares.core.thread.LogicProcessThreadPool;
 import com.ares.core.thread.LogicThreadPoolGroup;
 import com.ares.core.timer.AresTimerTask;
@@ -14,7 +15,7 @@ public class TimerEventHandler implements InitializingBean {
     private ScheduleService scheduleService;
 
     public void onTimerTask(AresTimerTask aresTimerTask) {
-        LogicProcessThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
+        AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
         logicProcessThreadPool.execute(aresTimerTask.getExecuteHashCode(), aresTimerTask, (timerTask) -> {
             if (timerTask.isValid()) {
                 timerTask.getCall().apply(aresTimerTask.getExtData());

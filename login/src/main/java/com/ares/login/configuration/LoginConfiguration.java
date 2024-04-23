@@ -45,8 +45,7 @@ public class LoginConfiguration implements InitializingBean {
 
     @Bean
     public AresTcpClientConn aresTcpClientConn(@Autowired AresTcpHandler aresTcpHandler) {
-        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn();
-        aresTcpClientConn.initWithMsgEncoder(aresTcpHandler, new InnerMsgEncoder());
+        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn(aresTcpHandler, new InnerMsgEncoder());
         return aresTcpClientConn;
     }
 

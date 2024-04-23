@@ -1,35 +1,78 @@
 package com.ares.client.performance;
 
-import com.ares.client.Client;
-import com.ares.core.bean.AresPacket;
+import com.ares.client.bean.ClientPlayer;
+import com.ares.client.bean.PlayerMgr;
 import com.game.protoGen.ProtoCommon;
 import com.game.protoGen.ProtoGame;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.game.protoGen.ProtoInner;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
 
 @Component
 public class PerformanceTestService {
 
-    @Autowired
-    private Client client;
-    public void  startSend (){
+    public void sendPerformanceMsg() {
+        Collection<ClientPlayer> allClientPlayer = PlayerMgr.Instance.getAllClientPlayer();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < Integer.MAX_VALUE; i++) {
-                        ProtoGame.DirectToWorldReq req = ProtoGame.DirectToWorldReq.newBuilder().setResBody("OOOOOOOOOOOOOOOOO").setSomeId(13223333).build();
-                        AresPacket directWorld = AresPacket.create(ProtoCommon.ProtoCode.DIRECT_TO_TEAM_REQ_VALUE, req);
-                        client.getChannel().writeAndFlush(directWorld);
-                        Thread.sleep(10);
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+//        for (int i = 0; i < 8; ++i) {
+//            new Thread(new ClientMsgPerThread(allClietnPlayer)).start();
+//        }
 
+//        for (ClientPlayer clientPlayer : allClientPlayer) {
+//            Thread.ofVirtual().start(new ClientMsgPerThread(clientPlayer));
+//        }
+
+
+    }
+
+    public void sendAllPlayerPerformanceMsg() {
+        Collection<ClientPlayer> clientPlayerList = PlayerMgr.Instance.getAllClientPlayer();
+        for (ClientPlayer clientPlayer : clientPlayerList) {
+            ProtoGame.PerformanceTestReq testReq = ProtoGame.PerformanceTestReq.newBuilder()
+                    .setSendTime(System.currentTimeMillis())
+                    .setSomeBody("ooooooooooooooooooooooooooooooooooooooooooooooo")
+                    .setSomeId(111111L).build();
+            clientPlayer.send(ProtoCommon.MsgId.PERFORMANCE_TEST_REQ_VALUE, testReq);
+        }
+    }
+
+    public void sendGatewayPerformanceMsg() {
+        Collection<ClientPlayer> clientPlayerList = PlayerMgr.Instance.getAllClientPlayer();
+        for (ClientPlayer clientPlayer : clientPlayerList) {
+
+            ProtoGame.PerformanceTestReq testReq = ProtoGame.PerformanceTestReq.newBuilder()
+                    .setSendTime(System.currentTimeMillis())
+                    .setSomeBody("ooooooooooooooooooooooooooooooooooooooooooooooo")
+                    .setSomeId(111111L).build();
+            clientPlayer.send(ProtoInner.InnerMsgId.INNER_GATEWAY_PERFORMANCE_REQ_VALUE, testReq);
+        }
+    }
+
+
+    public static class ClientMsgPerThread implements Runnable {
+        private Collection<ClientPlayer> clientPlayerList;
+
+        public ClientMsgPerThread(Collection<ClientPlayer> clientPlayer) {
+            this.clientPlayerList = clientPlayer;
+        }
+
+        @Override
+        public void run() {
+            // try {
+            //  while (true) {
+            for (ClientPlayer clientPlayer : clientPlayerList) {
+                ProtoGame.PerformanceTestReq testReq = ProtoGame.PerformanceTestReq.newBuilder()
+                        .setSendTime(System.currentTimeMillis())
+                        .setSomeBody("ooooooooooooooooooooooooooooooooooooooooooooooo")
+                        .setSomeId(111111L).build();
+                clientPlayer.send(ProtoCommon.MsgId.PERFORMANCE_TEST_REQ_VALUE, testReq);
+                //    Thread.sleep(1);
+                //   System.out.println("____________________HHHHHHHHHHHHHHHHHH");
             }
-        }).start();
-
+            //  }
+//            } catch (Exception e) {
+//            }
+        }
     }
 }

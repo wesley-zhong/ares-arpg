@@ -15,9 +15,98 @@ public final class ProtoInner {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code InnerProtoCode}
+   * Protobuf enum {@code InnerErrCode}
    */
-  public enum InnerProtoCode
+  public enum InnerErrCode
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>INNER_SUCCESS = 0;</code>
+     */
+    INNER_SUCCESS(0),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>INNER_SUCCESS = 0;</code>
+     */
+    public static final int INNER_SUCCESS_VALUE = 0;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static InnerErrCode valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static InnerErrCode forNumber(int value) {
+      switch (value) {
+        case 0: return INNER_SUCCESS;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<InnerErrCode>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        InnerErrCode> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<InnerErrCode>() {
+            public InnerErrCode findValueByNumber(int number) {
+              return InnerErrCode.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.game.protoGen.ProtoInner.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final InnerErrCode[] VALUES = values();
+
+    public static InnerErrCode valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private InnerErrCode(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:InnerErrCode)
+  }
+
+  /**
+   * Protobuf enum {@code InnerMsgId}
+   */
+  public enum InnerMsgId
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>INNER_INVALID = 0;</code>
@@ -63,6 +152,30 @@ public final class ProtoInner {
      * <code>INNER_PLAYER_DISCONNECT_RES = -15;</code>
      */
     INNER_PLAYER_DISCONNECT_RES(-15),
+    /**
+     * <code>INNER_CREATE_TEAM_REQ = -16;</code>
+     */
+    INNER_CREATE_TEAM_REQ(-16),
+    /**
+     * <code>INNER_CREATE_TEAM_RES = -17;</code>
+     */
+    INNER_CREATE_TEAM_RES(-17),
+    /**
+     * <code>INNER_JOIN_TEAM_REQ = -18;</code>
+     */
+    INNER_JOIN_TEAM_REQ(-18),
+    /**
+     * <code>INNER_JOIN_TEAM_RES = -19;</code>
+     */
+    INNER_JOIN_TEAM_RES(-19),
+    /**
+     * <code>INNER_GATEWAY_PERFORMANCE_REQ = -2000000;</code>
+     */
+    INNER_GATEWAY_PERFORMANCE_REQ(-2000000),
+    /**
+     * <code>INNER_GATEWAY_PERFORMANCE_RES = -2000001;</code>
+     */
+    INNER_GATEWAY_PERFORMANCE_RES(-2000001),
     UNRECOGNIZED(-1),
     ;
 
@@ -110,6 +223,30 @@ public final class ProtoInner {
      * <code>INNER_PLAYER_DISCONNECT_RES = -15;</code>
      */
     public static final int INNER_PLAYER_DISCONNECT_RES_VALUE = -15;
+    /**
+     * <code>INNER_CREATE_TEAM_REQ = -16;</code>
+     */
+    public static final int INNER_CREATE_TEAM_REQ_VALUE = -16;
+    /**
+     * <code>INNER_CREATE_TEAM_RES = -17;</code>
+     */
+    public static final int INNER_CREATE_TEAM_RES_VALUE = -17;
+    /**
+     * <code>INNER_JOIN_TEAM_REQ = -18;</code>
+     */
+    public static final int INNER_JOIN_TEAM_REQ_VALUE = -18;
+    /**
+     * <code>INNER_JOIN_TEAM_RES = -19;</code>
+     */
+    public static final int INNER_JOIN_TEAM_RES_VALUE = -19;
+    /**
+     * <code>INNER_GATEWAY_PERFORMANCE_REQ = -2000000;</code>
+     */
+    public static final int INNER_GATEWAY_PERFORMANCE_REQ_VALUE = -2000000;
+    /**
+     * <code>INNER_GATEWAY_PERFORMANCE_RES = -2000001;</code>
+     */
+    public static final int INNER_GATEWAY_PERFORMANCE_RES_VALUE = -2000001;
 
 
     public final int getNumber() {
@@ -124,11 +261,11 @@ public final class ProtoInner {
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
-    public static InnerProtoCode valueOf(int value) {
+    public static InnerMsgId valueOf(int value) {
       return forNumber(value);
     }
 
-    public static InnerProtoCode forNumber(int value) {
+    public static InnerMsgId forNumber(int value) {
       switch (value) {
         case 0: return INNER_INVALID;
         case -1: return INNER_SERVER_HAND_SHAKE_REQ;
@@ -141,19 +278,25 @@ public final class ProtoInner {
         case -13: return INNER_TO_WORLD_LOGIN_RES;
         case -14: return INNER_PLAYER_DISCONNECT_REQ;
         case -15: return INNER_PLAYER_DISCONNECT_RES;
+        case -16: return INNER_CREATE_TEAM_REQ;
+        case -17: return INNER_CREATE_TEAM_RES;
+        case -18: return INNER_JOIN_TEAM_REQ;
+        case -19: return INNER_JOIN_TEAM_RES;
+        case -2000000: return INNER_GATEWAY_PERFORMANCE_REQ;
+        case -2000001: return INNER_GATEWAY_PERFORMANCE_RES;
         default: return null;
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<InnerProtoCode>
+    public static com.google.protobuf.Internal.EnumLiteMap<InnerMsgId>
         internalGetValueMap() {
       return internalValueMap;
     }
     private static final com.google.protobuf.Internal.EnumLiteMap<
-        InnerProtoCode> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<InnerProtoCode>() {
-            public InnerProtoCode findValueByNumber(int number) {
-              return InnerProtoCode.forNumber(number);
+        InnerMsgId> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<InnerMsgId>() {
+            public InnerMsgId findValueByNumber(int number) {
+              return InnerMsgId.forNumber(number);
             }
           };
 
@@ -167,12 +310,12 @@ public final class ProtoInner {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.game.protoGen.ProtoInner.getDescriptor().getEnumTypes().get(0);
+      return com.game.protoGen.ProtoInner.getDescriptor().getEnumTypes().get(1);
     }
 
-    private static final InnerProtoCode[] VALUES = values();
+    private static final InnerMsgId[] VALUES = values();
 
-    public static InnerProtoCode valueOf(
+    public static InnerMsgId valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -186,11 +329,11 @@ public final class ProtoInner {
 
     private final int value;
 
-    private InnerProtoCode(int value) {
+    private InnerMsgId(int value) {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:InnerProtoCode)
+    // @@protoc_insertion_point(enum_scope:InnerMsgId)
   }
 
   public interface InnerHeartBeatRequestOrBuilder extends
@@ -1498,6 +1641,11 @@ public final class ProtoInner {
      * <code>int64 uid = 1;</code>
      */
     long getUid();
+
+    /**
+     * <code>int32 errCode = 2;</code>
+     */
+    int getErrCode();
   }
   /**
    * Protobuf type {@code InnerGameLoginResponse}
@@ -1512,6 +1660,7 @@ public final class ProtoInner {
     }
     private InnerGameLoginResponse() {
       uid_ = 0L;
+      errCode_ = 0;
     }
 
     @java.lang.Override
@@ -1542,6 +1691,11 @@ public final class ProtoInner {
             case 8: {
 
               uid_ = input.readInt64();
+              break;
+            }
+            case 16: {
+
+              errCode_ = input.readInt32();
               break;
             }
           }
@@ -1576,6 +1730,15 @@ public final class ProtoInner {
       return uid_;
     }
 
+    public static final int ERRCODE_FIELD_NUMBER = 2;
+    private int errCode_;
+    /**
+     * <code>int32 errCode = 2;</code>
+     */
+    public int getErrCode() {
+      return errCode_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1591,6 +1754,9 @@ public final class ProtoInner {
       if (uid_ != 0L) {
         output.writeInt64(1, uid_);
       }
+      if (errCode_ != 0) {
+        output.writeInt32(2, errCode_);
+      }
     }
 
     public int getSerializedSize() {
@@ -1601,6 +1767,10 @@ public final class ProtoInner {
       if (uid_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, uid_);
+      }
+      if (errCode_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, errCode_);
       }
       memoizedSize = size;
       return size;
@@ -1620,6 +1790,8 @@ public final class ProtoInner {
       boolean result = true;
       result = result && (getUid()
           == other.getUid());
+      result = result && (getErrCode()
+          == other.getErrCode());
       return result;
     }
 
@@ -1633,6 +1805,8 @@ public final class ProtoInner {
       hash = (37 * hash) + UID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getUid());
+      hash = (37 * hash) + ERRCODE_FIELD_NUMBER;
+      hash = (53 * hash) + getErrCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1753,6 +1927,8 @@ public final class ProtoInner {
         super.clear();
         uid_ = 0L;
 
+        errCode_ = 0;
+
         return this;
       }
 
@@ -1776,6 +1952,7 @@ public final class ProtoInner {
       public com.game.protoGen.ProtoInner.InnerGameLoginResponse buildPartial() {
         com.game.protoGen.ProtoInner.InnerGameLoginResponse result = new com.game.protoGen.ProtoInner.InnerGameLoginResponse(this);
         result.uid_ = uid_;
+        result.errCode_ = errCode_;
         onBuilt();
         return result;
       }
@@ -1819,6 +1996,9 @@ public final class ProtoInner {
         if (other == com.game.protoGen.ProtoInner.InnerGameLoginResponse.getDefaultInstance()) return this;
         if (other.getUid() != 0L) {
           setUid(other.getUid());
+        }
+        if (other.getErrCode() != 0) {
+          setErrCode(other.getErrCode());
         }
         onChanged();
         return this;
@@ -1868,6 +2048,32 @@ public final class ProtoInner {
       public Builder clearUid() {
         
         uid_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int errCode_ ;
+      /**
+       * <code>int32 errCode = 2;</code>
+       */
+      public int getErrCode() {
+        return errCode_;
+      }
+      /**
+       * <code>int32 errCode = 2;</code>
+       */
+      public Builder setErrCode(int value) {
+        
+        errCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 errCode = 2;</code>
+       */
+      public Builder clearErrCode() {
+        
+        errCode_ = 0;
         onChanged();
         return this;
       }
@@ -6891,6 +7097,2151 @@ public final class ProtoInner {
 
   }
 
+  public interface InnerCreateTeamReqOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:InnerCreateTeamReq)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.TeamMemberInfo teamMember = 1;</code>
+     */
+    boolean hasTeamMember();
+    /**
+     * <code>.TeamMemberInfo teamMember = 1;</code>
+     */
+    com.game.protoGen.ProtoTeam.TeamMemberInfo getTeamMember();
+    /**
+     * <code>.TeamMemberInfo teamMember = 1;</code>
+     */
+    com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder getTeamMemberOrBuilder();
+
+    /**
+     * <code>string teamName = 2;</code>
+     */
+    java.lang.String getTeamName();
+    /**
+     * <code>string teamName = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getTeamNameBytes();
+
+    /**
+     * <code>string teamDes = 3;</code>
+     */
+    java.lang.String getTeamDes();
+    /**
+     * <code>string teamDes = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getTeamDesBytes();
+  }
+  /**
+   * Protobuf type {@code InnerCreateTeamReq}
+   */
+  public  static final class InnerCreateTeamReq extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:InnerCreateTeamReq)
+      InnerCreateTeamReqOrBuilder {
+    // Use InnerCreateTeamReq.newBuilder() to construct.
+    private InnerCreateTeamReq(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private InnerCreateTeamReq() {
+      teamName_ = "";
+      teamDes_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private InnerCreateTeamReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder subBuilder = null;
+              if (teamMember_ != null) {
+                subBuilder = teamMember_.toBuilder();
+              }
+              teamMember_ = input.readMessage(com.game.protoGen.ProtoTeam.TeamMemberInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(teamMember_);
+                teamMember_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              teamName_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              teamDes_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.game.protoGen.ProtoInner.InnerCreateTeamReq.class, com.game.protoGen.ProtoInner.InnerCreateTeamReq.Builder.class);
+    }
+
+    public static final int TEAMMEMBER_FIELD_NUMBER = 1;
+    private com.game.protoGen.ProtoTeam.TeamMemberInfo teamMember_;
+    /**
+     * <code>.TeamMemberInfo teamMember = 1;</code>
+     */
+    public boolean hasTeamMember() {
+      return teamMember_ != null;
+    }
+    /**
+     * <code>.TeamMemberInfo teamMember = 1;</code>
+     */
+    public com.game.protoGen.ProtoTeam.TeamMemberInfo getTeamMember() {
+      return teamMember_ == null ? com.game.protoGen.ProtoTeam.TeamMemberInfo.getDefaultInstance() : teamMember_;
+    }
+    /**
+     * <code>.TeamMemberInfo teamMember = 1;</code>
+     */
+    public com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder getTeamMemberOrBuilder() {
+      return getTeamMember();
+    }
+
+    public static final int TEAMNAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object teamName_;
+    /**
+     * <code>string teamName = 2;</code>
+     */
+    public java.lang.String getTeamName() {
+      java.lang.Object ref = teamName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        teamName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string teamName = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTeamNameBytes() {
+      java.lang.Object ref = teamName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        teamName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TEAMDES_FIELD_NUMBER = 3;
+    private volatile java.lang.Object teamDes_;
+    /**
+     * <code>string teamDes = 3;</code>
+     */
+    public java.lang.String getTeamDes() {
+      java.lang.Object ref = teamDes_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        teamDes_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string teamDes = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTeamDesBytes() {
+      java.lang.Object ref = teamDes_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        teamDes_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (teamMember_ != null) {
+        output.writeMessage(1, getTeamMember());
+      }
+      if (!getTeamNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, teamName_);
+      }
+      if (!getTeamDesBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, teamDes_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (teamMember_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getTeamMember());
+      }
+      if (!getTeamNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, teamName_);
+      }
+      if (!getTeamDesBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, teamDes_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.game.protoGen.ProtoInner.InnerCreateTeamReq)) {
+        return super.equals(obj);
+      }
+      com.game.protoGen.ProtoInner.InnerCreateTeamReq other = (com.game.protoGen.ProtoInner.InnerCreateTeamReq) obj;
+
+      boolean result = true;
+      result = result && (hasTeamMember() == other.hasTeamMember());
+      if (hasTeamMember()) {
+        result = result && getTeamMember()
+            .equals(other.getTeamMember());
+      }
+      result = result && getTeamName()
+          .equals(other.getTeamName());
+      result = result && getTeamDes()
+          .equals(other.getTeamDes());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasTeamMember()) {
+        hash = (37 * hash) + TEAMMEMBER_FIELD_NUMBER;
+        hash = (53 * hash) + getTeamMember().hashCode();
+      }
+      hash = (37 * hash) + TEAMNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getTeamName().hashCode();
+      hash = (37 * hash) + TEAMDES_FIELD_NUMBER;
+      hash = (53 * hash) + getTeamDes().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.game.protoGen.ProtoInner.InnerCreateTeamReq prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code InnerCreateTeamReq}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:InnerCreateTeamReq)
+        com.game.protoGen.ProtoInner.InnerCreateTeamReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.game.protoGen.ProtoInner.InnerCreateTeamReq.class, com.game.protoGen.ProtoInner.InnerCreateTeamReq.Builder.class);
+      }
+
+      // Construct using com.game.protoGen.ProtoInner.InnerCreateTeamReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (teamMemberBuilder_ == null) {
+          teamMember_ = null;
+        } else {
+          teamMember_ = null;
+          teamMemberBuilder_ = null;
+        }
+        teamName_ = "";
+
+        teamDes_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamReq_descriptor;
+      }
+
+      public com.game.protoGen.ProtoInner.InnerCreateTeamReq getDefaultInstanceForType() {
+        return com.game.protoGen.ProtoInner.InnerCreateTeamReq.getDefaultInstance();
+      }
+
+      public com.game.protoGen.ProtoInner.InnerCreateTeamReq build() {
+        com.game.protoGen.ProtoInner.InnerCreateTeamReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.game.protoGen.ProtoInner.InnerCreateTeamReq buildPartial() {
+        com.game.protoGen.ProtoInner.InnerCreateTeamReq result = new com.game.protoGen.ProtoInner.InnerCreateTeamReq(this);
+        if (teamMemberBuilder_ == null) {
+          result.teamMember_ = teamMember_;
+        } else {
+          result.teamMember_ = teamMemberBuilder_.build();
+        }
+        result.teamName_ = teamName_;
+        result.teamDes_ = teamDes_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.game.protoGen.ProtoInner.InnerCreateTeamReq) {
+          return mergeFrom((com.game.protoGen.ProtoInner.InnerCreateTeamReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.game.protoGen.ProtoInner.InnerCreateTeamReq other) {
+        if (other == com.game.protoGen.ProtoInner.InnerCreateTeamReq.getDefaultInstance()) return this;
+        if (other.hasTeamMember()) {
+          mergeTeamMember(other.getTeamMember());
+        }
+        if (!other.getTeamName().isEmpty()) {
+          teamName_ = other.teamName_;
+          onChanged();
+        }
+        if (!other.getTeamDes().isEmpty()) {
+          teamDes_ = other.teamDes_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.game.protoGen.ProtoInner.InnerCreateTeamReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.game.protoGen.ProtoInner.InnerCreateTeamReq) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private com.game.protoGen.ProtoTeam.TeamMemberInfo teamMember_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.game.protoGen.ProtoTeam.TeamMemberInfo, com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder, com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder> teamMemberBuilder_;
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public boolean hasTeamMember() {
+        return teamMemberBuilder_ != null || teamMember_ != null;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamMemberInfo getTeamMember() {
+        if (teamMemberBuilder_ == null) {
+          return teamMember_ == null ? com.game.protoGen.ProtoTeam.TeamMemberInfo.getDefaultInstance() : teamMember_;
+        } else {
+          return teamMemberBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public Builder setTeamMember(com.game.protoGen.ProtoTeam.TeamMemberInfo value) {
+        if (teamMemberBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          teamMember_ = value;
+          onChanged();
+        } else {
+          teamMemberBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public Builder setTeamMember(
+          com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder builderForValue) {
+        if (teamMemberBuilder_ == null) {
+          teamMember_ = builderForValue.build();
+          onChanged();
+        } else {
+          teamMemberBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public Builder mergeTeamMember(com.game.protoGen.ProtoTeam.TeamMemberInfo value) {
+        if (teamMemberBuilder_ == null) {
+          if (teamMember_ != null) {
+            teamMember_ =
+              com.game.protoGen.ProtoTeam.TeamMemberInfo.newBuilder(teamMember_).mergeFrom(value).buildPartial();
+          } else {
+            teamMember_ = value;
+          }
+          onChanged();
+        } else {
+          teamMemberBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public Builder clearTeamMember() {
+        if (teamMemberBuilder_ == null) {
+          teamMember_ = null;
+          onChanged();
+        } else {
+          teamMember_ = null;
+          teamMemberBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder getTeamMemberBuilder() {
+        
+        onChanged();
+        return getTeamMemberFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder getTeamMemberOrBuilder() {
+        if (teamMemberBuilder_ != null) {
+          return teamMemberBuilder_.getMessageOrBuilder();
+        } else {
+          return teamMember_ == null ?
+              com.game.protoGen.ProtoTeam.TeamMemberInfo.getDefaultInstance() : teamMember_;
+        }
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.game.protoGen.ProtoTeam.TeamMemberInfo, com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder, com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder> 
+          getTeamMemberFieldBuilder() {
+        if (teamMemberBuilder_ == null) {
+          teamMemberBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.game.protoGen.ProtoTeam.TeamMemberInfo, com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder, com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder>(
+                  getTeamMember(),
+                  getParentForChildren(),
+                  isClean());
+          teamMember_ = null;
+        }
+        return teamMemberBuilder_;
+      }
+
+      private java.lang.Object teamName_ = "";
+      /**
+       * <code>string teamName = 2;</code>
+       */
+      public java.lang.String getTeamName() {
+        java.lang.Object ref = teamName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          teamName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTeamNameBytes() {
+        java.lang.Object ref = teamName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          teamName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       */
+      public Builder setTeamName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        teamName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       */
+      public Builder clearTeamName() {
+        
+        teamName_ = getDefaultInstance().getTeamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamName = 2;</code>
+       */
+      public Builder setTeamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        teamName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object teamDes_ = "";
+      /**
+       * <code>string teamDes = 3;</code>
+       */
+      public java.lang.String getTeamDes() {
+        java.lang.Object ref = teamDes_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          teamDes_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string teamDes = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTeamDesBytes() {
+        java.lang.Object ref = teamDes_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          teamDes_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string teamDes = 3;</code>
+       */
+      public Builder setTeamDes(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        teamDes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamDes = 3;</code>
+       */
+      public Builder clearTeamDes() {
+        
+        teamDes_ = getDefaultInstance().getTeamDes();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string teamDes = 3;</code>
+       */
+      public Builder setTeamDesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        teamDes_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:InnerCreateTeamReq)
+    }
+
+    // @@protoc_insertion_point(class_scope:InnerCreateTeamReq)
+    private static final com.game.protoGen.ProtoInner.InnerCreateTeamReq DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.game.protoGen.ProtoInner.InnerCreateTeamReq();
+    }
+
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamReq getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<InnerCreateTeamReq>
+        PARSER = new com.google.protobuf.AbstractParser<InnerCreateTeamReq>() {
+      public InnerCreateTeamReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new InnerCreateTeamReq(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<InnerCreateTeamReq> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InnerCreateTeamReq> getParserForType() {
+      return PARSER;
+    }
+
+    public com.game.protoGen.ProtoInner.InnerCreateTeamReq getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface InnerJoinTeamReqOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:InnerJoinTeamReq)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 teamId = 1;</code>
+     */
+    long getTeamId();
+
+    /**
+     * <code>.TeamMemberInfo teamMember = 2;</code>
+     */
+    boolean hasTeamMember();
+    /**
+     * <code>.TeamMemberInfo teamMember = 2;</code>
+     */
+    com.game.protoGen.ProtoTeam.TeamMemberInfo getTeamMember();
+    /**
+     * <code>.TeamMemberInfo teamMember = 2;</code>
+     */
+    com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder getTeamMemberOrBuilder();
+  }
+  /**
+   * Protobuf type {@code InnerJoinTeamReq}
+   */
+  public  static final class InnerJoinTeamReq extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:InnerJoinTeamReq)
+      InnerJoinTeamReqOrBuilder {
+    // Use InnerJoinTeamReq.newBuilder() to construct.
+    private InnerJoinTeamReq(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private InnerJoinTeamReq() {
+      teamId_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private InnerJoinTeamReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              teamId_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder subBuilder = null;
+              if (teamMember_ != null) {
+                subBuilder = teamMember_.toBuilder();
+              }
+              teamMember_ = input.readMessage(com.game.protoGen.ProtoTeam.TeamMemberInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(teamMember_);
+                teamMember_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.game.protoGen.ProtoInner.internal_static_InnerJoinTeamReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.game.protoGen.ProtoInner.internal_static_InnerJoinTeamReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.game.protoGen.ProtoInner.InnerJoinTeamReq.class, com.game.protoGen.ProtoInner.InnerJoinTeamReq.Builder.class);
+    }
+
+    public static final int TEAMID_FIELD_NUMBER = 1;
+    private long teamId_;
+    /**
+     * <code>int64 teamId = 1;</code>
+     */
+    public long getTeamId() {
+      return teamId_;
+    }
+
+    public static final int TEAMMEMBER_FIELD_NUMBER = 2;
+    private com.game.protoGen.ProtoTeam.TeamMemberInfo teamMember_;
+    /**
+     * <code>.TeamMemberInfo teamMember = 2;</code>
+     */
+    public boolean hasTeamMember() {
+      return teamMember_ != null;
+    }
+    /**
+     * <code>.TeamMemberInfo teamMember = 2;</code>
+     */
+    public com.game.protoGen.ProtoTeam.TeamMemberInfo getTeamMember() {
+      return teamMember_ == null ? com.game.protoGen.ProtoTeam.TeamMemberInfo.getDefaultInstance() : teamMember_;
+    }
+    /**
+     * <code>.TeamMemberInfo teamMember = 2;</code>
+     */
+    public com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder getTeamMemberOrBuilder() {
+      return getTeamMember();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (teamId_ != 0L) {
+        output.writeInt64(1, teamId_);
+      }
+      if (teamMember_ != null) {
+        output.writeMessage(2, getTeamMember());
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (teamId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, teamId_);
+      }
+      if (teamMember_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getTeamMember());
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.game.protoGen.ProtoInner.InnerJoinTeamReq)) {
+        return super.equals(obj);
+      }
+      com.game.protoGen.ProtoInner.InnerJoinTeamReq other = (com.game.protoGen.ProtoInner.InnerJoinTeamReq) obj;
+
+      boolean result = true;
+      result = result && (getTeamId()
+          == other.getTeamId());
+      result = result && (hasTeamMember() == other.hasTeamMember());
+      if (hasTeamMember()) {
+        result = result && getTeamMember()
+            .equals(other.getTeamMember());
+      }
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TEAMID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTeamId());
+      if (hasTeamMember()) {
+        hash = (37 * hash) + TEAMMEMBER_FIELD_NUMBER;
+        hash = (53 * hash) + getTeamMember().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.game.protoGen.ProtoInner.InnerJoinTeamReq prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code InnerJoinTeamReq}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:InnerJoinTeamReq)
+        com.game.protoGen.ProtoInner.InnerJoinTeamReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerJoinTeamReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerJoinTeamReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.game.protoGen.ProtoInner.InnerJoinTeamReq.class, com.game.protoGen.ProtoInner.InnerJoinTeamReq.Builder.class);
+      }
+
+      // Construct using com.game.protoGen.ProtoInner.InnerJoinTeamReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        teamId_ = 0L;
+
+        if (teamMemberBuilder_ == null) {
+          teamMember_ = null;
+        } else {
+          teamMember_ = null;
+          teamMemberBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerJoinTeamReq_descriptor;
+      }
+
+      public com.game.protoGen.ProtoInner.InnerJoinTeamReq getDefaultInstanceForType() {
+        return com.game.protoGen.ProtoInner.InnerJoinTeamReq.getDefaultInstance();
+      }
+
+      public com.game.protoGen.ProtoInner.InnerJoinTeamReq build() {
+        com.game.protoGen.ProtoInner.InnerJoinTeamReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.game.protoGen.ProtoInner.InnerJoinTeamReq buildPartial() {
+        com.game.protoGen.ProtoInner.InnerJoinTeamReq result = new com.game.protoGen.ProtoInner.InnerJoinTeamReq(this);
+        result.teamId_ = teamId_;
+        if (teamMemberBuilder_ == null) {
+          result.teamMember_ = teamMember_;
+        } else {
+          result.teamMember_ = teamMemberBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.game.protoGen.ProtoInner.InnerJoinTeamReq) {
+          return mergeFrom((com.game.protoGen.ProtoInner.InnerJoinTeamReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.game.protoGen.ProtoInner.InnerJoinTeamReq other) {
+        if (other == com.game.protoGen.ProtoInner.InnerJoinTeamReq.getDefaultInstance()) return this;
+        if (other.getTeamId() != 0L) {
+          setTeamId(other.getTeamId());
+        }
+        if (other.hasTeamMember()) {
+          mergeTeamMember(other.getTeamMember());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.game.protoGen.ProtoInner.InnerJoinTeamReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.game.protoGen.ProtoInner.InnerJoinTeamReq) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private long teamId_ ;
+      /**
+       * <code>int64 teamId = 1;</code>
+       */
+      public long getTeamId() {
+        return teamId_;
+      }
+      /**
+       * <code>int64 teamId = 1;</code>
+       */
+      public Builder setTeamId(long value) {
+        
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 teamId = 1;</code>
+       */
+      public Builder clearTeamId() {
+        
+        teamId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.game.protoGen.ProtoTeam.TeamMemberInfo teamMember_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.game.protoGen.ProtoTeam.TeamMemberInfo, com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder, com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder> teamMemberBuilder_;
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public boolean hasTeamMember() {
+        return teamMemberBuilder_ != null || teamMember_ != null;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamMemberInfo getTeamMember() {
+        if (teamMemberBuilder_ == null) {
+          return teamMember_ == null ? com.game.protoGen.ProtoTeam.TeamMemberInfo.getDefaultInstance() : teamMember_;
+        } else {
+          return teamMemberBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public Builder setTeamMember(com.game.protoGen.ProtoTeam.TeamMemberInfo value) {
+        if (teamMemberBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          teamMember_ = value;
+          onChanged();
+        } else {
+          teamMemberBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public Builder setTeamMember(
+          com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder builderForValue) {
+        if (teamMemberBuilder_ == null) {
+          teamMember_ = builderForValue.build();
+          onChanged();
+        } else {
+          teamMemberBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public Builder mergeTeamMember(com.game.protoGen.ProtoTeam.TeamMemberInfo value) {
+        if (teamMemberBuilder_ == null) {
+          if (teamMember_ != null) {
+            teamMember_ =
+              com.game.protoGen.ProtoTeam.TeamMemberInfo.newBuilder(teamMember_).mergeFrom(value).buildPartial();
+          } else {
+            teamMember_ = value;
+          }
+          onChanged();
+        } else {
+          teamMemberBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public Builder clearTeamMember() {
+        if (teamMemberBuilder_ == null) {
+          teamMember_ = null;
+          onChanged();
+        } else {
+          teamMember_ = null;
+          teamMemberBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder getTeamMemberBuilder() {
+        
+        onChanged();
+        return getTeamMemberFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder getTeamMemberOrBuilder() {
+        if (teamMemberBuilder_ != null) {
+          return teamMemberBuilder_.getMessageOrBuilder();
+        } else {
+          return teamMember_ == null ?
+              com.game.protoGen.ProtoTeam.TeamMemberInfo.getDefaultInstance() : teamMember_;
+        }
+      }
+      /**
+       * <code>.TeamMemberInfo teamMember = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.game.protoGen.ProtoTeam.TeamMemberInfo, com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder, com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder> 
+          getTeamMemberFieldBuilder() {
+        if (teamMemberBuilder_ == null) {
+          teamMemberBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.game.protoGen.ProtoTeam.TeamMemberInfo, com.game.protoGen.ProtoTeam.TeamMemberInfo.Builder, com.game.protoGen.ProtoTeam.TeamMemberInfoOrBuilder>(
+                  getTeamMember(),
+                  getParentForChildren(),
+                  isClean());
+          teamMember_ = null;
+        }
+        return teamMemberBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:InnerJoinTeamReq)
+    }
+
+    // @@protoc_insertion_point(class_scope:InnerJoinTeamReq)
+    private static final com.game.protoGen.ProtoInner.InnerJoinTeamReq DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.game.protoGen.ProtoInner.InnerJoinTeamReq();
+    }
+
+    public static com.game.protoGen.ProtoInner.InnerJoinTeamReq getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<InnerJoinTeamReq>
+        PARSER = new com.google.protobuf.AbstractParser<InnerJoinTeamReq>() {
+      public InnerJoinTeamReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new InnerJoinTeamReq(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<InnerJoinTeamReq> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InnerJoinTeamReq> getParserForType() {
+      return PARSER;
+    }
+
+    public com.game.protoGen.ProtoInner.InnerJoinTeamReq getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface InnerCreateTeamResOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:InnerCreateTeamRes)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 owner = 1;</code>
+     */
+    long getOwner();
+
+    /**
+     * <code>.TeamInfo teamInfo = 2;</code>
+     */
+    boolean hasTeamInfo();
+    /**
+     * <code>.TeamInfo teamInfo = 2;</code>
+     */
+    com.game.protoGen.ProtoTeam.TeamInfo getTeamInfo();
+    /**
+     * <code>.TeamInfo teamInfo = 2;</code>
+     */
+    com.game.protoGen.ProtoTeam.TeamInfoOrBuilder getTeamInfoOrBuilder();
+
+    /**
+     * <code>int32 errCode = 3;</code>
+     */
+    int getErrCode();
+  }
+  /**
+   * Protobuf type {@code InnerCreateTeamRes}
+   */
+  public  static final class InnerCreateTeamRes extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:InnerCreateTeamRes)
+      InnerCreateTeamResOrBuilder {
+    // Use InnerCreateTeamRes.newBuilder() to construct.
+    private InnerCreateTeamRes(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private InnerCreateTeamRes() {
+      owner_ = 0L;
+      errCode_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private InnerCreateTeamRes(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              owner_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              com.game.protoGen.ProtoTeam.TeamInfo.Builder subBuilder = null;
+              if (teamInfo_ != null) {
+                subBuilder = teamInfo_.toBuilder();
+              }
+              teamInfo_ = input.readMessage(com.game.protoGen.ProtoTeam.TeamInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(teamInfo_);
+                teamInfo_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 24: {
+
+              errCode_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamRes_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamRes_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.game.protoGen.ProtoInner.InnerCreateTeamRes.class, com.game.protoGen.ProtoInner.InnerCreateTeamRes.Builder.class);
+    }
+
+    public static final int OWNER_FIELD_NUMBER = 1;
+    private long owner_;
+    /**
+     * <code>int64 owner = 1;</code>
+     */
+    public long getOwner() {
+      return owner_;
+    }
+
+    public static final int TEAMINFO_FIELD_NUMBER = 2;
+    private com.game.protoGen.ProtoTeam.TeamInfo teamInfo_;
+    /**
+     * <code>.TeamInfo teamInfo = 2;</code>
+     */
+    public boolean hasTeamInfo() {
+      return teamInfo_ != null;
+    }
+    /**
+     * <code>.TeamInfo teamInfo = 2;</code>
+     */
+    public com.game.protoGen.ProtoTeam.TeamInfo getTeamInfo() {
+      return teamInfo_ == null ? com.game.protoGen.ProtoTeam.TeamInfo.getDefaultInstance() : teamInfo_;
+    }
+    /**
+     * <code>.TeamInfo teamInfo = 2;</code>
+     */
+    public com.game.protoGen.ProtoTeam.TeamInfoOrBuilder getTeamInfoOrBuilder() {
+      return getTeamInfo();
+    }
+
+    public static final int ERRCODE_FIELD_NUMBER = 3;
+    private int errCode_;
+    /**
+     * <code>int32 errCode = 3;</code>
+     */
+    public int getErrCode() {
+      return errCode_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (owner_ != 0L) {
+        output.writeInt64(1, owner_);
+      }
+      if (teamInfo_ != null) {
+        output.writeMessage(2, getTeamInfo());
+      }
+      if (errCode_ != 0) {
+        output.writeInt32(3, errCode_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (owner_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, owner_);
+      }
+      if (teamInfo_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getTeamInfo());
+      }
+      if (errCode_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, errCode_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.game.protoGen.ProtoInner.InnerCreateTeamRes)) {
+        return super.equals(obj);
+      }
+      com.game.protoGen.ProtoInner.InnerCreateTeamRes other = (com.game.protoGen.ProtoInner.InnerCreateTeamRes) obj;
+
+      boolean result = true;
+      result = result && (getOwner()
+          == other.getOwner());
+      result = result && (hasTeamInfo() == other.hasTeamInfo());
+      if (hasTeamInfo()) {
+        result = result && getTeamInfo()
+            .equals(other.getTeamInfo());
+      }
+      result = result && (getErrCode()
+          == other.getErrCode());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OWNER_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getOwner());
+      if (hasTeamInfo()) {
+        hash = (37 * hash) + TEAMINFO_FIELD_NUMBER;
+        hash = (53 * hash) + getTeamInfo().hashCode();
+      }
+      hash = (37 * hash) + ERRCODE_FIELD_NUMBER;
+      hash = (53 * hash) + getErrCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.game.protoGen.ProtoInner.InnerCreateTeamRes prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code InnerCreateTeamRes}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:InnerCreateTeamRes)
+        com.game.protoGen.ProtoInner.InnerCreateTeamResOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamRes_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamRes_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.game.protoGen.ProtoInner.InnerCreateTeamRes.class, com.game.protoGen.ProtoInner.InnerCreateTeamRes.Builder.class);
+      }
+
+      // Construct using com.game.protoGen.ProtoInner.InnerCreateTeamRes.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        owner_ = 0L;
+
+        if (teamInfoBuilder_ == null) {
+          teamInfo_ = null;
+        } else {
+          teamInfo_ = null;
+          teamInfoBuilder_ = null;
+        }
+        errCode_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.game.protoGen.ProtoInner.internal_static_InnerCreateTeamRes_descriptor;
+      }
+
+      public com.game.protoGen.ProtoInner.InnerCreateTeamRes getDefaultInstanceForType() {
+        return com.game.protoGen.ProtoInner.InnerCreateTeamRes.getDefaultInstance();
+      }
+
+      public com.game.protoGen.ProtoInner.InnerCreateTeamRes build() {
+        com.game.protoGen.ProtoInner.InnerCreateTeamRes result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.game.protoGen.ProtoInner.InnerCreateTeamRes buildPartial() {
+        com.game.protoGen.ProtoInner.InnerCreateTeamRes result = new com.game.protoGen.ProtoInner.InnerCreateTeamRes(this);
+        result.owner_ = owner_;
+        if (teamInfoBuilder_ == null) {
+          result.teamInfo_ = teamInfo_;
+        } else {
+          result.teamInfo_ = teamInfoBuilder_.build();
+        }
+        result.errCode_ = errCode_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.game.protoGen.ProtoInner.InnerCreateTeamRes) {
+          return mergeFrom((com.game.protoGen.ProtoInner.InnerCreateTeamRes)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.game.protoGen.ProtoInner.InnerCreateTeamRes other) {
+        if (other == com.game.protoGen.ProtoInner.InnerCreateTeamRes.getDefaultInstance()) return this;
+        if (other.getOwner() != 0L) {
+          setOwner(other.getOwner());
+        }
+        if (other.hasTeamInfo()) {
+          mergeTeamInfo(other.getTeamInfo());
+        }
+        if (other.getErrCode() != 0) {
+          setErrCode(other.getErrCode());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.game.protoGen.ProtoInner.InnerCreateTeamRes parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.game.protoGen.ProtoInner.InnerCreateTeamRes) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private long owner_ ;
+      /**
+       * <code>int64 owner = 1;</code>
+       */
+      public long getOwner() {
+        return owner_;
+      }
+      /**
+       * <code>int64 owner = 1;</code>
+       */
+      public Builder setOwner(long value) {
+        
+        owner_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 owner = 1;</code>
+       */
+      public Builder clearOwner() {
+        
+        owner_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.game.protoGen.ProtoTeam.TeamInfo teamInfo_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.game.protoGen.ProtoTeam.TeamInfo, com.game.protoGen.ProtoTeam.TeamInfo.Builder, com.game.protoGen.ProtoTeam.TeamInfoOrBuilder> teamInfoBuilder_;
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public boolean hasTeamInfo() {
+        return teamInfoBuilder_ != null || teamInfo_ != null;
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamInfo getTeamInfo() {
+        if (teamInfoBuilder_ == null) {
+          return teamInfo_ == null ? com.game.protoGen.ProtoTeam.TeamInfo.getDefaultInstance() : teamInfo_;
+        } else {
+          return teamInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public Builder setTeamInfo(com.game.protoGen.ProtoTeam.TeamInfo value) {
+        if (teamInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          teamInfo_ = value;
+          onChanged();
+        } else {
+          teamInfoBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public Builder setTeamInfo(
+          com.game.protoGen.ProtoTeam.TeamInfo.Builder builderForValue) {
+        if (teamInfoBuilder_ == null) {
+          teamInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          teamInfoBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public Builder mergeTeamInfo(com.game.protoGen.ProtoTeam.TeamInfo value) {
+        if (teamInfoBuilder_ == null) {
+          if (teamInfo_ != null) {
+            teamInfo_ =
+              com.game.protoGen.ProtoTeam.TeamInfo.newBuilder(teamInfo_).mergeFrom(value).buildPartial();
+          } else {
+            teamInfo_ = value;
+          }
+          onChanged();
+        } else {
+          teamInfoBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public Builder clearTeamInfo() {
+        if (teamInfoBuilder_ == null) {
+          teamInfo_ = null;
+          onChanged();
+        } else {
+          teamInfo_ = null;
+          teamInfoBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamInfo.Builder getTeamInfoBuilder() {
+        
+        onChanged();
+        return getTeamInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      public com.game.protoGen.ProtoTeam.TeamInfoOrBuilder getTeamInfoOrBuilder() {
+        if (teamInfoBuilder_ != null) {
+          return teamInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return teamInfo_ == null ?
+              com.game.protoGen.ProtoTeam.TeamInfo.getDefaultInstance() : teamInfo_;
+        }
+      }
+      /**
+       * <code>.TeamInfo teamInfo = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.game.protoGen.ProtoTeam.TeamInfo, com.game.protoGen.ProtoTeam.TeamInfo.Builder, com.game.protoGen.ProtoTeam.TeamInfoOrBuilder> 
+          getTeamInfoFieldBuilder() {
+        if (teamInfoBuilder_ == null) {
+          teamInfoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.game.protoGen.ProtoTeam.TeamInfo, com.game.protoGen.ProtoTeam.TeamInfo.Builder, com.game.protoGen.ProtoTeam.TeamInfoOrBuilder>(
+                  getTeamInfo(),
+                  getParentForChildren(),
+                  isClean());
+          teamInfo_ = null;
+        }
+        return teamInfoBuilder_;
+      }
+
+      private int errCode_ ;
+      /**
+       * <code>int32 errCode = 3;</code>
+       */
+      public int getErrCode() {
+        return errCode_;
+      }
+      /**
+       * <code>int32 errCode = 3;</code>
+       */
+      public Builder setErrCode(int value) {
+        
+        errCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 errCode = 3;</code>
+       */
+      public Builder clearErrCode() {
+        
+        errCode_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:InnerCreateTeamRes)
+    }
+
+    // @@protoc_insertion_point(class_scope:InnerCreateTeamRes)
+    private static final com.game.protoGen.ProtoInner.InnerCreateTeamRes DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.game.protoGen.ProtoInner.InnerCreateTeamRes();
+    }
+
+    public static com.game.protoGen.ProtoInner.InnerCreateTeamRes getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<InnerCreateTeamRes>
+        PARSER = new com.google.protobuf.AbstractParser<InnerCreateTeamRes>() {
+      public InnerCreateTeamRes parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new InnerCreateTeamRes(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<InnerCreateTeamRes> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InnerCreateTeamRes> getParserForType() {
+      return PARSER;
+    }
+
+    public com.game.protoGen.ProtoInner.InnerCreateTeamRes getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_InnerHeartBeatRequest_descriptor;
   private static final 
@@ -6961,6 +9312,21 @@ public final class ProtoInner {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_KickOutResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_InnerCreateTeamReq_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_InnerCreateTeamReq_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_InnerJoinTeamReq_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_InnerJoinTeamReq_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_InnerCreateTeamRes_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_InnerCreateTeamRes_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6970,35 +9336,49 @@ public final class ProtoInner {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020ProtoInner.proto\"\027\n\025InnerHeartBeatRequ" +
-      "est\"\030\n\026InnerHeartBeatResponse\"3\n\025InnerGa" +
-      "meLoginRequest\022\013\n\003uid\030\001 \001(\003\022\r\n\005token\030\002 \001" +
-      "(\t\"%\n\026InnerGameLoginResponse\022\013\n\003uid\030\001 \001(" +
-      "\003\"\030\n\026InnerWorldLoginRequest\"4\n\027InnerWorl" +
-      "dLoginResponse\022\013\n\003uid\030\001 \001(\003\022\014\n\004code\030\002 \001(" +
-      "\005\"+\n\034InnerPlayerDisconnectRequest\022\013\n\003uid" +
-      "\030\002 \001(\003\",\n\035InnerPlayerDisconnectResponse\022" +
-      "\013\n\003uid\030\002 \001(\003\"6\n\021InnerLogoutNotify\022\016\n\006rol" +
-      "eId\030\001 \001(\003\022\021\n\tsessionId\030\002 \001(\003\"&\n\024InnerLog",
-      "inInitNotify\022\016\n\006roleId\030\001 \001(\003\"Q\n\027InnerSer" +
-      "verHandShakeReq\022\023\n\013serviceName\030\001 \001(\t\022\021\n\t" +
-      "serviceId\030\002 \001(\t\022\016\n\006areaId\030\003 \001(\005\"Q\n\027Inner" +
-      "ServerHandShakeRes\022\023\n\013serviceName\030\001 \001(\t\022" +
-      "\021\n\tserviceId\030\002 \001(\t\022\016\n\006areaId\030\003 \001(\005\"-\n\016Ki" +
-      "ckOutRequest\022\013\n\003uid\030\001 \001(\003\022\016\n\006reason\030\002 \001(" +
-      "\005\"\036\n\017KickOutResponse\022\013\n\003uid\030\001 \001(\003*\253\003\n\016In" +
-      "nerProtoCode\022\021\n\rINNER_INVALID\020\000\022(\n\033INNER" +
-      "_SERVER_HAND_SHAKE_REQ\020\377\377\377\377\377\377\377\377\377\001\022(\n\033INN" +
-      "ER_SERVER_HAND_SHAKE_RES\020\376\377\377\377\377\377\377\377\377\001\022!\n\024I",
-      "NNER_HEART_BEAT_REQ\020\375\377\377\377\377\377\377\377\377\001\022!\n\024INNER_" +
-      "HEART_BEAT_RES\020\374\377\377\377\377\377\377\377\377\001\022$\n\027INNER_TO_GA" +
-      "ME_LOGIN_REQ\020\366\377\377\377\377\377\377\377\377\001\022$\n\027INNER_TO_GAME" +
-      "_LOGIN_RES\020\365\377\377\377\377\377\377\377\377\001\022%\n\030INNER_TO_WORLD_" +
-      "LOGIN_REQ\020\364\377\377\377\377\377\377\377\377\001\022%\n\030INNER_TO_WORLD_L" +
-      "OGIN_RES\020\363\377\377\377\377\377\377\377\377\001\022(\n\033INNER_PLAYER_DISC" +
-      "ONNECT_REQ\020\362\377\377\377\377\377\377\377\377\001\022(\n\033INNER_PLAYER_DI" +
-      "SCONNECT_RES\020\361\377\377\377\377\377\377\377\377\001B\036\n\021com.game.prot" +
-      "oGenZ\t/protoGenb\006proto3"
+      "\n\020ProtoInner.proto\032\017ProtoTeam.proto\"\027\n\025I" +
+      "nnerHeartBeatRequest\"\030\n\026InnerHeartBeatRe" +
+      "sponse\"3\n\025InnerGameLoginRequest\022\013\n\003uid\030\001" +
+      " \001(\003\022\r\n\005token\030\002 \001(\t\"6\n\026InnerGameLoginRes" +
+      "ponse\022\013\n\003uid\030\001 \001(\003\022\017\n\007errCode\030\002 \001(\005\"\030\n\026I" +
+      "nnerWorldLoginRequest\"4\n\027InnerWorldLogin" +
+      "Response\022\013\n\003uid\030\001 \001(\003\022\014\n\004code\030\002 \001(\005\"+\n\034I" +
+      "nnerPlayerDisconnectRequest\022\013\n\003uid\030\002 \001(\003" +
+      "\",\n\035InnerPlayerDisconnectResponse\022\013\n\003uid" +
+      "\030\002 \001(\003\"6\n\021InnerLogoutNotify\022\016\n\006roleId\030\001 ",
+      "\001(\003\022\021\n\tsessionId\030\002 \001(\003\"&\n\024InnerLoginInit" +
+      "Notify\022\016\n\006roleId\030\001 \001(\003\"Q\n\027InnerServerHan" +
+      "dShakeReq\022\023\n\013serviceName\030\001 \001(\t\022\021\n\tservic" +
+      "eId\030\002 \001(\t\022\016\n\006areaId\030\003 \001(\005\"Q\n\027InnerServer" +
+      "HandShakeRes\022\023\n\013serviceName\030\001 \001(\t\022\021\n\tser" +
+      "viceId\030\002 \001(\t\022\016\n\006areaId\030\003 \001(\005\"-\n\016KickOutR" +
+      "equest\022\013\n\003uid\030\001 \001(\003\022\016\n\006reason\030\002 \001(\005\"\036\n\017K" +
+      "ickOutResponse\022\013\n\003uid\030\001 \001(\003\"\\\n\022InnerCrea" +
+      "teTeamReq\022#\n\nteamMember\030\001 \001(\0132\017.TeamMemb" +
+      "erInfo\022\020\n\010teamName\030\002 \001(\t\022\017\n\007teamDes\030\003 \001(",
+      "\t\"G\n\020InnerJoinTeamReq\022\016\n\006teamId\030\001 \001(\003\022#\n" +
+      "\nteamMember\030\002 \001(\0132\017.TeamMemberInfo\"Q\n\022In" +
+      "nerCreateTeamRes\022\r\n\005owner\030\001 \001(\003\022\033\n\010teamI" +
+      "nfo\030\002 \001(\0132\t.TeamInfo\022\017\n\007errCode\030\003 \001(\005*!\n" +
+      "\014InnerErrCode\022\021\n\rINNER_SUCCESS\020\000*\213\005\n\nInn" +
+      "erMsgId\022\021\n\rINNER_INVALID\020\000\022(\n\033INNER_SERV" +
+      "ER_HAND_SHAKE_REQ\020\377\377\377\377\377\377\377\377\377\001\022(\n\033INNER_SE" +
+      "RVER_HAND_SHAKE_RES\020\376\377\377\377\377\377\377\377\377\001\022!\n\024INNER_" +
+      "HEART_BEAT_REQ\020\375\377\377\377\377\377\377\377\377\001\022!\n\024INNER_HEART" +
+      "_BEAT_RES\020\374\377\377\377\377\377\377\377\377\001\022$\n\027INNER_TO_GAME_LO",
+      "GIN_REQ\020\366\377\377\377\377\377\377\377\377\001\022$\n\027INNER_TO_GAME_LOGI" +
+      "N_RES\020\365\377\377\377\377\377\377\377\377\001\022%\n\030INNER_TO_WORLD_LOGIN" +
+      "_REQ\020\364\377\377\377\377\377\377\377\377\001\022%\n\030INNER_TO_WORLD_LOGIN_" +
+      "RES\020\363\377\377\377\377\377\377\377\377\001\022(\n\033INNER_PLAYER_DISCONNEC" +
+      "T_REQ\020\362\377\377\377\377\377\377\377\377\001\022(\n\033INNER_PLAYER_DISCONN" +
+      "ECT_RES\020\361\377\377\377\377\377\377\377\377\001\022\"\n\025INNER_CREATE_TEAM_" +
+      "REQ\020\360\377\377\377\377\377\377\377\377\001\022\"\n\025INNER_CREATE_TEAM_RES\020" +
+      "\357\377\377\377\377\377\377\377\377\001\022 \n\023INNER_JOIN_TEAM_REQ\020\356\377\377\377\377\377" +
+      "\377\377\377\001\022 \n\023INNER_JOIN_TEAM_RES\020\355\377\377\377\377\377\377\377\377\001\022*" +
+      "\n\035INNER_GATEWAY_PERFORMANCE_REQ\020\200\367\205\377\377\377\377\377",
+      "\377\001\022*\n\035INNER_GATEWAY_PERFORMANCE_RES\020\377\366\205\377" +
+      "\377\377\377\377\377\001B\036\n\021com.game.protoGenZ\t/protoGenb\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7011,6 +9391,7 @@ public final class ProtoInner {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.game.protoGen.ProtoTeam.getDescriptor(),
         }, assigner);
     internal_static_InnerHeartBeatRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -7035,7 +9416,7 @@ public final class ProtoInner {
     internal_static_InnerGameLoginResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_InnerGameLoginResponse_descriptor,
-        new java.lang.String[] { "Uid", });
+        new java.lang.String[] { "Uid", "ErrCode", });
     internal_static_InnerWorldLoginRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_InnerWorldLoginRequest_fieldAccessorTable = new
@@ -7096,6 +9477,25 @@ public final class ProtoInner {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KickOutResponse_descriptor,
         new java.lang.String[] { "Uid", });
+    internal_static_InnerCreateTeamReq_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_InnerCreateTeamReq_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_InnerCreateTeamReq_descriptor,
+        new java.lang.String[] { "TeamMember", "TeamName", "TeamDes", });
+    internal_static_InnerJoinTeamReq_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_InnerJoinTeamReq_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_InnerJoinTeamReq_descriptor,
+        new java.lang.String[] { "TeamId", "TeamMember", });
+    internal_static_InnerCreateTeamRes_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_InnerCreateTeamRes_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_InnerCreateTeamRes_descriptor,
+        new java.lang.String[] { "Owner", "TeamInfo", "ErrCode", });
+    com.game.protoGen.ProtoTeam.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

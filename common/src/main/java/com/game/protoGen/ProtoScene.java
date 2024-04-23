@@ -2480,26 +2480,6 @@ public final class ProtoScene {
      * <code>int32 scene_id = 1;</code>
      */
     int getSceneId();
-
-    /**
-     * <code>uint32 line = 2;</code>
-     */
-    int getLine();
-
-    /**
-     * <code>string ip = 3;</code>
-     */
-    java.lang.String getIp();
-    /**
-     * <code>string ip = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getIpBytes();
-
-    /**
-     * <code>int32 port = 4;</code>
-     */
-    int getPort();
   }
   /**
    * Protobuf type {@code CreateSceneRes}
@@ -2514,9 +2494,6 @@ public final class ProtoScene {
     }
     private CreateSceneRes() {
       sceneId_ = 0;
-      line_ = 0;
-      ip_ = "";
-      port_ = 0;
     }
 
     @java.lang.Override
@@ -2547,22 +2524,6 @@ public final class ProtoScene {
             case 8: {
 
               sceneId_ = input.readInt32();
-              break;
-            }
-            case 16: {
-
-              line_ = input.readUInt32();
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              ip_ = s;
-              break;
-            }
-            case 32: {
-
-              port_ = input.readInt32();
               break;
             }
           }
@@ -2597,58 +2558,6 @@ public final class ProtoScene {
       return sceneId_;
     }
 
-    public static final int LINE_FIELD_NUMBER = 2;
-    private int line_;
-    /**
-     * <code>uint32 line = 2;</code>
-     */
-    public int getLine() {
-      return line_;
-    }
-
-    public static final int IP_FIELD_NUMBER = 3;
-    private volatile java.lang.Object ip_;
-    /**
-     * <code>string ip = 3;</code>
-     */
-    public java.lang.String getIp() {
-      java.lang.Object ref = ip_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        ip_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string ip = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getIpBytes() {
-      java.lang.Object ref = ip_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        ip_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PORT_FIELD_NUMBER = 4;
-    private int port_;
-    /**
-     * <code>int32 port = 4;</code>
-     */
-    public int getPort() {
-      return port_;
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2664,15 +2573,6 @@ public final class ProtoScene {
       if (sceneId_ != 0) {
         output.writeInt32(1, sceneId_);
       }
-      if (line_ != 0) {
-        output.writeUInt32(2, line_);
-      }
-      if (!getIpBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, ip_);
-      }
-      if (port_ != 0) {
-        output.writeInt32(4, port_);
-      }
     }
 
     public int getSerializedSize() {
@@ -2683,17 +2583,6 @@ public final class ProtoScene {
       if (sceneId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, sceneId_);
-      }
-      if (line_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, line_);
-      }
-      if (!getIpBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, ip_);
-      }
-      if (port_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, port_);
       }
       memoizedSize = size;
       return size;
@@ -2713,12 +2602,6 @@ public final class ProtoScene {
       boolean result = true;
       result = result && (getSceneId()
           == other.getSceneId());
-      result = result && (getLine()
-          == other.getLine());
-      result = result && getIp()
-          .equals(other.getIp());
-      result = result && (getPort()
-          == other.getPort());
       return result;
     }
 
@@ -2731,12 +2614,6 @@ public final class ProtoScene {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SCENE_ID_FIELD_NUMBER;
       hash = (53 * hash) + getSceneId();
-      hash = (37 * hash) + LINE_FIELD_NUMBER;
-      hash = (53 * hash) + getLine();
-      hash = (37 * hash) + IP_FIELD_NUMBER;
-      hash = (53 * hash) + getIp().hashCode();
-      hash = (37 * hash) + PORT_FIELD_NUMBER;
-      hash = (53 * hash) + getPort();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2857,12 +2734,6 @@ public final class ProtoScene {
         super.clear();
         sceneId_ = 0;
 
-        line_ = 0;
-
-        ip_ = "";
-
-        port_ = 0;
-
         return this;
       }
 
@@ -2886,9 +2757,6 @@ public final class ProtoScene {
       public com.game.protoGen.ProtoScene.CreateSceneRes buildPartial() {
         com.game.protoGen.ProtoScene.CreateSceneRes result = new com.game.protoGen.ProtoScene.CreateSceneRes(this);
         result.sceneId_ = sceneId_;
-        result.line_ = line_;
-        result.ip_ = ip_;
-        result.port_ = port_;
         onBuilt();
         return result;
       }
@@ -2932,16 +2800,6 @@ public final class ProtoScene {
         if (other == com.game.protoGen.ProtoScene.CreateSceneRes.getDefaultInstance()) return this;
         if (other.getSceneId() != 0) {
           setSceneId(other.getSceneId());
-        }
-        if (other.getLine() != 0) {
-          setLine(other.getLine());
-        }
-        if (!other.getIp().isEmpty()) {
-          ip_ = other.ip_;
-          onChanged();
-        }
-        if (other.getPort() != 0) {
-          setPort(other.getPort());
         }
         onChanged();
         return this;
@@ -2991,127 +2849,6 @@ public final class ProtoScene {
       public Builder clearSceneId() {
         
         sceneId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int line_ ;
-      /**
-       * <code>uint32 line = 2;</code>
-       */
-      public int getLine() {
-        return line_;
-      }
-      /**
-       * <code>uint32 line = 2;</code>
-       */
-      public Builder setLine(int value) {
-        
-        line_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint32 line = 2;</code>
-       */
-      public Builder clearLine() {
-        
-        line_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object ip_ = "";
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public java.lang.String getIp() {
-        java.lang.Object ref = ip_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          ip_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getIpBytes() {
-        java.lang.Object ref = ip_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          ip_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public Builder setIp(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        ip_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public Builder clearIp() {
-        
-        ip_ = getDefaultInstance().getIp();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public Builder setIpBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        ip_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int port_ ;
-      /**
-       * <code>int32 port = 4;</code>
-       */
-      public int getPort() {
-        return port_;
-      }
-      /**
-       * <code>int32 port = 4;</code>
-       */
-      public Builder setPort(int value) {
-        
-        port_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 port = 4;</code>
-       */
-      public Builder clearPort() {
-        
-        port_ = 0;
         onChanged();
         return this;
       }
@@ -3169,34 +2906,9 @@ public final class ProtoScene {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string token = 1;</code>
-     */
-    java.lang.String getToken();
-    /**
-     * <code>string token = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getTokenBytes();
-
-    /**
-     * <code>uint32 scene_id = 2;</code>
+     * <code>uint32 scene_id = 1;</code>
      */
     int getSceneId();
-
-    /**
-     * <code>string ip = 3;</code>
-     */
-    java.lang.String getIp();
-    /**
-     * <code>string ip = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getIpBytes();
-
-    /**
-     * <code>int32 port = 4;</code>
-     */
-    int getPort();
   }
   /**
    * Protobuf type {@code CreateSceneFinishNtf}
@@ -3210,10 +2922,7 @@ public final class ProtoScene {
       super(builder);
     }
     private CreateSceneFinishNtf() {
-      token_ = "";
       sceneId_ = 0;
-      ip_ = "";
-      port_ = 0;
     }
 
     @java.lang.Override
@@ -3241,26 +2950,9 @@ public final class ProtoScene {
               }
               break;
             }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              token_ = s;
-              break;
-            }
-            case 16: {
+            case 8: {
 
               sceneId_ = input.readUInt32();
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              ip_ = s;
-              break;
-            }
-            case 32: {
-
-              port_ = input.readInt32();
               break;
             }
           }
@@ -3286,90 +2978,13 @@ public final class ProtoScene {
               com.game.protoGen.ProtoScene.CreateSceneFinishNtf.class, com.game.protoGen.ProtoScene.CreateSceneFinishNtf.Builder.class);
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 1;
-    private volatile java.lang.Object token_;
-    /**
-     * <code>string token = 1;</code>
-     */
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string token = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int SCENE_ID_FIELD_NUMBER = 2;
+    public static final int SCENE_ID_FIELD_NUMBER = 1;
     private int sceneId_;
     /**
-     * <code>uint32 scene_id = 2;</code>
+     * <code>uint32 scene_id = 1;</code>
      */
     public int getSceneId() {
       return sceneId_;
-    }
-
-    public static final int IP_FIELD_NUMBER = 3;
-    private volatile java.lang.Object ip_;
-    /**
-     * <code>string ip = 3;</code>
-     */
-    public java.lang.String getIp() {
-      java.lang.Object ref = ip_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        ip_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string ip = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getIpBytes() {
-      java.lang.Object ref = ip_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        ip_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PORT_FIELD_NUMBER = 4;
-    private int port_;
-    /**
-     * <code>int32 port = 4;</code>
-     */
-    public int getPort() {
-      return port_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3384,17 +2999,8 @@ public final class ProtoScene {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, token_);
-      }
       if (sceneId_ != 0) {
-        output.writeUInt32(2, sceneId_);
-      }
-      if (!getIpBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, ip_);
-      }
-      if (port_ != 0) {
-        output.writeInt32(4, port_);
+        output.writeUInt32(1, sceneId_);
       }
     }
 
@@ -3403,19 +3009,9 @@ public final class ProtoScene {
       if (size != -1) return size;
 
       size = 0;
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, token_);
-      }
       if (sceneId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, sceneId_);
-      }
-      if (!getIpBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, ip_);
-      }
-      if (port_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, port_);
+          .computeUInt32Size(1, sceneId_);
       }
       memoizedSize = size;
       return size;
@@ -3433,14 +3029,8 @@ public final class ProtoScene {
       com.game.protoGen.ProtoScene.CreateSceneFinishNtf other = (com.game.protoGen.ProtoScene.CreateSceneFinishNtf) obj;
 
       boolean result = true;
-      result = result && getToken()
-          .equals(other.getToken());
       result = result && (getSceneId()
           == other.getSceneId());
-      result = result && getIp()
-          .equals(other.getIp());
-      result = result && (getPort()
-          == other.getPort());
       return result;
     }
 
@@ -3451,14 +3041,8 @@ public final class ProtoScene {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
       hash = (37 * hash) + SCENE_ID_FIELD_NUMBER;
       hash = (53 * hash) + getSceneId();
-      hash = (37 * hash) + IP_FIELD_NUMBER;
-      hash = (53 * hash) + getIp().hashCode();
-      hash = (37 * hash) + PORT_FIELD_NUMBER;
-      hash = (53 * hash) + getPort();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3577,13 +3161,7 @@ public final class ProtoScene {
       }
       public Builder clear() {
         super.clear();
-        token_ = "";
-
         sceneId_ = 0;
-
-        ip_ = "";
-
-        port_ = 0;
 
         return this;
       }
@@ -3607,10 +3185,7 @@ public final class ProtoScene {
 
       public com.game.protoGen.ProtoScene.CreateSceneFinishNtf buildPartial() {
         com.game.protoGen.ProtoScene.CreateSceneFinishNtf result = new com.game.protoGen.ProtoScene.CreateSceneFinishNtf(this);
-        result.token_ = token_;
         result.sceneId_ = sceneId_;
-        result.ip_ = ip_;
-        result.port_ = port_;
         onBuilt();
         return result;
       }
@@ -3652,19 +3227,8 @@ public final class ProtoScene {
 
       public Builder mergeFrom(com.game.protoGen.ProtoScene.CreateSceneFinishNtf other) {
         if (other == com.game.protoGen.ProtoScene.CreateSceneFinishNtf.getDefaultInstance()) return this;
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
-        }
         if (other.getSceneId() != 0) {
           setSceneId(other.getSceneId());
-        }
-        if (!other.getIp().isEmpty()) {
-          ip_ = other.ip_;
-          onChanged();
-        }
-        if (other.getPort() != 0) {
-          setPort(other.getPort());
         }
         onChanged();
         return this;
@@ -3692,84 +3256,15 @@ public final class ProtoScene {
         return this;
       }
 
-      private java.lang.Object token_ = "";
-      /**
-       * <code>string token = 1;</code>
-       */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          token_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string token = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          token_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string token = 1;</code>
-       */
-      public Builder setToken(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        token_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string token = 1;</code>
-       */
-      public Builder clearToken() {
-        
-        token_ = getDefaultInstance().getToken();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string token = 1;</code>
-       */
-      public Builder setTokenBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        token_ = value;
-        onChanged();
-        return this;
-      }
-
       private int sceneId_ ;
       /**
-       * <code>uint32 scene_id = 2;</code>
+       * <code>uint32 scene_id = 1;</code>
        */
       public int getSceneId() {
         return sceneId_;
       }
       /**
-       * <code>uint32 scene_id = 2;</code>
+       * <code>uint32 scene_id = 1;</code>
        */
       public Builder setSceneId(int value) {
         
@@ -3778,106 +3273,11 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>uint32 scene_id = 2;</code>
+       * <code>uint32 scene_id = 1;</code>
        */
       public Builder clearSceneId() {
         
         sceneId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object ip_ = "";
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public java.lang.String getIp() {
-        java.lang.Object ref = ip_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          ip_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getIpBytes() {
-        java.lang.Object ref = ip_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          ip_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public Builder setIp(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        ip_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public Builder clearIp() {
-        
-        ip_ = getDefaultInstance().getIp();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string ip = 3;</code>
-       */
-      public Builder setIpBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        ip_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int port_ ;
-      /**
-       * <code>int32 port = 4;</code>
-       */
-      public int getPort() {
-        return port_;
-      }
-      /**
-       * <code>int32 port = 4;</code>
-       */
-      public Builder setPort(int value) {
-        
-        port_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 port = 4;</code>
-       */
-      public Builder clearPort() {
-        
-        port_ = 0;
         onChanged();
         return this;
       }
@@ -3930,8 +3330,8 @@ public final class ProtoScene {
 
   }
 
-  public interface SceneListOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:SceneList)
+  public interface SceneInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SceneInfo)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -3955,17 +3355,17 @@ public final class ProtoScene {
     int getPlayerCount();
   }
   /**
-   * Protobuf type {@code SceneList}
+   * Protobuf type {@code SceneInfo}
    */
-  public  static final class SceneList extends
+  public  static final class SceneInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:SceneList)
-      SceneListOrBuilder {
-    // Use SceneList.newBuilder() to construct.
-    private SceneList(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // @@protoc_insertion_point(message_implements:SceneInfo)
+      SceneInfoOrBuilder {
+    // Use SceneInfo.newBuilder() to construct.
+    private SceneInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private SceneList() {
+    private SceneInfo() {
       sceneName_ = "";
       sceneId_ = 0;
       playerCount_ = 0;
@@ -3976,7 +3376,7 @@ public final class ProtoScene {
     getUnknownFields() {
       return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
-    private SceneList(
+    private SceneInfo(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4025,14 +3425,14 @@ public final class ProtoScene {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.game.protoGen.ProtoScene.internal_static_SceneList_descriptor;
+      return com.game.protoGen.ProtoScene.internal_static_SceneInfo_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.game.protoGen.ProtoScene.internal_static_SceneList_fieldAccessorTable
+      return com.game.protoGen.ProtoScene.internal_static_SceneInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.game.protoGen.ProtoScene.SceneList.class, com.game.protoGen.ProtoScene.SceneList.Builder.class);
+              com.game.protoGen.ProtoScene.SceneInfo.class, com.game.protoGen.ProtoScene.SceneInfo.Builder.class);
     }
 
     public static final int SCENE_NAME_FIELD_NUMBER = 1;
@@ -4136,10 +3536,10 @@ public final class ProtoScene {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.game.protoGen.ProtoScene.SceneList)) {
+      if (!(obj instanceof com.game.protoGen.ProtoScene.SceneInfo)) {
         return super.equals(obj);
       }
-      com.game.protoGen.ProtoScene.SceneList other = (com.game.protoGen.ProtoScene.SceneList) obj;
+      com.game.protoGen.ProtoScene.SceneInfo other = (com.game.protoGen.ProtoScene.SceneInfo) obj;
 
       boolean result = true;
       result = result && getSceneName()
@@ -4169,58 +3569,58 @@ public final class ProtoScene {
       return hash;
     }
 
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(byte[] data)
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(java.io.InputStream input)
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseDelimitedFrom(java.io.InputStream input)
+    public static com.game.protoGen.ProtoScene.SceneInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseDelimitedFrom(
+    public static com.game.protoGen.ProtoScene.SceneInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.game.protoGen.ProtoScene.SceneList parseFrom(
+    public static com.game.protoGen.ProtoScene.SceneInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4232,7 +3632,7 @@ public final class ProtoScene {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.game.protoGen.ProtoScene.SceneList prototype) {
+    public static Builder newBuilder(com.game.protoGen.ProtoScene.SceneInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -4247,25 +3647,25 @@ public final class ProtoScene {
       return builder;
     }
     /**
-     * Protobuf type {@code SceneList}
+     * Protobuf type {@code SceneInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:SceneList)
-        com.game.protoGen.ProtoScene.SceneListOrBuilder {
+        // @@protoc_insertion_point(builder_implements:SceneInfo)
+        com.game.protoGen.ProtoScene.SceneInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.game.protoGen.ProtoScene.internal_static_SceneList_descriptor;
+        return com.game.protoGen.ProtoScene.internal_static_SceneInfo_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.game.protoGen.ProtoScene.internal_static_SceneList_fieldAccessorTable
+        return com.game.protoGen.ProtoScene.internal_static_SceneInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.game.protoGen.ProtoScene.SceneList.class, com.game.protoGen.ProtoScene.SceneList.Builder.class);
+                com.game.protoGen.ProtoScene.SceneInfo.class, com.game.protoGen.ProtoScene.SceneInfo.Builder.class);
       }
 
-      // Construct using com.game.protoGen.ProtoScene.SceneList.newBuilder()
+      // Construct using com.game.protoGen.ProtoScene.SceneInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4293,23 +3693,23 @@ public final class ProtoScene {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.game.protoGen.ProtoScene.internal_static_SceneList_descriptor;
+        return com.game.protoGen.ProtoScene.internal_static_SceneInfo_descriptor;
       }
 
-      public com.game.protoGen.ProtoScene.SceneList getDefaultInstanceForType() {
-        return com.game.protoGen.ProtoScene.SceneList.getDefaultInstance();
+      public com.game.protoGen.ProtoScene.SceneInfo getDefaultInstanceForType() {
+        return com.game.protoGen.ProtoScene.SceneInfo.getDefaultInstance();
       }
 
-      public com.game.protoGen.ProtoScene.SceneList build() {
-        com.game.protoGen.ProtoScene.SceneList result = buildPartial();
+      public com.game.protoGen.ProtoScene.SceneInfo build() {
+        com.game.protoGen.ProtoScene.SceneInfo result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.game.protoGen.ProtoScene.SceneList buildPartial() {
-        com.game.protoGen.ProtoScene.SceneList result = new com.game.protoGen.ProtoScene.SceneList(this);
+      public com.game.protoGen.ProtoScene.SceneInfo buildPartial() {
+        com.game.protoGen.ProtoScene.SceneInfo result = new com.game.protoGen.ProtoScene.SceneInfo(this);
         result.sceneName_ = sceneName_;
         result.sceneId_ = sceneId_;
         result.playerCount_ = playerCount_;
@@ -4344,16 +3744,16 @@ public final class ProtoScene {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.game.protoGen.ProtoScene.SceneList) {
-          return mergeFrom((com.game.protoGen.ProtoScene.SceneList)other);
+        if (other instanceof com.game.protoGen.ProtoScene.SceneInfo) {
+          return mergeFrom((com.game.protoGen.ProtoScene.SceneInfo)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.game.protoGen.ProtoScene.SceneList other) {
-        if (other == com.game.protoGen.ProtoScene.SceneList.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.game.protoGen.ProtoScene.SceneInfo other) {
+        if (other == com.game.protoGen.ProtoScene.SceneInfo.getDefaultInstance()) return this;
         if (!other.getSceneName().isEmpty()) {
           sceneName_ = other.sceneName_;
           onChanged();
@@ -4376,11 +3776,11 @@ public final class ProtoScene {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.game.protoGen.ProtoScene.SceneList parsedMessage = null;
+        com.game.protoGen.ProtoScene.SceneInfo parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.game.protoGen.ProtoScene.SceneList) e.getUnfinishedMessage();
+          parsedMessage = (com.game.protoGen.ProtoScene.SceneInfo) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4521,39 +3921,39 @@ public final class ProtoScene {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:SceneList)
+      // @@protoc_insertion_point(builder_scope:SceneInfo)
     }
 
-    // @@protoc_insertion_point(class_scope:SceneList)
-    private static final com.game.protoGen.ProtoScene.SceneList DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:SceneInfo)
+    private static final com.game.protoGen.ProtoScene.SceneInfo DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.game.protoGen.ProtoScene.SceneList();
+      DEFAULT_INSTANCE = new com.game.protoGen.ProtoScene.SceneInfo();
     }
 
-    public static com.game.protoGen.ProtoScene.SceneList getDefaultInstance() {
+    public static com.game.protoGen.ProtoScene.SceneInfo getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<SceneList>
-        PARSER = new com.google.protobuf.AbstractParser<SceneList>() {
-      public SceneList parsePartialFrom(
+    private static final com.google.protobuf.Parser<SceneInfo>
+        PARSER = new com.google.protobuf.AbstractParser<SceneInfo>() {
+      public SceneInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SceneList(input, extensionRegistry);
+          return new SceneInfo(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<SceneList> parser() {
+    public static com.google.protobuf.Parser<SceneInfo> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<SceneList> getParserForType() {
+    public com.google.protobuf.Parser<SceneInfo> getParserForType() {
       return PARSER;
     }
 
-    public com.game.protoGen.ProtoScene.SceneList getDefaultInstanceForType() {
+    public com.game.protoGen.ProtoScene.SceneInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4929,27 +4329,27 @@ public final class ProtoScene {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    java.util.List<com.game.protoGen.ProtoScene.SceneList> 
+    java.util.List<com.game.protoGen.ProtoScene.SceneInfo> 
         getSceneListList();
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    com.game.protoGen.ProtoScene.SceneList getSceneList(int index);
+    com.game.protoGen.ProtoScene.SceneInfo getSceneList(int index);
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
     int getSceneListCount();
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    java.util.List<? extends com.game.protoGen.ProtoScene.SceneListOrBuilder> 
+    java.util.List<? extends com.game.protoGen.ProtoScene.SceneInfoOrBuilder> 
         getSceneListOrBuilderList();
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    com.game.protoGen.ProtoScene.SceneListOrBuilder getSceneListOrBuilder(
+    com.game.protoGen.ProtoScene.SceneInfoOrBuilder getSceneListOrBuilder(
         int index);
   }
   /**
@@ -4994,11 +4394,11 @@ public final class ProtoScene {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                sceneList_ = new java.util.ArrayList<com.game.protoGen.ProtoScene.SceneList>();
+                sceneList_ = new java.util.ArrayList<com.game.protoGen.ProtoScene.SceneInfo>();
                 mutable_bitField0_ |= 0x00000001;
               }
               sceneList_.add(
-                  input.readMessage(com.game.protoGen.ProtoScene.SceneList.parser(), extensionRegistry));
+                  input.readMessage(com.game.protoGen.ProtoScene.SceneInfo.parser(), extensionRegistry));
               break;
             }
           }
@@ -5028,36 +4428,36 @@ public final class ProtoScene {
     }
 
     public static final int SCENE_LIST_FIELD_NUMBER = 1;
-    private java.util.List<com.game.protoGen.ProtoScene.SceneList> sceneList_;
+    private java.util.List<com.game.protoGen.ProtoScene.SceneInfo> sceneList_;
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    public java.util.List<com.game.protoGen.ProtoScene.SceneList> getSceneListList() {
+    public java.util.List<com.game.protoGen.ProtoScene.SceneInfo> getSceneListList() {
       return sceneList_;
     }
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    public java.util.List<? extends com.game.protoGen.ProtoScene.SceneListOrBuilder> 
+    public java.util.List<? extends com.game.protoGen.ProtoScene.SceneInfoOrBuilder> 
         getSceneListOrBuilderList() {
       return sceneList_;
     }
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
     public int getSceneListCount() {
       return sceneList_.size();
     }
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    public com.game.protoGen.ProtoScene.SceneList getSceneList(int index) {
+    public com.game.protoGen.ProtoScene.SceneInfo getSceneList(int index) {
       return sceneList_.get(index);
     }
     /**
-     * <code>repeated .SceneList scene_list = 1;</code>
+     * <code>repeated .SceneInfo scene_list = 1;</code>
      */
-    public com.game.protoGen.ProtoScene.SceneListOrBuilder getSceneListOrBuilder(
+    public com.game.protoGen.ProtoScene.SceneInfoOrBuilder getSceneListOrBuilder(
         int index) {
       return sceneList_.get(index);
     }
@@ -5371,22 +4771,22 @@ public final class ProtoScene {
       }
       private int bitField0_;
 
-      private java.util.List<com.game.protoGen.ProtoScene.SceneList> sceneList_ =
+      private java.util.List<com.game.protoGen.ProtoScene.SceneInfo> sceneList_ =
         java.util.Collections.emptyList();
       private void ensureSceneListIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          sceneList_ = new java.util.ArrayList<com.game.protoGen.ProtoScene.SceneList>(sceneList_);
+          sceneList_ = new java.util.ArrayList<com.game.protoGen.ProtoScene.SceneInfo>(sceneList_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.game.protoGen.ProtoScene.SceneList, com.game.protoGen.ProtoScene.SceneList.Builder, com.game.protoGen.ProtoScene.SceneListOrBuilder> sceneListBuilder_;
+          com.game.protoGen.ProtoScene.SceneInfo, com.game.protoGen.ProtoScene.SceneInfo.Builder, com.game.protoGen.ProtoScene.SceneInfoOrBuilder> sceneListBuilder_;
 
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public java.util.List<com.game.protoGen.ProtoScene.SceneList> getSceneListList() {
+      public java.util.List<com.game.protoGen.ProtoScene.SceneInfo> getSceneListList() {
         if (sceneListBuilder_ == null) {
           return java.util.Collections.unmodifiableList(sceneList_);
         } else {
@@ -5394,7 +4794,7 @@ public final class ProtoScene {
         }
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public int getSceneListCount() {
         if (sceneListBuilder_ == null) {
@@ -5404,9 +4804,9 @@ public final class ProtoScene {
         }
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public com.game.protoGen.ProtoScene.SceneList getSceneList(int index) {
+      public com.game.protoGen.ProtoScene.SceneInfo getSceneList(int index) {
         if (sceneListBuilder_ == null) {
           return sceneList_.get(index);
         } else {
@@ -5414,10 +4814,10 @@ public final class ProtoScene {
         }
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder setSceneList(
-          int index, com.game.protoGen.ProtoScene.SceneList value) {
+          int index, com.game.protoGen.ProtoScene.SceneInfo value) {
         if (sceneListBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5431,10 +4831,10 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder setSceneList(
-          int index, com.game.protoGen.ProtoScene.SceneList.Builder builderForValue) {
+          int index, com.game.protoGen.ProtoScene.SceneInfo.Builder builderForValue) {
         if (sceneListBuilder_ == null) {
           ensureSceneListIsMutable();
           sceneList_.set(index, builderForValue.build());
@@ -5445,9 +4845,9 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public Builder addSceneList(com.game.protoGen.ProtoScene.SceneList value) {
+      public Builder addSceneList(com.game.protoGen.ProtoScene.SceneInfo value) {
         if (sceneListBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5461,10 +4861,10 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder addSceneList(
-          int index, com.game.protoGen.ProtoScene.SceneList value) {
+          int index, com.game.protoGen.ProtoScene.SceneInfo value) {
         if (sceneListBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5478,10 +4878,10 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder addSceneList(
-          com.game.protoGen.ProtoScene.SceneList.Builder builderForValue) {
+          com.game.protoGen.ProtoScene.SceneInfo.Builder builderForValue) {
         if (sceneListBuilder_ == null) {
           ensureSceneListIsMutable();
           sceneList_.add(builderForValue.build());
@@ -5492,10 +4892,10 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder addSceneList(
-          int index, com.game.protoGen.ProtoScene.SceneList.Builder builderForValue) {
+          int index, com.game.protoGen.ProtoScene.SceneInfo.Builder builderForValue) {
         if (sceneListBuilder_ == null) {
           ensureSceneListIsMutable();
           sceneList_.add(index, builderForValue.build());
@@ -5506,10 +4906,10 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder addAllSceneList(
-          java.lang.Iterable<? extends com.game.protoGen.ProtoScene.SceneList> values) {
+          java.lang.Iterable<? extends com.game.protoGen.ProtoScene.SceneInfo> values) {
         if (sceneListBuilder_ == null) {
           ensureSceneListIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -5521,7 +4921,7 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder clearSceneList() {
         if (sceneListBuilder_ == null) {
@@ -5534,7 +4934,7 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
       public Builder removeSceneList(int index) {
         if (sceneListBuilder_ == null) {
@@ -5547,16 +4947,16 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public com.game.protoGen.ProtoScene.SceneList.Builder getSceneListBuilder(
+      public com.game.protoGen.ProtoScene.SceneInfo.Builder getSceneListBuilder(
           int index) {
         return getSceneListFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public com.game.protoGen.ProtoScene.SceneListOrBuilder getSceneListOrBuilder(
+      public com.game.protoGen.ProtoScene.SceneInfoOrBuilder getSceneListOrBuilder(
           int index) {
         if (sceneListBuilder_ == null) {
           return sceneList_.get(index);  } else {
@@ -5564,9 +4964,9 @@ public final class ProtoScene {
         }
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public java.util.List<? extends com.game.protoGen.ProtoScene.SceneListOrBuilder> 
+      public java.util.List<? extends com.game.protoGen.ProtoScene.SceneInfoOrBuilder> 
            getSceneListOrBuilderList() {
         if (sceneListBuilder_ != null) {
           return sceneListBuilder_.getMessageOrBuilderList();
@@ -5575,33 +4975,33 @@ public final class ProtoScene {
         }
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public com.game.protoGen.ProtoScene.SceneList.Builder addSceneListBuilder() {
+      public com.game.protoGen.ProtoScene.SceneInfo.Builder addSceneListBuilder() {
         return getSceneListFieldBuilder().addBuilder(
-            com.game.protoGen.ProtoScene.SceneList.getDefaultInstance());
+            com.game.protoGen.ProtoScene.SceneInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public com.game.protoGen.ProtoScene.SceneList.Builder addSceneListBuilder(
+      public com.game.protoGen.ProtoScene.SceneInfo.Builder addSceneListBuilder(
           int index) {
         return getSceneListFieldBuilder().addBuilder(
-            index, com.game.protoGen.ProtoScene.SceneList.getDefaultInstance());
+            index, com.game.protoGen.ProtoScene.SceneInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .SceneList scene_list = 1;</code>
+       * <code>repeated .SceneInfo scene_list = 1;</code>
        */
-      public java.util.List<com.game.protoGen.ProtoScene.SceneList.Builder> 
+      public java.util.List<com.game.protoGen.ProtoScene.SceneInfo.Builder> 
            getSceneListBuilderList() {
         return getSceneListFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.game.protoGen.ProtoScene.SceneList, com.game.protoGen.ProtoScene.SceneList.Builder, com.game.protoGen.ProtoScene.SceneListOrBuilder> 
+          com.game.protoGen.ProtoScene.SceneInfo, com.game.protoGen.ProtoScene.SceneInfo.Builder, com.game.protoGen.ProtoScene.SceneInfoOrBuilder> 
           getSceneListFieldBuilder() {
         if (sceneListBuilder_ == null) {
           sceneListBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              com.game.protoGen.ProtoScene.SceneList, com.game.protoGen.ProtoScene.SceneList.Builder, com.game.protoGen.ProtoScene.SceneListOrBuilder>(
+              com.game.protoGen.ProtoScene.SceneInfo, com.game.protoGen.ProtoScene.SceneInfo.Builder, com.game.protoGen.ProtoScene.SceneInfoOrBuilder>(
                   sceneList_,
                   ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
@@ -5669,22 +5069,7 @@ public final class ProtoScene {
     int getSceneId();
 
     /**
-     * <code>int64 actor_id = 2;</code>
-     */
-    long getActorId();
-
-    /**
-     * <code>string token = 3;</code>
-     */
-    java.lang.String getToken();
-    /**
-     * <code>string token = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getTokenBytes();
-
-    /**
-     * <code>int32 profession = 4;</code>
+     * <code>int32 profession = 2;</code>
      */
     int getProfession();
   }
@@ -5701,8 +5086,6 @@ public final class ProtoScene {
     }
     private EnterSceneReq() {
       sceneId_ = 0;
-      actorId_ = 0L;
-      token_ = "";
       profession_ = 0;
     }
 
@@ -5737,17 +5120,6 @@ public final class ProtoScene {
               break;
             }
             case 16: {
-
-              actorId_ = input.readInt64();
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              token_ = s;
-              break;
-            }
-            case 32: {
 
               profession_ = input.readInt32();
               break;
@@ -5784,53 +5156,10 @@ public final class ProtoScene {
       return sceneId_;
     }
 
-    public static final int ACTOR_ID_FIELD_NUMBER = 2;
-    private long actorId_;
-    /**
-     * <code>int64 actor_id = 2;</code>
-     */
-    public long getActorId() {
-      return actorId_;
-    }
-
-    public static final int TOKEN_FIELD_NUMBER = 3;
-    private volatile java.lang.Object token_;
-    /**
-     * <code>string token = 3;</code>
-     */
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string token = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PROFESSION_FIELD_NUMBER = 4;
+    public static final int PROFESSION_FIELD_NUMBER = 2;
     private int profession_;
     /**
-     * <code>int32 profession = 4;</code>
+     * <code>int32 profession = 2;</code>
      */
     public int getProfession() {
       return profession_;
@@ -5851,14 +5180,8 @@ public final class ProtoScene {
       if (sceneId_ != 0) {
         output.writeUInt32(1, sceneId_);
       }
-      if (actorId_ != 0L) {
-        output.writeInt64(2, actorId_);
-      }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, token_);
-      }
       if (profession_ != 0) {
-        output.writeInt32(4, profession_);
+        output.writeInt32(2, profession_);
       }
     }
 
@@ -5871,16 +5194,9 @@ public final class ProtoScene {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, sceneId_);
       }
-      if (actorId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, actorId_);
-      }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, token_);
-      }
       if (profession_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, profession_);
+          .computeInt32Size(2, profession_);
       }
       memoizedSize = size;
       return size;
@@ -5900,10 +5216,6 @@ public final class ProtoScene {
       boolean result = true;
       result = result && (getSceneId()
           == other.getSceneId());
-      result = result && (getActorId()
-          == other.getActorId());
-      result = result && getToken()
-          .equals(other.getToken());
       result = result && (getProfession()
           == other.getProfession());
       return result;
@@ -5918,11 +5230,6 @@ public final class ProtoScene {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SCENE_ID_FIELD_NUMBER;
       hash = (53 * hash) + getSceneId();
-      hash = (37 * hash) + ACTOR_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getActorId());
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
       hash = (37 * hash) + PROFESSION_FIELD_NUMBER;
       hash = (53 * hash) + getProfession();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -6045,10 +5352,6 @@ public final class ProtoScene {
         super.clear();
         sceneId_ = 0;
 
-        actorId_ = 0L;
-
-        token_ = "";
-
         profession_ = 0;
 
         return this;
@@ -6074,8 +5377,6 @@ public final class ProtoScene {
       public com.game.protoGen.ProtoScene.EnterSceneReq buildPartial() {
         com.game.protoGen.ProtoScene.EnterSceneReq result = new com.game.protoGen.ProtoScene.EnterSceneReq(this);
         result.sceneId_ = sceneId_;
-        result.actorId_ = actorId_;
-        result.token_ = token_;
         result.profession_ = profession_;
         onBuilt();
         return result;
@@ -6120,13 +5421,6 @@ public final class ProtoScene {
         if (other == com.game.protoGen.ProtoScene.EnterSceneReq.getDefaultInstance()) return this;
         if (other.getSceneId() != 0) {
           setSceneId(other.getSceneId());
-        }
-        if (other.getActorId() != 0L) {
-          setActorId(other.getActorId());
-        }
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
         }
         if (other.getProfession() != 0) {
           setProfession(other.getProfession());
@@ -6183,110 +5477,15 @@ public final class ProtoScene {
         return this;
       }
 
-      private long actorId_ ;
-      /**
-       * <code>int64 actor_id = 2;</code>
-       */
-      public long getActorId() {
-        return actorId_;
-      }
-      /**
-       * <code>int64 actor_id = 2;</code>
-       */
-      public Builder setActorId(long value) {
-        
-        actorId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int64 actor_id = 2;</code>
-       */
-      public Builder clearActorId() {
-        
-        actorId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object token_ = "";
-      /**
-       * <code>string token = 3;</code>
-       */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          token_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string token = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          token_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string token = 3;</code>
-       */
-      public Builder setToken(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        token_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string token = 3;</code>
-       */
-      public Builder clearToken() {
-        
-        token_ = getDefaultInstance().getToken();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string token = 3;</code>
-       */
-      public Builder setTokenBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        token_ = value;
-        onChanged();
-        return this;
-      }
-
       private int profession_ ;
       /**
-       * <code>int32 profession = 4;</code>
+       * <code>int32 profession = 2;</code>
        */
       public int getProfession() {
         return profession_;
       }
       /**
-       * <code>int32 profession = 4;</code>
+       * <code>int32 profession = 2;</code>
        */
       public Builder setProfession(int value) {
         
@@ -6295,7 +5494,7 @@ public final class ProtoScene {
         return this;
       }
       /**
-       * <code>int32 profession = 4;</code>
+       * <code>int32 profession = 2;</code>
        */
       public Builder clearProfession() {
         
@@ -6355,11 +5554,6 @@ public final class ProtoScene {
   public interface EnterSceneResOrBuilder extends
       // @@protoc_insertion_point(interface_extends:EnterSceneRes)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int64 self_actor_id = 1;</code>
-     */
-    long getSelfActorId();
   }
   /**
    * Protobuf type {@code EnterSceneRes}
@@ -6373,7 +5567,6 @@ public final class ProtoScene {
       super(builder);
     }
     private EnterSceneRes() {
-      selfActorId_ = 0L;
     }
 
     @java.lang.Override
@@ -6386,7 +5579,6 @@ public final class ProtoScene {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
       try {
         boolean done = false;
         while (!done) {
@@ -6399,11 +5591,6 @@ public final class ProtoScene {
               if (!input.skipField(tag)) {
                 done = true;
               }
-              break;
-            }
-            case 8: {
-
-              selfActorId_ = input.readInt64();
               break;
             }
           }
@@ -6429,15 +5616,6 @@ public final class ProtoScene {
               com.game.protoGen.ProtoScene.EnterSceneRes.class, com.game.protoGen.ProtoScene.EnterSceneRes.Builder.class);
     }
 
-    public static final int SELF_ACTOR_ID_FIELD_NUMBER = 1;
-    private long selfActorId_;
-    /**
-     * <code>int64 self_actor_id = 1;</code>
-     */
-    public long getSelfActorId() {
-      return selfActorId_;
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -6450,9 +5628,6 @@ public final class ProtoScene {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (selfActorId_ != 0L) {
-        output.writeInt64(1, selfActorId_);
-      }
     }
 
     public int getSerializedSize() {
@@ -6460,10 +5635,6 @@ public final class ProtoScene {
       if (size != -1) return size;
 
       size = 0;
-      if (selfActorId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, selfActorId_);
-      }
       memoizedSize = size;
       return size;
     }
@@ -6480,8 +5651,6 @@ public final class ProtoScene {
       com.game.protoGen.ProtoScene.EnterSceneRes other = (com.game.protoGen.ProtoScene.EnterSceneRes) obj;
 
       boolean result = true;
-      result = result && (getSelfActorId()
-          == other.getSelfActorId());
       return result;
     }
 
@@ -6492,9 +5661,6 @@ public final class ProtoScene {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + SELF_ACTOR_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getSelfActorId());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6613,8 +5779,6 @@ public final class ProtoScene {
       }
       public Builder clear() {
         super.clear();
-        selfActorId_ = 0L;
-
         return this;
       }
 
@@ -6637,7 +5801,6 @@ public final class ProtoScene {
 
       public com.game.protoGen.ProtoScene.EnterSceneRes buildPartial() {
         com.game.protoGen.ProtoScene.EnterSceneRes result = new com.game.protoGen.ProtoScene.EnterSceneRes(this);
-        result.selfActorId_ = selfActorId_;
         onBuilt();
         return result;
       }
@@ -6679,9 +5842,6 @@ public final class ProtoScene {
 
       public Builder mergeFrom(com.game.protoGen.ProtoScene.EnterSceneRes other) {
         if (other == com.game.protoGen.ProtoScene.EnterSceneRes.getDefaultInstance()) return this;
-        if (other.getSelfActorId() != 0L) {
-          setSelfActorId(other.getSelfActorId());
-        }
         onChanged();
         return this;
       }
@@ -6705,32 +5865,6 @@ public final class ProtoScene {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private long selfActorId_ ;
-      /**
-       * <code>int64 self_actor_id = 1;</code>
-       */
-      public long getSelfActorId() {
-        return selfActorId_;
-      }
-      /**
-       * <code>int64 self_actor_id = 1;</code>
-       */
-      public Builder setSelfActorId(long value) {
-        
-        selfActorId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int64 self_actor_id = 1;</code>
-       */
-      public Builder clearSelfActorId() {
-        
-        selfActorId_ = 0L;
-        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -6785,6 +5919,11 @@ public final class ProtoScene {
   public interface EnterDefaultSceneReqOrBuilder extends
       // @@protoc_insertion_point(interface_extends:EnterDefaultSceneReq)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 profession = 1;</code>
+     */
+    int getProfession();
   }
   /**
    * Protobuf type {@code EnterDefaultSceneReq}
@@ -6798,6 +5937,7 @@ public final class ProtoScene {
       super(builder);
     }
     private EnterDefaultSceneReq() {
+      profession_ = 0;
     }
 
     @java.lang.Override
@@ -6810,6 +5950,7 @@ public final class ProtoScene {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      int mutable_bitField0_ = 0;
       try {
         boolean done = false;
         while (!done) {
@@ -6822,6 +5963,11 @@ public final class ProtoScene {
               if (!input.skipField(tag)) {
                 done = true;
               }
+              break;
+            }
+            case 8: {
+
+              profession_ = input.readInt32();
               break;
             }
           }
@@ -6847,6 +5993,15 @@ public final class ProtoScene {
               com.game.protoGen.ProtoScene.EnterDefaultSceneReq.class, com.game.protoGen.ProtoScene.EnterDefaultSceneReq.Builder.class);
     }
 
+    public static final int PROFESSION_FIELD_NUMBER = 1;
+    private int profession_;
+    /**
+     * <code>int32 profession = 1;</code>
+     */
+    public int getProfession() {
+      return profession_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -6859,6 +6014,9 @@ public final class ProtoScene {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (profession_ != 0) {
+        output.writeInt32(1, profession_);
+      }
     }
 
     public int getSerializedSize() {
@@ -6866,6 +6024,10 @@ public final class ProtoScene {
       if (size != -1) return size;
 
       size = 0;
+      if (profession_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, profession_);
+      }
       memoizedSize = size;
       return size;
     }
@@ -6882,6 +6044,8 @@ public final class ProtoScene {
       com.game.protoGen.ProtoScene.EnterDefaultSceneReq other = (com.game.protoGen.ProtoScene.EnterDefaultSceneReq) obj;
 
       boolean result = true;
+      result = result && (getProfession()
+          == other.getProfession());
       return result;
     }
 
@@ -6892,6 +6056,8 @@ public final class ProtoScene {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PROFESSION_FIELD_NUMBER;
+      hash = (53 * hash) + getProfession();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7010,6 +6176,8 @@ public final class ProtoScene {
       }
       public Builder clear() {
         super.clear();
+        profession_ = 0;
+
         return this;
       }
 
@@ -7032,6 +6200,7 @@ public final class ProtoScene {
 
       public com.game.protoGen.ProtoScene.EnterDefaultSceneReq buildPartial() {
         com.game.protoGen.ProtoScene.EnterDefaultSceneReq result = new com.game.protoGen.ProtoScene.EnterDefaultSceneReq(this);
+        result.profession_ = profession_;
         onBuilt();
         return result;
       }
@@ -7073,6 +6242,9 @@ public final class ProtoScene {
 
       public Builder mergeFrom(com.game.protoGen.ProtoScene.EnterDefaultSceneReq other) {
         if (other == com.game.protoGen.ProtoScene.EnterDefaultSceneReq.getDefaultInstance()) return this;
+        if (other.getProfession() != 0) {
+          setProfession(other.getProfession());
+        }
         onChanged();
         return this;
       }
@@ -7096,6 +6268,32 @@ public final class ProtoScene {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private int profession_ ;
+      /**
+       * <code>int32 profession = 1;</code>
+       */
+      public int getProfession() {
+        return profession_;
+      }
+      /**
+       * <code>int32 profession = 1;</code>
+       */
+      public Builder setProfession(int value) {
+        
+        profession_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 profession = 1;</code>
+       */
+      public Builder clearProfession() {
+        
+        profession_ = 0;
+        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -7150,11 +6348,6 @@ public final class ProtoScene {
   public interface EnterDefaultSceneResOrBuilder extends
       // @@protoc_insertion_point(interface_extends:EnterDefaultSceneRes)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int64 entity_id = 1;</code>
-     */
-    long getEntityId();
   }
   /**
    * Protobuf type {@code EnterDefaultSceneRes}
@@ -7168,7 +6361,6 @@ public final class ProtoScene {
       super(builder);
     }
     private EnterDefaultSceneRes() {
-      entityId_ = 0L;
     }
 
     @java.lang.Override
@@ -7181,7 +6373,6 @@ public final class ProtoScene {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
       try {
         boolean done = false;
         while (!done) {
@@ -7194,11 +6385,6 @@ public final class ProtoScene {
               if (!input.skipField(tag)) {
                 done = true;
               }
-              break;
-            }
-            case 8: {
-
-              entityId_ = input.readInt64();
               break;
             }
           }
@@ -7224,15 +6410,6 @@ public final class ProtoScene {
               com.game.protoGen.ProtoScene.EnterDefaultSceneRes.class, com.game.protoGen.ProtoScene.EnterDefaultSceneRes.Builder.class);
     }
 
-    public static final int ENTITY_ID_FIELD_NUMBER = 1;
-    private long entityId_;
-    /**
-     * <code>int64 entity_id = 1;</code>
-     */
-    public long getEntityId() {
-      return entityId_;
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -7245,9 +6422,6 @@ public final class ProtoScene {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (entityId_ != 0L) {
-        output.writeInt64(1, entityId_);
-      }
     }
 
     public int getSerializedSize() {
@@ -7255,10 +6429,6 @@ public final class ProtoScene {
       if (size != -1) return size;
 
       size = 0;
-      if (entityId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, entityId_);
-      }
       memoizedSize = size;
       return size;
     }
@@ -7275,8 +6445,6 @@ public final class ProtoScene {
       com.game.protoGen.ProtoScene.EnterDefaultSceneRes other = (com.game.protoGen.ProtoScene.EnterDefaultSceneRes) obj;
 
       boolean result = true;
-      result = result && (getEntityId()
-          == other.getEntityId());
       return result;
     }
 
@@ -7287,9 +6455,6 @@ public final class ProtoScene {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ENTITY_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getEntityId());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7408,8 +6573,6 @@ public final class ProtoScene {
       }
       public Builder clear() {
         super.clear();
-        entityId_ = 0L;
-
         return this;
       }
 
@@ -7432,7 +6595,6 @@ public final class ProtoScene {
 
       public com.game.protoGen.ProtoScene.EnterDefaultSceneRes buildPartial() {
         com.game.protoGen.ProtoScene.EnterDefaultSceneRes result = new com.game.protoGen.ProtoScene.EnterDefaultSceneRes(this);
-        result.entityId_ = entityId_;
         onBuilt();
         return result;
       }
@@ -7474,9 +6636,6 @@ public final class ProtoScene {
 
       public Builder mergeFrom(com.game.protoGen.ProtoScene.EnterDefaultSceneRes other) {
         if (other == com.game.protoGen.ProtoScene.EnterDefaultSceneRes.getDefaultInstance()) return this;
-        if (other.getEntityId() != 0L) {
-          setEntityId(other.getEntityId());
-        }
         onChanged();
         return this;
       }
@@ -7500,32 +6659,6 @@ public final class ProtoScene {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private long entityId_ ;
-      /**
-       * <code>int64 entity_id = 1;</code>
-       */
-      public long getEntityId() {
-        return entityId_;
-      }
-      /**
-       * <code>int64 entity_id = 1;</code>
-       */
-      public Builder setEntityId(long value) {
-        
-        entityId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int64 entity_id = 1;</code>
-       */
-      public Builder clearEntityId() {
-        
-        entityId_ = 0L;
-        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -7582,9 +6715,9 @@ public final class ProtoScene {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int64 entity_id = 1;</code>
+     * <code>int64 uid = 1;</code>
      */
-    long getEntityId();
+    long getUid();
 
     /**
      * <code>int32 profession = 2;</code>
@@ -7616,7 +6749,7 @@ public final class ProtoScene {
       super(builder);
     }
     private PlayerEnterSceneNtf() {
-      entityId_ = 0L;
+      uid_ = 0L;
       profession_ = 0;
     }
 
@@ -7647,7 +6780,7 @@ public final class ProtoScene {
             }
             case 8: {
 
-              entityId_ = input.readInt64();
+              uid_ = input.readInt64();
               break;
             }
             case 16: {
@@ -7691,13 +6824,13 @@ public final class ProtoScene {
               com.game.protoGen.ProtoScene.PlayerEnterSceneNtf.class, com.game.protoGen.ProtoScene.PlayerEnterSceneNtf.Builder.class);
     }
 
-    public static final int ENTITY_ID_FIELD_NUMBER = 1;
-    private long entityId_;
+    public static final int UID_FIELD_NUMBER = 1;
+    private long uid_;
     /**
-     * <code>int64 entity_id = 1;</code>
+     * <code>int64 uid = 1;</code>
      */
-    public long getEntityId() {
-      return entityId_;
+    public long getUid() {
+      return uid_;
     }
 
     public static final int PROFESSION_FIELD_NUMBER = 2;
@@ -7742,8 +6875,8 @@ public final class ProtoScene {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (entityId_ != 0L) {
-        output.writeInt64(1, entityId_);
+      if (uid_ != 0L) {
+        output.writeInt64(1, uid_);
       }
       if (profession_ != 0) {
         output.writeInt32(2, profession_);
@@ -7758,9 +6891,9 @@ public final class ProtoScene {
       if (size != -1) return size;
 
       size = 0;
-      if (entityId_ != 0L) {
+      if (uid_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(1, entityId_);
+          .computeInt64Size(1, uid_);
       }
       if (profession_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -7786,8 +6919,8 @@ public final class ProtoScene {
       com.game.protoGen.ProtoScene.PlayerEnterSceneNtf other = (com.game.protoGen.ProtoScene.PlayerEnterSceneNtf) obj;
 
       boolean result = true;
-      result = result && (getEntityId()
-          == other.getEntityId());
+      result = result && (getUid()
+          == other.getUid());
       result = result && (getProfession()
           == other.getProfession());
       result = result && (hasTrs() == other.hasTrs());
@@ -7805,9 +6938,9 @@ public final class ProtoScene {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ENTITY_ID_FIELD_NUMBER;
+      hash = (37 * hash) + UID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getEntityId());
+          getUid());
       hash = (37 * hash) + PROFESSION_FIELD_NUMBER;
       hash = (53 * hash) + getProfession();
       if (hasTrs()) {
@@ -7932,7 +7065,7 @@ public final class ProtoScene {
       }
       public Builder clear() {
         super.clear();
-        entityId_ = 0L;
+        uid_ = 0L;
 
         profession_ = 0;
 
@@ -7964,7 +7097,7 @@ public final class ProtoScene {
 
       public com.game.protoGen.ProtoScene.PlayerEnterSceneNtf buildPartial() {
         com.game.protoGen.ProtoScene.PlayerEnterSceneNtf result = new com.game.protoGen.ProtoScene.PlayerEnterSceneNtf(this);
-        result.entityId_ = entityId_;
+        result.uid_ = uid_;
         result.profession_ = profession_;
         if (trsBuilder_ == null) {
           result.trs_ = trs_;
@@ -8012,8 +7145,8 @@ public final class ProtoScene {
 
       public Builder mergeFrom(com.game.protoGen.ProtoScene.PlayerEnterSceneNtf other) {
         if (other == com.game.protoGen.ProtoScene.PlayerEnterSceneNtf.getDefaultInstance()) return this;
-        if (other.getEntityId() != 0L) {
-          setEntityId(other.getEntityId());
+        if (other.getUid() != 0L) {
+          setUid(other.getUid());
         }
         if (other.getProfession() != 0) {
           setProfession(other.getProfession());
@@ -8047,28 +7180,28 @@ public final class ProtoScene {
         return this;
       }
 
-      private long entityId_ ;
+      private long uid_ ;
       /**
-       * <code>int64 entity_id = 1;</code>
+       * <code>int64 uid = 1;</code>
        */
-      public long getEntityId() {
-        return entityId_;
+      public long getUid() {
+        return uid_;
       }
       /**
-       * <code>int64 entity_id = 1;</code>
+       * <code>int64 uid = 1;</code>
        */
-      public Builder setEntityId(long value) {
+      public Builder setUid(long value) {
         
-        entityId_ = value;
+        uid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int64 entity_id = 1;</code>
+       * <code>int64 uid = 1;</code>
        */
-      public Builder clearEntityId() {
+      public Builder clearUid() {
         
-        entityId_ = 0L;
+        uid_ = 0L;
         onChanged();
         return this;
       }
@@ -14267,10 +13400,10 @@ public final class ProtoScene {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_CreateSceneFinishNtf_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_SceneList_descriptor;
+    internal_static_SceneInfo_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_SceneList_fieldAccessorTable;
+      internal_static_SceneInfo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_SceneListReq_descriptor;
   private static final 
@@ -14387,36 +13520,33 @@ public final class ProtoScene {
       "scale\030\004 \001(\0132\n.PbVector3\022\r\n\005speed\030\005 \001(\001\022\037" +
       "\n\013InputVector\030\006 \001(\0132\n.PbVector3\"J\n\016Creat" +
       "eSceneReq\022\022\n\nscene_name\030\001 \001(\t\022\022\n\nreset_d" +
-      "ata\030\002 \001(\010\022\020\n\010actor_id\030\003 \001(\003\"J\n\016CreateSce" +
-      "neRes\022\020\n\010scene_id\030\001 \001(\005\022\014\n\004line\030\002 \001(\r\022\n\n" +
-      "\002ip\030\003 \001(\t\022\014\n\004port\030\004 \001(\005\"Q\n\024CreateSceneFi",
-      "nishNtf\022\r\n\005token\030\001 \001(\t\022\020\n\010scene_id\030\002 \001(\r" +
-      "\022\n\n\002ip\030\003 \001(\t\022\014\n\004port\030\004 \001(\005\"G\n\tSceneList\022" +
-      "\022\n\nscene_name\030\001 \001(\t\022\020\n\010scene_id\030\002 \001(\005\022\024\n" +
-      "\014player_count\030\003 \001(\005\"\016\n\014SceneListReq\".\n\014S" +
-      "ceneListRes\022\036\n\nscene_list\030\001 \003(\0132\n.SceneL" +
-      "ist\"V\n\rEnterSceneReq\022\020\n\010scene_id\030\001 \001(\r\022\020" +
-      "\n\010actor_id\030\002 \001(\003\022\r\n\005token\030\003 \001(\t\022\022\n\nprofe" +
-      "ssion\030\004 \001(\005\"&\n\rEnterSceneRes\022\025\n\rself_act" +
-      "or_id\030\001 \001(\003\"\026\n\024EnterDefaultSceneReq\")\n\024E" +
-      "nterDefaultSceneRes\022\021\n\tentity_id\030\001 \001(\003\"U",
-      "\n\023PlayerEnterSceneNtf\022\021\n\tentity_id\030\001 \001(\003" +
-      "\022\022\n\nprofession\030\002 \001(\005\022\027\n\003trs\030\003 \001(\0132\n.Enti" +
-      "tyTRS\".\n\023PlayerLeaveSceneNtf\022\027\n\003trs\030\001 \001(" +
-      "\0132\n.EntityTRS\"\017\n\rLeaveSceneReq\"\017\n\rLeaveS" +
-      "ceneRes\"\'\n\024ClientMessagePackage\022\017\n\007conte" +
-      "nt\030\001 \001(\014\"j\n\020SceneMessagePush\022-\n\016client_m" +
-      "essage\030\001 \001(\0132\025.ClientMessagePackage\022\023\n\013f" +
-      "ilter_self\030\002 \001(\010\022\022\n\nmessage_id\030\003 \001(\r\"W\n\023" +
-      "SyncSceneMessageNtf\022,\n\rscene_message\030\001 \001" +
-      "(\0132\025.ClientMessagePackage\022\022\n\nmessage_id\030",
-      "\002 \001(\r\"\035\n\033ServerSceneFinishLoadingNtf\"\035\n\033" +
-      "ClientSceneFinishLoadingReq\"\035\n\033ClientSce" +
-      "neFinishLoadingRes\"\017\n\rResetSceneReq\"\017\n\rR" +
-      "esetSceneRes\"-\n\022ClientSyncMovePush\022\027\n\003tr" +
-      "s\030\001 \001(\0132\n.EntityTRS\"*\n\017PlayerMoveToNtf\022\027" +
-      "\n\003trs\030\001 \001(\0132\n.EntityTRSB\036\n\021com.game.prot" +
-      "oGenZ\t/protoGenb\006proto3"
+      "ata\030\002 \001(\010\022\020\n\010actor_id\030\003 \001(\003\"\"\n\016CreateSce" +
+      "neRes\022\020\n\010scene_id\030\001 \001(\005\"(\n\024CreateSceneFi" +
+      "nishNtf\022\020\n\010scene_id\030\001 \001(\r\"G\n\tSceneInfo\022\022",
+      "\n\nscene_name\030\001 \001(\t\022\020\n\010scene_id\030\002 \001(\005\022\024\n\014" +
+      "player_count\030\003 \001(\005\"\016\n\014SceneListReq\".\n\014Sc" +
+      "eneListRes\022\036\n\nscene_list\030\001 \003(\0132\n.SceneIn" +
+      "fo\"5\n\rEnterSceneReq\022\020\n\010scene_id\030\001 \001(\r\022\022\n" +
+      "\nprofession\030\002 \001(\005\"\017\n\rEnterSceneRes\"*\n\024En" +
+      "terDefaultSceneReq\022\022\n\nprofession\030\001 \001(\005\"\026" +
+      "\n\024EnterDefaultSceneRes\"O\n\023PlayerEnterSce" +
+      "neNtf\022\013\n\003uid\030\001 \001(\003\022\022\n\nprofession\030\002 \001(\005\022\027" +
+      "\n\003trs\030\003 \001(\0132\n.EntityTRS\".\n\023PlayerLeaveSc" +
+      "eneNtf\022\027\n\003trs\030\001 \001(\0132\n.EntityTRS\"\017\n\rLeave",
+      "SceneReq\"\017\n\rLeaveSceneRes\"\'\n\024ClientMessa" +
+      "gePackage\022\017\n\007content\030\001 \001(\014\"j\n\020SceneMessa" +
+      "gePush\022-\n\016client_message\030\001 \001(\0132\025.ClientM" +
+      "essagePackage\022\023\n\013filter_self\030\002 \001(\010\022\022\n\nme" +
+      "ssage_id\030\003 \001(\r\"W\n\023SyncSceneMessageNtf\022,\n" +
+      "\rscene_message\030\001 \001(\0132\025.ClientMessagePack" +
+      "age\022\022\n\nmessage_id\030\002 \001(\r\"\035\n\033ServerSceneFi" +
+      "nishLoadingNtf\"\035\n\033ClientSceneFinishLoadi" +
+      "ngReq\"\035\n\033ClientSceneFinishLoadingRes\"\017\n\r" +
+      "ResetSceneReq\"\017\n\rResetSceneRes\"-\n\022Client",
+      "SyncMovePush\022\027\n\003trs\030\001 \001(\0132\n.EntityTRS\"*\n" +
+      "\017PlayerMoveToNtf\022\027\n\003trs\030\001 \001(\0132\n.EntityTR" +
+      "SB\036\n\021com.game.protoGenZ\t/protoGenb\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -14453,18 +13583,18 @@ public final class ProtoScene {
     internal_static_CreateSceneRes_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateSceneRes_descriptor,
-        new java.lang.String[] { "SceneId", "Line", "Ip", "Port", });
+        new java.lang.String[] { "SceneId", });
     internal_static_CreateSceneFinishNtf_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_CreateSceneFinishNtf_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CreateSceneFinishNtf_descriptor,
-        new java.lang.String[] { "Token", "SceneId", "Ip", "Port", });
-    internal_static_SceneList_descriptor =
+        new java.lang.String[] { "SceneId", });
+    internal_static_SceneInfo_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_SceneList_fieldAccessorTable = new
+    internal_static_SceneInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_SceneList_descriptor,
+        internal_static_SceneInfo_descriptor,
         new java.lang.String[] { "SceneName", "SceneId", "PlayerCount", });
     internal_static_SceneListReq_descriptor =
       getDescriptor().getMessageTypes().get(6);
@@ -14483,31 +13613,31 @@ public final class ProtoScene {
     internal_static_EnterSceneReq_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnterSceneReq_descriptor,
-        new java.lang.String[] { "SceneId", "ActorId", "Token", "Profession", });
+        new java.lang.String[] { "SceneId", "Profession", });
     internal_static_EnterSceneRes_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_EnterSceneRes_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnterSceneRes_descriptor,
-        new java.lang.String[] { "SelfActorId", });
+        new java.lang.String[] { });
     internal_static_EnterDefaultSceneReq_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_EnterDefaultSceneReq_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnterDefaultSceneReq_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Profession", });
     internal_static_EnterDefaultSceneRes_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_EnterDefaultSceneRes_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EnterDefaultSceneRes_descriptor,
-        new java.lang.String[] { "EntityId", });
+        new java.lang.String[] { });
     internal_static_PlayerEnterSceneNtf_descriptor =
       getDescriptor().getMessageTypes().get(12);
     internal_static_PlayerEnterSceneNtf_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PlayerEnterSceneNtf_descriptor,
-        new java.lang.String[] { "EntityId", "Profession", "Trs", });
+        new java.lang.String[] { "Uid", "Profession", "Trs", });
     internal_static_PlayerLeaveSceneNtf_descriptor =
       getDescriptor().getMessageTypes().get(13);
     internal_static_PlayerLeaveSceneNtf_fieldAccessorTable = new

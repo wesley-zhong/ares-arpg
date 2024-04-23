@@ -6,7 +6,7 @@ spring:
     name: game.V1
   cloud:
     config:
-      enabled:  false
+      enabled: false
   main:
     web-application-type: none
     allow-bean-definition-overriding: true
@@ -27,3 +27,14 @@ mongo:
   #redis://password@localhost:6379/0
 redis:
   url: "redis://172.18.2.101:6379/0"
+
+netty:
+  server:
+    SO_SNDBUF: 16777216
+    SO_RCVBUF: 16777216
+    WATER_MARK: 16777216
+  client:
+    CONN_COUNT: 8
+    SO_SNDBUF: 67108864
+    SO_RCVBUF: 67108864
+    WATER_MARK: 67108864

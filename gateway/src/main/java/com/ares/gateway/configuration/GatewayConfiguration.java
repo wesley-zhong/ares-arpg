@@ -10,6 +10,8 @@ import com.ares.transport.client.AresTcpClientConn;
 import com.ares.transport.client.AresTcpClientImpl;
 import com.ares.transport.inner.InnerMsgEncoder;
 import com.ares.transport.server.AresNettyServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +22,11 @@ import org.springframework.context.annotation.Lazy;
 @Configuration
 @ComponentScan("com.ares")
 public class GatewayConfiguration implements InitializingBean {
+    private static final Logger log = LoggerFactory.getLogger(GatewayConfiguration.class);
+
     @Bean
     public AresTcpClientConn aresTcpClientConn(@Autowired AresClientTcpHandler aresTcpHandler) {
-        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn();
-        aresTcpClientConn.initWithMsgEncoder(aresTcpHandler, new InnerMsgEncoder());
+        AresTcpClientConn aresTcpClientConn = new AresTcpClientConn(aresTcpHandler, new InnerMsgEncoder());
         return aresTcpClientConn;
     }
 

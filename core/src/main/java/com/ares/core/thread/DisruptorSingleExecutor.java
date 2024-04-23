@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class DisruptorSingleExecutor implements IMessageExecutor {
 
     //65536条消息
-    private final int MAX_QUE_SIZE = 2 << 15;
+    private final int MAX_QUE_SIZE = 1 <<13;// 2 << 15;
 
     private final RingBuffer<AresEventProcess> ringBuffer;
     private final Disruptor<AresEventProcess> disruptor;
@@ -65,7 +65,7 @@ public class DisruptorSingleExecutor implements IMessageExecutor {
         } catch (Exception e) {
             // This exception is used by the Disruptor as a global goto. It is a singleton
             // and has no stack trace.  Don't worry about performance.
-            log.error("Logic thread disruptor buff is error", e);
+            log.error("Logic thread disruptor buff is error ", e);
         }
     }
 

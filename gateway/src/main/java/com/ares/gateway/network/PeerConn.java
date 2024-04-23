@@ -5,13 +5,14 @@ import com.ares.common.bean.ServerType;
 import com.ares.core.bean.AresPacket;
 import com.ares.gateway.discovery.OnDiscoveryWatchService;
 import com.ares.transport.bean.ServerNodeInfo;
+import com.ares.transport.bean.TcpConnServerInfo;
 import com.ares.transport.peer.PeerConnBase;
 import com.game.protoGen.ProtoCommon;
 import com.google.protobuf.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.CompositeByteBuf;
-import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,30 +26,30 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PeerConn extends PeerConnBase {
     @Autowired
     private OnDiscoveryWatchService onDiscoveryWatchService;
-    private final Map<Long, ChannelHandlerContext> playerIdContext = new ConcurrentHashMap<>();
+    private final Map<Long, Channel> playerIdContext = new ConcurrentHashMap<>();
 
     public void sendToGameMsg(long uid, int msgId, Message body) {
         send(ServerType.GAME, uid, msgId, body);
     }
 
-    public void redirectToGameMsg(long uid, AresPacket aresPacket) {
-        innerRedirectTo(ServerType.GAME, uid, aresPacket);
-    }
-
     @Override
-    public ChannelHandlerContext loadBalance(int serverType, long uid, Map<String, ChannelHandlerContext> channelConMap) {
-        ChannelHandlerContext channelHandlerContext = playerIdContext.get(uid);
-        if (channelHandlerContext != null) {
+    public Channel loadBalance(int serverType, long uid) {
+        Channel channelHandlerContext = playerIdContext.get(uid);
+        if (channelHandlerContext != null && channelHandlerContext.isActive()) {
             return channelHandlerContext;
         }
         ServerNodeInfo lowerLoadServerNodeInfo = onDiscoveryWatchService.getLowerLoadServerNodeInfo(serverType);
-        ChannelHandlerContext context = getServerConnByServerInfo(lowerLoadServerNodeInfo);
-        playerIdContext.put(uid, context);
-        return context;
+        TcpConnServerInfo tcpConnServerInfo = getServerConnByServerInfo(lowerLoadServerNodeInfo);
+        if (tcpConnServerInfo == null) {
+            return null;
+        }
+        Channel channel = tcpConnServerInfo.roubinChannel();
+        playerIdContext.put(uid, channel);
+        return channel;
     }
 
     @Override
-    protected void doInnerRedirectTo(int serveType, ChannelHandlerContext channelHandlerContext, long uid, AresPacket aresPacket) {
+    protected void doInnerRedirectTo(int serveType, Channel channelHandlerContext, long uid, AresPacket aresPacket) {
         ProtoCommon.MsgHeader innerMsgHeader = aresPacket.getRecvHeader().toBuilder().setUid(uid).build();
         //|body|
         int readableBytes = 0;
