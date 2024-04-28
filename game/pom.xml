@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.ares</groupId>
+        <artifactId>ares-parent</artifactId>
+        <version>2024.1.1</version>
+    </parent>
+
+    <artifactId>game</artifactId>
+    <packaging>jar</packaging>
+
+    <name>game</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ares</groupId>
+            <artifactId>dal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ares</groupId>
+            <artifactId>nk2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ares</groupId>
+            <artifactId>discovery-springboot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>game</finalName>
+        <plugins>
+            <!--设置应用 Main 参数启动依赖查找的地址指向外部 lib 文件夹-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <!-- 项目所依赖的jar位于同一级的lib目录下-->
+                            <classpathPrefix>libs/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>utf8</encoding>
+                </configuration>
+            </plugin>
+
+
+            <!--设置 SpringBoot 打包插件不包含任何 Jar 依赖包-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.ares.game.GameApplication</mainClass>
+                    <includes>
+                        <include>
+                            <groupId>nothing</groupId>
+                            <artifactId>nothing</artifactId>
+                        </include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <!--设置将 lib 拷贝到应用 Jar 外面-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

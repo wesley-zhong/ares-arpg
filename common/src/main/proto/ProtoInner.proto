@@ -1,0 +1,134 @@
+syntax = "proto3";
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+import  "ProtoTeam.proto";
+
+enum  InnerErrCode{
+  INNER_SUCCESS = 0;
+}
+
+
+enum  InnerMsgId{
+  INNER_INVALID = 0;
+  INNER_SERVER_HAND_SHAKE_REQ = -1;
+  INNER_SERVER_HAND_SHAKE_RES = -2;
+
+  INNER_HEART_BEAT_REQ = -3;
+  INNER_HEART_BEAT_RES = -4;
+
+  INNER_TO_GAME_LOGIN_REQ = -10;
+  INNER_TO_GAME_LOGIN_RES = -11;
+
+  INNER_TO_WORLD_LOGIN_REQ = -12;
+  INNER_TO_WORLD_LOGIN_RES = -13;
+
+  INNER_PLAYER_DISCONNECT_REQ = -14;
+  INNER_PLAYER_DISCONNECT_RES = -15;
+
+  INNER_PLAYER_KICK_OUT_REQ = -16;
+
+
+  INNER_CREATE_TEAM_REQ = -116;
+  INNER_CREATE_TEAM_RES = -117;
+  INNER_JOIN_TEAM_REQ = -118;
+  INNER_JOIN_TEAM_RES = -119;
+
+
+  //performance test
+
+  INNER_GATEWAY_PERFORMANCE_REQ = -2000000;
+  INNER_GATEWAY_PERFORMANCE_RES = -2000001;
+}
+
+
+
+message  InnerHeartBeatRequest{
+
+}
+
+message  InnerHeartBeatResponse{
+
+}
+
+message InnerGameLoginRequest {
+  int64 uid = 1;
+  int64 sid = 2;
+  string token = 3;
+}
+
+message InnerGameLoginResponse {
+  int64  uid = 1;
+  int64  sid = 2;
+  int32  errCode = 3;
+}
+
+message InnerGameKickOutReq{
+  int64  uid = 1;
+}
+
+message InnerWorldLoginRequest{
+
+}
+
+message InnerWorldLoginResponse{
+  int64  uid = 1;
+  int32 code = 2;
+}
+
+message  InnerPlayerDisconnectRequest{
+  int64 uid = 2;
+}
+
+message InnerPlayerDisconnectResponse{
+  int64  uid = 2;
+}
+
+message InnerLogoutNotify {
+  int64 roleId = 1;
+  int64 sessionId = 2;
+}
+
+message InnerLoginInitNotify {
+  int64 roleId = 1;
+}
+
+
+message InnerServerHandShakeReq{
+  string  serviceName = 1;
+  string serviceId = 2;
+  int32  areaId = 3;
+}
+
+message InnerServerHandShakeRes{
+  string  serviceName = 1;
+  string serviceId = 2;
+  int32  areaId = 3;
+}
+
+message KickOutRequest {
+  int64 uid = 1;
+  int32  reason = 2;
+}
+
+message KickOutResponse {
+  int64 uid = 1;
+}
+
+
+message InnerCreateTeamReq{
+  TeamMemberInfo teamMember = 1;
+  string teamName = 2;
+  string  teamDes = 3;
+}
+
+message InnerJoinTeamReq{
+  int64  teamId = 1;
+  TeamMemberInfo teamMember = 2;
+}
+
+message  InnerCreateTeamRes{
+  int64  owner = 1;
+  TeamInfo teamInfo = 2;
+  int32  errCode = 3;
+}
+
