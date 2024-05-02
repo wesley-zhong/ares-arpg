@@ -6,6 +6,9 @@ import static com.google.common.base.Charsets.UTF_8;
 
 public class SequenceUtils {
     public static ByteSequence bytesOf(String val) {
+        if(val == null){
+            return null;
+        }
         return ByteSequence.from(val, UTF_8);
     }
 
@@ -14,6 +17,9 @@ public class SequenceUtils {
     }
 
     public static String toString(ByteSequence byteSequence) {
+        if(byteSequence == null){
+            return null;
+        }
         return byteSequence.toString(UTF_8);
     }
 

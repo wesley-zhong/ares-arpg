@@ -44,7 +44,7 @@ public class EtcdLock {
 
         } catch (Exception e) {
             log.error(" acquired lock:{} leaseId={}  failed: ", SequenceUtils.toString(lockKey), leaseId, e);
-            //  releaseLock();
+            releaseLock();
         }
         return false;
     }
@@ -61,7 +61,9 @@ public class EtcdLock {
     public void releaseLock() {
         try {
             leaseClient.revoke(leaseId).get();
-            lockClient.unlock(gottenKey).get();
+            if (gottenKey != null) {
+                lockClient.unlock(gottenKey).get();
+            }
             log.info("release lock: key={} id = {}= leasedId= {}  ", lockKey, SequenceUtils.toString(gottenKey), leaseId);
         } catch (Exception e) {
             log.error("xxxx releaseLock error", e);
