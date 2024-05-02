@@ -1,7 +1,7 @@
 package com.ares.game.player;
 
 import com.ares.common.gamemodule.GameModule;
-import com.ares.game.DO.RoleDO;
+import com.game.protoGen.BinServer;
 import com.game.protoGen.ProtoCommon;
 
 public abstract class PlayerModule extends GameModule.Module {
@@ -24,10 +24,10 @@ public abstract class PlayerModule extends GameModule.Module {
     }
 
     // 数据反序列化
-    public void fromBin(RoleDO bin) {}
+    public void fromBin(BinServer.PlayerDataBin bin) {}
 
     // 数据序列化
-    public void toBin(RoleDO bin) {}
+    public void toBin(BinServer.PlayerDataBin.Builder bin) {}
 
     // 初始化，完成各种数据检查、补全，使得comp进入可工作的状态
     // 不做业务逻辑操作（比如发放登录奖励）

@@ -1,6 +1,7 @@
 package com.ares.client.network;
 
 import com.ares.client.bean.ClientPlayer;
+import com.ares.client.controller.ReceiveService;
 import com.ares.core.bean.AresMsgIdMethod;
 import com.ares.core.bean.AresPacket;
 import com.ares.core.service.ServiceMgr;
@@ -24,6 +25,8 @@ public class ClientMsgHandler implements AresTcpHandler {
     @Autowired
     private ServiceMgr serviceMgr;
     private ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+    @Autowired
+    private ReceiveService receiveService;
 
 
     @Override
@@ -54,6 +57,7 @@ public class ClientMsgHandler implements AresTcpHandler {
     public void onServerConnected(Channel aresTKcpContext) {
         log.info("----- {} connected", aresTKcpContext);
 
+
     }
 
     @Override
@@ -63,7 +67,6 @@ public class ClientMsgHandler implements AresTcpHandler {
 
     @Override
     public void onClientClosed(AresTKcpContext aresTKcpContext) {
-        log.info("-----onClientClosed={} ", aresTKcpContext);
     }
 
     @Override
@@ -74,6 +77,6 @@ public class ClientMsgHandler implements AresTcpHandler {
 
     @Override
     public void onServerClosed(Channel aresTKcpContext) {
-
+        receiveService.onConnectLost(aresTKcpContext);
     }
 }

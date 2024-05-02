@@ -33,19 +33,13 @@ public abstract class World {
         public boolean isPosValid = false;
     };
 
-    protected int worldId = 0;
     protected long ownerUid = 0;
     protected Map<Integer, Scene> sceneMap; // 该世界包含的scene
     protected Map<Long, WorldPlayerSlotInfo> slotInfoMap;     // 准备进入的玩家
     protected Map<Long, WorldPlayerInfo> playerInfoMap;       // 当前在大世界中的玩家
     protected boolean inSelfMainScene = false;                // 主机是否在自己的main场景
 
-    public World(int worldId) {
-        this.worldId = worldId;
-    }
-
-    public int getWorldId() {
-        return worldId;
+    public World() {
     }
 
     public abstract ProtoCommon.WorldType getWorldType() ;

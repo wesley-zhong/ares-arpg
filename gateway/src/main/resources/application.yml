@@ -24,7 +24,6 @@ discovery:
     - http://localhost:2379
   watch-servers:
     - service-name-prefix: game.V1
-    - service-name-prefix: router.V1
 redis:
   url: "redis://172.18.2.101:6379/0"
 

@@ -1,7 +1,7 @@
 package com.ares.discovery;
 
 import com.ares.core.utils.JsonUtil;
-import com.ares.discovery.utils.BytesUtils;
+import com.ares.discovery.utils.SequenceUtils;
 import com.ares.discovery.utils.NetUtils;
 import com.ares.transport.bean.ServerNodeInfo;
 import io.etcd.jetcd.Client;
@@ -77,7 +77,7 @@ public class EtcdRegister {
             PutOption putOption = PutOption.builder().withLeaseId(leaseId).build();
 
             // put操作
-            kvClient.put(BytesUtils.bytesOf(key), BytesUtils.bytesOf(value), putOption)
+            kvClient.put(SequenceUtils.bytesOf(key), SequenceUtils.bytesOf(value), putOption)
                     .thenAccept(putResponse -> {
                         // put操作完成后，再设置无限续租的操作
                         leaseClient.keepAlive(leaseId, new CallStreamObserver<LeaseKeepAliveResponse>() {

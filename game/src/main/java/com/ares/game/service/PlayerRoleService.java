@@ -2,53 +2,38 @@ package com.ares.game.service;
 
 import com.ares.game.DO.RoleDO;
 import com.ares.game.bean.TimerBeanTest;
-import com.ares.game.dao.RoleDAO;
 import com.ares.game.player.GamePlayer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Component
 public class PlayerRoleService {
-    private static final Logger log = LoggerFactory.getLogger(PlayerRoleService.class);
-    @Autowired
-    private RoleDAO roleDAO;
-
-    private final Map<Long, GamePlayer> playerMap = new HashMap<>();
+    // this should be use lru replaced
+    private final Map<Long, GamePlayer> playerMap = new ConcurrentHashMap<>();
 
     public GamePlayer getPlayer(long uid) {
-        GamePlayer gamePlayer = playerMap.get(uid);
-        if (gamePlayer == null) {
-            RoleDO roleDO = roleDAO.getById(uid);
-            if (roleDO == null) {
-                return null;
-            }
-            gamePlayer = new GamePlayer(uid);
-            gamePlayer.setRoleDO(roleDO);
-        }
-        playerMap.put(uid, gamePlayer);
-        return gamePlayer;
+        return playerMap.get(uid);
     }
 
-    public GamePlayer getRoleDo(long id) {
-        return playerMap.get(id);
+    public void cachePlayer(GamePlayer gamePlayer) {
+        playerMap.put(gamePlayer.getUid(), gamePlayer);
     }
 
-    public GamePlayer createGamePlayer(long uid, String name) {
-        GamePlayer gamePlayer = new GamePlayer(uid);
-        RoleDO roleDO = new RoleDO();
-        roleDO.setUid(uid);
-        roleDO.setId(uid);
-        roleDO.setName(name);
-        roleDAO.insert(roleDO);
-        gamePlayer.setRoleDO(roleDO);
-        playerMap.put(uid, gamePlayer);
-        return gamePlayer;
-    }
+//    public GamePlayer createGamePlayer(long uid, String name) {
+//        GamePlayer gamePlayer = new GamePlayer(uid);
+//        RoleDO roleDO = new RoleDO();
+//        roleDO.setUid(uid);
+//        roleDO.setId(uid);
+//        roleDO.setName(name);
+//        roleDAO.insert(roleDO);
+//        gamePlayer.setRoleDO(roleDO);
+//        playerMap.put(uid, gamePlayer);
+//        return gamePlayer;
+//    }
 
     public void asynUpdateTest(RoleDO roleDO) {
 //        for (int i = 0; i < 2000; i++) {
@@ -59,6 +44,6 @@ public class PlayerRoleService {
     }
 
     public void onTimerTest(TimerBeanTest timerBeanTest) {
-      //  log.info("============ onTimerTest msg ={}", timerBeanTest.msg);
+        //  log.info("============ onTimerTest msg ={}", timerBeanTest.msg);
     }
 }

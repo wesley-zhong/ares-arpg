@@ -1,12 +1,12 @@
 package com.ares.game.player;
 
 import com.ares.common.gamemodule.GameModule;
-import com.ares.game.DO.RoleDO;
+import com.game.protoGen.BinServer;
 
 public class PlayerModuleContainer extends GameModule.ModuleContainer<PlayerModule>{
 
     // 数据反序列化
-    public void modulesFromBin(RoleDO bin) {
+    public void modulesFromBin(BinServer.PlayerDataBin bin) {
         forEachModule(module -> {
             module.fromBin(bin);
             return true;
@@ -14,9 +14,9 @@ public class PlayerModuleContainer extends GameModule.ModuleContainer<PlayerModu
     }
 
     // 数据序列化
-    public void modulesToBin(RoleDO bin) {
+    public void modulesToBin(BinServer.PlayerDataBin.Builder bin) {
         forEachModule(module -> {
-            module.fromBin(bin);
+            module.toBin(bin);
             return true;
         }, "fromBin");
     }

@@ -69,22 +69,12 @@ public class SessionServiceImp implements SessionService {
         selectGameServerLogin(playerSession, loginRequest);
     }
 
+
     private void selectGameServerLogin(PlayerSession playerSession, ProtoGame.GameLoginReq loginRequest) {
-        ProtoInner.InnerGameLoginRequest innerLoginRequest = ProtoInner.InnerGameLoginRequest.newBuilder()
-                .setUid(loginRequest.getUid())
-                .setSid(playerSession.getSid())
-                .setToken(loginRequest.getGameToken())
-                .build();
 
         //get user last login game server
         UserOnlineStateDO userPreSetCurOnlineStatus = createCurUserOnlineStateDO();
         UserOnlineStateDO userOnlineStateDO = userOnlineService.setUserOnlineStatus(loginRequest.getUid(), userPreSetCurOnlineStatus);
-        // 在别的gateway 上有登录  需要 发消息踢掉
-        if (userOnlineStateDO.getGtSrId() != null
-                && !userOnlineStateDO.getGtSrId().equals(userPreSetCurOnlineStatus.getGtSrId())) {
-
-        }
-
         //继续选择玩家的 gameServer
         String gameSrvId = userOnlineStateDO.getGmSrId();
         TcpConnServerInfo tcpConnServerInfo = peerConn.getServerConnById(gameSrvId);
@@ -92,7 +82,7 @@ public class SessionServiceImp implements SessionService {
         if (tcpConnServerInfo == null) {
             userOnlineStateDO.setGmSrId(userPreSetCurOnlineStatus.getGmSrId());
             //被别的账号给修改了
-            userOnlineStateDO = userOnlineService.setUserOnlineStatus(loginRequest.getUid(), userPreSetCurOnlineStatus);
+            userOnlineStateDO = userOnlineService.setUserOnlineStatus(loginRequest.getUid(), userOnlineStateDO);
             //更新失败被其他进程修改掉了，因为不确定其他进程 是否已经发了 踢出出玩家的消息，通知客户端重新登录，重新走流程
             if (userOnlineStateDO.getGmSrId() != null && !userOnlineStateDO.getGmSrId().equals(userPreSetCurOnlineStatus.getGmSrId())) {
                 playerSession.getAresTKcpContext().close();
@@ -106,19 +96,21 @@ public class SessionServiceImp implements SessionService {
             log.error(" gameSrvId ={} not found connection");
             return;
         }
+        ProtoInner.InnerGameLoginRequest innerLoginRequest = ProtoInner.InnerGameLoginRequest.newBuilder()
+                .setSid(playerSession.getSid())
+                .setTargetId(userOnlineStateDO.getTargetId())
+                .build();
         peerConn.send(channel, loginRequest.getUid(), ProtoInner.InnerMsgId.INNER_TO_GAME_LOGIN_REQ_VALUE, innerLoginRequest);
         peerConn.recordPlayerPeerChannel(loginRequest.getUid(), channel);
     }
 
     private UserOnlineStateDO createCurUserOnlineStateDO() {
-        ServerNodeInfo myselfNodeInfo = discoveryService.getEtcdRegister().getMyselfNodeInfo();
         ServerNodeInfo lowerLoadServerNodeInfo = onDiscoveryWatchService.getLowerLoadServerNodeInfo(ServerType.GAME.getValue());
         if (lowerLoadServerNodeInfo == null) {
             log.error("not game server exist");
             return null;
         }
         UserOnlineStateDO userOnlineStateDO = new UserOnlineStateDO();
-        userOnlineStateDO.setGtSrId(myselfNodeInfo.getServiceId());
         userOnlineStateDO.setGmSrId(lowerLoadServerNodeInfo.getServiceId());
         return userOnlineStateDO;
     }
@@ -128,7 +120,7 @@ public class SessionServiceImp implements SessionService {
     public void gameSrvLoginResponse(ProtoInner.InnerGameLoginResponse response) {
         PlayerSession playerSession = playerSessionMap.get(response.getUid());
         if (playerSession == null) {
-            log.error("uid = {} not login in gateway", response.getUid());
+            log.error(" uid = {} not login in gateway", response.getUid());
             return;
         }
         if (response.getSid() != playerSession.getSid()) {
@@ -155,9 +147,9 @@ public class SessionServiceImp implements SessionService {
     }
 
     @Override
-    public void kickOutPlayer(long uid) {
+    public void kickOutPlayer(long uid, long sid) {
         PlayerSession playerSession = playerSessionMap.get(uid);
-        if (playerSession == null) {
+        if (playerSession == null || playerSession.getSid() != sid) {
             return;
         }
         log.info("kick-out player ={}", uid);
@@ -177,6 +169,37 @@ public class SessionServiceImp implements SessionService {
     @Override
     public PlayerSession getPlayerSession(long uid) {
         return playerSessionMap.get(uid);
+    }
+
+    @Override
+    public void playerChangeScene(long uid, ProtoInner.InnerSceneChangeReq innerSceneChangeReq) {
+        PlayerSession playerSession = playerSessionMap.get(uid);
+        if (playerSession == null) {
+            log.error("pid = {} not found", uid);
+            return;
+        }
+        TcpConnServerInfo tcpConnServerInfo = peerConn.getServerConnById(innerSceneChangeReq.getGameSrvId());
+        if (tcpConnServerInfo == null) {
+            log.error("serviceId  = {} not found", innerSceneChangeReq.getGameSrvId());
+            return;
+        }
+
+        UserOnlineStateDO userOnlineStateDO = userOnlineService.getUserOnlineStateDO(uid);
+        userOnlineStateDO.setTargetId(innerSceneChangeReq.getTargetId());
+        userOnlineStateDO.setGmSrId(innerSceneChangeReq.getGameSrvId());
+        UserOnlineStateDO ret = userOnlineService.setUserOnlineStatus(uid, userOnlineStateDO);
+        if (!ret.getGmSrId().equals(innerSceneChangeReq.getGameSrvId()) || ret.getTargetId() != innerSceneChangeReq.getTargetId()) {
+            log.error("XXXXXXXXXXXXXXXXXXXX  playerChangeScene  req={}  changed failed", innerSceneChangeReq);
+            return;
+        }
+
+        Channel channel = tcpConnServerInfo.hashChannel(uid);
+        ProtoInner.InnerGameLoginRequest innerLoginRequest = ProtoInner.InnerGameLoginRequest.newBuilder()
+                .setTargetId(innerSceneChangeReq.getTargetId())
+                .setSid(sidGen.incrementAndGet()).build();
+
+        peerConn.send(channel, uid, ProtoInner.InnerMsgId.INNER_TO_GAME_LOGIN_REQ_VALUE, innerLoginRequest);
+        peerConn.recordPlayerPeerChannel(uid, channel);
     }
 
     @Override

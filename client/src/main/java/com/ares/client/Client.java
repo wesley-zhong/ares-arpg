@@ -31,8 +31,8 @@ public class Client implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-       multiPlayerLogin();
-      //  samePlayerLogin();
+      // multiPlayerLogin();
+        samePlayerLogin();
     }
 
     private void samePlayerLogin(){

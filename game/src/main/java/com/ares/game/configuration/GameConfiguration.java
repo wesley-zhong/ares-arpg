@@ -1,16 +1,17 @@
 package com.ares.game.configuration;
 
-import com.ares.common.bean.ServerType;
 import com.ares.core.tcp.AresTcpHandler;
 import com.ares.core.thread.LogicThreadPoolGroup;
 import com.ares.core.utils.SnowFlake;
 import com.ares.dal.redis.RedisDAO;
 import com.ares.dal.redis.RedisFactory;
 import com.ares.dal.redis.SyncRedisFactory;
+import com.ares.discovery.DiscoveryService;
 import com.ares.game.network.GameMsgHandler;
 import com.ares.nk2.component.EntityMetaDataMgr;
 import com.ares.nk2.coroutine.CoroHandle;
 import com.ares.nk2.tool.NKStringFormater;
+import com.ares.transport.bean.ServerNodeInfo;
 import com.ares.transport.client.AresTcpClient;
 import com.ares.transport.client.AresTcpClientConn;
 import com.ares.transport.client.AresTcpClientImpl;
@@ -21,6 +22,8 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import io.vertx.core.impl.ConcurrentHashSet;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.beans.factory.InitializingBean;
@@ -33,18 +36,23 @@ import org.springframework.context.annotation.Lazy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
+@Slf4j
 @Configuration
 @ComponentScan("com.ares")
 public class GameConfiguration implements InitializingBean {
+    @Autowired
+    private DiscoveryService discoveryService;
     @Value("${redis.url}")
     private String redisUrl;
     @Value("${useCoroutine:false}")
     private boolean useCoroutine;
-    private int areaId;
 
     @Bean
     public AresTcpClientConn aresTcpClientConn(@Autowired AresTcpHandler aresTcpHandler) {
@@ -114,7 +122,11 @@ public class GameConfiguration implements InitializingBean {
             CoroHandle.init();
         }
 
-        SnowFlake.init(areaId, ServerType.GAME.getValue());
+        ServerNodeInfo myselfNodeInfo = discoveryService.getEtcdRegister().getMyselfNodeInfo();
+        int myWorkId = discoveryService.getMyWorkId();
+        SnowFlake.init(myWorkId, myselfNodeInfo.getServerType());
+       // testRegisterWorkerId();
+
         LogicThreadPoolGroup logicThreadPoolGroup = new LogicThreadPoolGroup(2, 1);
         logicThreadPoolGroup.createThreadPool(ThreadPoolType.PLAYER_LOGIN.getValue(), 4);
         logicThreadPoolGroup.createThreadPool(ThreadPoolType.LOGIC.getValue(), 4);
@@ -125,4 +137,24 @@ public class GameConfiguration implements InitializingBean {
             throw new RuntimeException(NKStringFormater.format("check entity failed! checkResult:[{}]", checkRet));
         }
     }
+
+//    private void testRegisterWorkerId() {
+//        Set<Integer> workerIdMap = new ConcurrentHashSet<>();
+//        AtomicInteger index = new AtomicInteger(0);
+//        Executors.newVirtualThreadPerTaskExecutor().submit(() -> {
+//                    for (int i = 0; i <4000; ++i) {
+//                        try {
+//                            String serviceId = "game_test_" + index.incrementAndGet();
+//                            int workId = discoveryService.genNextSeqNum(serviceId, "game");
+//                            if (workerIdMap.contains(workId)) {
+//                                log.error("_------------ workerId ={} gameservice ={} error", workId, serviceId);
+//                            }
+//                        } catch (Exception e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    }
+//                }
+//        );
+//    }
+
 }

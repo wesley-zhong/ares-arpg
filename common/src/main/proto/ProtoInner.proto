@@ -33,6 +33,8 @@ enum  InnerMsgId{
   INNER_JOIN_TEAM_REQ = -118;
   INNER_JOIN_TEAM_RES = -119;
 
+  INNER_CHANGE_SCENE_REQ = -2000;
+
 
   //performance test
 
@@ -51,9 +53,8 @@ message  InnerHeartBeatResponse{
 }
 
 message InnerGameLoginRequest {
-  int64 uid = 1;
-  int64 sid = 2;
-  string token = 3;
+  int64 sid = 1;
+  int64 targetId = 2;
 }
 
 message InnerGameLoginResponse {
@@ -63,25 +64,15 @@ message InnerGameLoginResponse {
 }
 
 message InnerGameKickOutReq{
-  int64  uid = 1;
+  int64  sid = 1;
 }
 
-message InnerWorldLoginRequest{
-
-}
-
-message InnerWorldLoginResponse{
-  int64  uid = 1;
-  int32 code = 2;
-}
 
 message  InnerPlayerDisconnectRequest{
-  int64 uid = 2;
+  int64 sid = 1;
 }
 
-message InnerPlayerDisconnectResponse{
-  int64  uid = 2;
-}
+
 
 message InnerLogoutNotify {
   int64 roleId = 1;
@@ -92,6 +83,10 @@ message InnerLoginInitNotify {
   int64 roleId = 1;
 }
 
+message  InnerSceneChangeReq{
+  int64 targetId = 1;
+  string  gameSrvId = 2;
+}
 
 message InnerServerHandShakeReq{
   string  serviceName = 1;

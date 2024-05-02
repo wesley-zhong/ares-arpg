@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GamePlayerInterTransferInfo {
     private Channel gatewayCtx;
+    private long gateSid;
     private Channel routerCtx;
+    private volatile long threadHashCode;
 
 
     public Channel getContextByType(int serverType) {
@@ -19,6 +21,22 @@ public class GamePlayerInterTransferInfo {
             return routerCtx;
         }
         return null;
+    }
+
+    public void setGateSid(long sid) {
+        this.gateSid = sid;
+    }
+
+    public long getGateSid() {
+        return this.gateSid;
+    }
+
+    public void setThreadHashCode(long hashCode) {
+        this.threadHashCode = hashCode;
+    }
+
+    public long getThreadHashCode() {
+        return this.threadHashCode;
     }
 
     public void setContext(int serverType, Channel channel) {

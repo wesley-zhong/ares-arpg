@@ -17,7 +17,7 @@ public class TeamService {
     public void teamCreateReq(long uid, ProtoTeam.CreateTeamReq createTeamReq) {
         GamePlayer player = playerRoleService.getPlayer(uid);
         ProtoTeam.TeamMemberInfo owner = ProtoTeam.TeamMemberInfo.newBuilder().setActorId(uid)
-                .setNickName(player.getRoleDO().getName()).build();
+                .setNickName(player.getBasicModule().getNickName()).build();
 
         ProtoInner.InnerCreateTeamReq innerCreateTeamReq = ProtoInner.InnerCreateTeamReq.newBuilder()
                 .setTeamMember(owner)
@@ -30,7 +30,7 @@ public class TeamService {
     public void teamJoinReq(long uid, ProtoTeam.JoinTeamReq joinTeamReq) {
         GamePlayer player = playerRoleService.getPlayer(uid);
         ProtoTeam.TeamMemberInfo newMember = ProtoTeam.TeamMemberInfo.newBuilder().setActorId(uid)
-                .setNickName(player.getRoleDO().getName()).build();
+                .setNickName(player.getBasicModule().getNickName()).build();
 
         ProtoInner.InnerJoinTeamReq innerJoinTeamReq = ProtoInner.InnerJoinTeamReq.newBuilder()
                 .setTeamId(joinTeamReq.getTeamId())

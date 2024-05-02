@@ -23,6 +23,7 @@ public class GameTeamController implements AresController {
         teamService.teamJoinReq(uid, joinTeamReq);
     }
 
+
 //    @MsgId(ProtoInner.InnerMsgId.INNER_CREATE_TEAM_RES_VALUE)
 //    public void innerCreateTeamRes(long uid, ProtoInner.InnerCreateTeamRes innerCreateTeamRes) {
 //        teamService.innerTeamCreateRes(uid, innerCreateTeamRes);

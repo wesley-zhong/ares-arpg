@@ -52,7 +52,7 @@ public class LoginController implements AresController {
 
     @MsgId(ProtoInner.InnerMsgId.INNER_PLAYER_KICK_OUT_REQ_VALUE)
     public void onGameKickOutPlayer(long uid, ProtoInner.InnerGameKickOutReq innerGameKickOutReq) {
-        sessionService.kickOutPlayer(uid);
+        sessionService.kickOutPlayer(uid, innerGameKickOutReq.getSid());
     }
 
 

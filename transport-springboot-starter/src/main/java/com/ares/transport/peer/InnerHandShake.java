@@ -27,7 +27,7 @@ public abstract class InnerHandShake implements AresController {
     @MsgId(ProtoInner.InnerMsgId.INNER_SERVER_HAND_SHAKE_REQ_VALUE)
     public void innerHandShake(long id, ProtoInner.InnerServerHandShakeReq innerLoginRequest) {
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
-        ServerNodeInfo serverNodeInfo = new ServerNodeInfo();//discoveryService.getEtcdDiscovery().getServerList().get(innerLoginRequest.getServiceId());
+        ServerNodeInfo serverNodeInfo = new ServerNodeInfo();
         ServerType serverType = ServerType.from(innerLoginRequest.getServiceName());
         serverNodeInfo.setServerType(serverType.getValue());
         serverNodeInfo.setServiceName(innerLoginRequest.getServiceName());

@@ -117,13 +117,14 @@ public class GateWayMsgHandler implements AresServerTcpHandler {
         log.info("-----onClientClosed={} ", aresTKcpContext);
         Object cacheObj = aresTKcpContext.getCacheObj();
         if (cacheObj instanceof PlayerSession disConnectedPlayerSession) {
+            log.info("----- playerSession={} ", aresTKcpContext, disConnectedPlayerSession);
             PlayerSession playerSession = sessionService.getPlayerSession(disConnectedPlayerSession.getUid());
             if (playerSession.getSid() != disConnectedPlayerSession.getSid()) {
                 log.warn("onClientClosed uid = {} have re-login", disConnectedPlayerSession.getUid());
                 return;
             }
             ProtoInner.InnerPlayerDisconnectRequest disconnectRequest = ProtoInner.InnerPlayerDisconnectRequest.newBuilder()
-                    .setUid(disConnectedPlayerSession.getUid()).build();
+                    .setSid(playerSession.getSid()).build();
             peerConn.sendToGameMsg(disConnectedPlayerSession.getUid(), ProtoInner.InnerMsgId.INNER_PLAYER_DISCONNECT_REQ_VALUE, disconnectRequest);
             AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.selectThreadPool(ThreadPoolType.LOGIN.getValue());
             logicProcessThreadPool.execute(disConnectedPlayerSession.getUid(), disConnectedPlayerSession, sessionService::playerDisconnect);

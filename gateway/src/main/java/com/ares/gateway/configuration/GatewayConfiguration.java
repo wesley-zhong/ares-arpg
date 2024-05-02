@@ -6,6 +6,7 @@ import com.ares.core.thread.LogicThreadPoolGroup;
 import com.ares.dal.redis.RedisDAO;
 import com.ares.dal.redis.RedisFactory;
 import com.ares.dal.redis.SyncRedisFactory;
+import com.ares.discovery.DiscoveryService;
 import com.ares.gateway.network.GateWayMsgHandler;
 import com.ares.gateway.network.InnerMsgHandler;
 import com.ares.nk2.coroutine.CoroHandle;
@@ -14,8 +15,6 @@ import com.ares.transport.client.AresTcpClientConn;
 import com.ares.transport.client.AresTcpClientImpl;
 import com.ares.transport.inner.InnerMsgEncoder;
 import com.ares.transport.server.AresNettyServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +28,6 @@ import org.springframework.context.annotation.Lazy;
 public class GatewayConfiguration implements InitializingBean {
     @Value("${redis.url}")
     private String redisUrl;
-    private static final Logger log = LoggerFactory.getLogger(GatewayConfiguration.class);
 
     @Bean
     public AresTcpClientConn aresTcpClientConn(@Autowired AresClientTcpHandler aresTcpHandler) {
@@ -61,6 +59,7 @@ public class GatewayConfiguration implements InitializingBean {
     public AresNettyServer aresNettyServer(@Autowired AresServerTcpHandler aresServerTcpHandler) {
         return new AresNettyServer(aresServerTcpHandler, new InnerMsgEncoder());
     }
+
     @Bean
     public RedisFactory redisFactory() {
         RedisFactory redisFactory = new SyncRedisFactory();

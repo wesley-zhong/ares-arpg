@@ -2,7 +2,10 @@ package com.ares.team.configuration;
 
 import com.ares.core.tcp.AresTcpHandler;
 import com.ares.core.thread.LogicThreadPoolGroup;
+import com.ares.core.utils.SnowFlake;
+import com.ares.discovery.DiscoveryService;
 import com.ares.team.network.TeamMsgHandler;
+import com.ares.transport.bean.ServerNodeInfo;
 import com.ares.transport.client.AresTcpClient;
 import com.ares.transport.client.AresTcpClientConn;
 import com.ares.transport.client.AresTcpClientImpl;
@@ -18,6 +21,9 @@ import org.springframework.context.annotation.Lazy;
 @Configuration
 @ComponentScan("com.ares")
 public class TeamConfiguration implements InitializingBean {
+
+    @Autowired
+    private DiscoveryService discoveryService;
 
     @Bean
     public AresTcpClientConn aresTcpClientConn(@Autowired AresTcpHandler aresTcpHandler) {
@@ -45,6 +51,9 @@ public class TeamConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        ServerNodeInfo myselfNodeInfo = discoveryService.getEtcdRegister().getMyselfNodeInfo();
+        int myWorkId = discoveryService.getMyWorkId();
+        SnowFlake.init(myWorkId, myselfNodeInfo.getServerType());
         LogicThreadPoolGroup logicThreadPoolGroup = new LogicThreadPoolGroup(1);
         logicThreadPoolGroup.createThreadPool(ThreadPoolType.LOGIC.getValue(), 1);
     }

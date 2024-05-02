@@ -13,7 +13,7 @@ public interface SessionService {
 
     void gameSrvLoginResponse(ProtoInner.InnerGameLoginResponse innerWorldLoginResponse);
 
-    void kickOutPlayer(long uid);
+    void kickOutPlayer(long uid, long sid);
 
     void sendPlayerMsg(long uid, int msgId, Message body);
 
@@ -28,4 +28,6 @@ public interface SessionService {
     void playerDisconnect(PlayerSession playerSession);
 
     PlayerSession getPlayerSession(long uid);
+
+    void playerChangeScene(long uid, ProtoInner.InnerSceneChangeReq innerSceneChangeReq);
 }

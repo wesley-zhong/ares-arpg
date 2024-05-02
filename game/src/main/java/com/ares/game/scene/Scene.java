@@ -2,6 +2,7 @@ package com.ares.game.scene;
 
 import com.ares.game.player.GamePlayer;
 import com.ares.game.scene.modules.sight.SceneSightModule;
+import com.game.protoGen.BinServer;
 import com.game.protoGen.ProtoCommon;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,14 @@ public abstract class Scene extends SceneModuleContainer {
         if (player != null) {
             ownerUid = player.getUid();
         }
+    }
+
+    public void fromBin(BinServer.SceneBin bin) {
+
+    }
+
+    public void toBin(BinServer.SceneBin.Builder bin) {
+
     }
 
     public void init() {

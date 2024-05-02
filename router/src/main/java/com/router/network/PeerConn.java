@@ -37,9 +37,6 @@ public class PeerConn extends PeerConnBase {
 
     @Override
     public Channel loadBalance(int serverType, long uid) {
-        /**
-         * 暂时先这样
-         */
         UserOnlineStateDO userOnlineStateDO = userOnlineService.getUserOnlineStateDO(uid);
         if (userOnlineStateDO == null) {
             log.error("error=====, loadBalance  uid={}", uid);
@@ -48,7 +45,7 @@ public class PeerConn extends PeerConnBase {
 
         String targetServId = userOnlineStateDO.getGmSrId();
         if (serverType == ServerType.TEAM.getValue()) {
-            targetServId = userOnlineStateDO.getTsrId();
+            targetServId = userOnlineStateDO.getTmSrId();
         }
 
         TcpConnServerInfo serverTcpConnInfo = null;
@@ -57,8 +54,8 @@ public class PeerConn extends PeerConnBase {
         }
         if (serverTcpConnInfo == null) {
             ServerNodeInfo lowerLoadServerNodeInfo = onDiscoveryWatchService.getLowerLoadServerNodeInfo(serverType);
-            userOnlineStateDO.setServerId(lowerLoadServerNodeInfo.getServiceId(), serverType);
-            userOnlineService.saveUserOnlineDo(uid,userOnlineStateDO);
+          //  userOnlineStateDO.setServerId(lowerLoadServerNodeInfo.getServiceId(), serverType);
+            userOnlineService.resetTeamServId(uid,lowerLoadServerNodeInfo.getServiceId());
             serverTcpConnInfo = getTcpConnServerInfo(lowerLoadServerNodeInfo);
             return serverTcpConnInfo.roubinChannel();
         }

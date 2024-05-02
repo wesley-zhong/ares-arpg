@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class DisruptorSingleExecutor implements IMessageExecutor {
 
     //65536条消息
-    private final int MAX_QUE_SIZE = 1 <<13;// 2 << 15;
+    private final int MAX_QUE_SIZE = 1 << 13;// 2 << 15;
 
     private final RingBuffer<AresEventProcess> ringBuffer;
     private final Disruptor<AresEventProcess> disruptor;
@@ -120,6 +120,27 @@ public class DisruptorSingleExecutor implements IMessageExecutor {
             try {
                 TaskEventTask<T> taskEventTask = new TaskEventTask<>();
                 taskEventTask.setP(p);
+                taskEventTask.setFunction(method);
+                AresEventProcess aresEventProcess = ringBuffer.get(sequence);
+                aresEventProcess.setEventTask(taskEventTask);
+            } finally {
+                ringBuffer.publish(sequence);
+            }
+        } catch (Exception e) {
+            // This exception is used by the Disruptor as a global goto. It is a singleton
+            // and has no stack trace.  Don't worry about performance.
+            log.error("Logic thread disruptor buff is error", e);
+        }
+    }
+
+    @Override
+    public <T1, T2> void execute(T1 p1, T2 p2, EventCommBiFunction<T1, T2> method) {
+        try {
+            final long sequence = ringBuffer.tryNext();
+            try {
+                TaskBiCommEventTask<T1, T2> taskEventTask = new TaskBiCommEventTask<>();
+                taskEventTask.setP1(p1);
+                taskEventTask.setP2(p2);
                 taskEventTask.setFunction(method);
                 AresEventProcess aresEventProcess = ringBuffer.get(sequence);
                 aresEventProcess.setEventTask(taskEventTask);

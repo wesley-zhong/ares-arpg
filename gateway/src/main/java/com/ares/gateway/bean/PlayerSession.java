@@ -36,6 +36,6 @@ public class PlayerSession {
 
     @Override
     public String toString() {
-        return "pid:" + uid + " sid:"+sid +" from:" + aresTKcpContext.getCtx().channel();
+        return "uid:" + uid + " sid:"+sid +" from:" + aresTKcpContext.getCtx().channel();
     }
 }

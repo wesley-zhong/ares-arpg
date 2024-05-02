@@ -10,6 +10,7 @@ import com.ares.core.service.AresController;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.core.utils.AresContextThreadLocal;
 import com.game.protoGen.*;
+import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,9 +57,13 @@ public class ReceiveService implements AresController {
 //        if (PLAYER_COUNT - nowCount < 10) {
 //            //  performanceTestService.sendAllPlayerPerformanceMsg();
 //             // performanceTestService.sendGatewayPerformanceMsg();
-//            // performanceTestService.sendAllPlayerToTeamPerformanceMsg();
-//            performanceTestService.sendAoiPerformanceMsg();
+//             performanceTestService.sendAllPlayerToTeamPerformanceMsg();
+//          //  performanceTestService.sendAoiPerformanceMsg();
 //        }
+    }
+
+    public void onConnectLost(Channel channel){
+        log.info("XXXXXXXXXXXXXXX on server lost ={}", channel);
     }
 
 

@@ -7,42 +7,38 @@ import java.util.Set;
 
 @Slf4j
 public class SnowFlake {
-    //下面两个每个5位，加起来就是10位的工作机器id
-
-    //-----39  bit  system time-(15 years) --------2  bit serverType-- 11 bit areaId(2048 )----11 bit(2048)： sequence num
+    //-----39  bit  system time-(17 years) --------3  bit serverType-- 12 bit areaId(4096 )----9 bit(512)： sequence num
     private static long workerId;    //areaId
     private static long serverType;   //serverTYpe
-    //12位的序列号
+    //10位的序列号
     private static long sequence;
 
-    public static void init(long areaId, int sType) {
+    public static void init(long workerId, int sType) {
         // sanity check for workerId
-        if (workerId > maxWorkerId || workerId < 0) {
+        if (workerId > maxWorkerId || workerId  < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
         if (serverType > maxServerType || serverType < 0) {
             throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxServerType));
         }
-        log.info("worker starting. timestamp left shift {}, serverType id bits{}, worker id bits{}, sequence bits {} workerid {}",
-                timestampLeftShift, serverType, workerIdBits, sequenceBits, workerId);
-
-        workerId = areaId;
+        SnowFlake.workerId = workerId;
         serverType = sType;
         sequence = 1;
+        log.info("worker starting. timestamp left shift: {}, serverType id bits: {}, worker id bits: {}, sequence bits: {} workerId {}",
+                timestampLeftShift, serverType, workerIdBits, sequenceBits, SnowFlake.workerId);
+
     }
-
-
-    //初始时间戳
+    //初始时间戳  -----39  bit  system time-(17 years)
     private static long twepoch = 1706059602230L;
-
-    //长度为5位
-    private static long workerIdBits = 11L;
-    private static long serverTypeBits = 2L;
+    //
+    private static long workerIdBits = 12L;
+    private static long serverTypeBits = 3L;
+    //序列号id长度
+    private static final long sequenceBits = 9L;
     //最大值
     private static final long maxWorkerId = ~(-1L << workerIdBits);
     private static final long maxServerType = ~(-1L << serverTypeBits);
-    //序列号id长度
-    private static final long sequenceBits = 11L;
+
     //序列号最大值
     private static final long sequenceMask = ~(-1L << sequenceBits);
 
@@ -117,16 +113,20 @@ public class SnowFlake {
     }
 
     public static void main(String[] args){
-        SnowFlake.init(2047,3);
+        SnowFlake.init(2484,1);
         Set<Long>  sets = new HashSet<>(10000);
+        long start = System.currentTimeMillis();
         for(int i= 0 ; i < 3000000; i++){
             long id = SnowFlake.nextId();
-            System.out.println("------- id = " +id);
+           //  System.out.println("------- id = " +id);
             if(sets.contains(id)){
                 throw  new RuntimeException("FUCK");
             }
             sets.add(id);
         }
+        long end = System.currentTimeMillis();
+
+        System.out.println("dis = " +(end - start));
     }
 
 }

@@ -120,8 +120,6 @@ enum EnterType
   ENTER_DUNGEON = 6;          // 进入副本
   ENTER_DUNGEON_REPLAY = 7;   // 在副本中选择重玩
   ENTER_GOTO_BY_PORTAL = 8;   // 玩家在场景内通过传送门跳点(主要用于客户端)
-  ENTER_SELF_HOME = 9;  // 进入自己的家园
-  ENTER_OTHER_HOME = 10;// 进入别人的家园
 }
 
 enum VisionType

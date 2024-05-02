@@ -6,9 +6,12 @@ import com.ares.game.scene.Scene;
 import com.ares.game.scene.SceneMgr;
 import com.ares.game.scene.SceneUtil;
 import com.ares.game.scene.subclass.PlayerWorldScene;
+import com.game.protoGen.BinServer;
 import com.game.protoGen.ProtoCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  *  world就是逻辑层的大世界，包含一个mainScene，多个房间场景
@@ -20,8 +23,7 @@ public class PlayerWorld extends World{
     private int level = 0;                // 当前大世界等级,初始等级为0
     private GamePlayer ownPlayer;
 
-    public PlayerWorld(int worldId){
-        super(worldId);
+    public PlayerWorld(){
     }
 
     public GamePlayer getOwnPlayer() {
@@ -46,6 +48,32 @@ public class PlayerWorld extends World{
         return ProtoCommon.WorldType.WORLD_PLAYER;
     }
 
+    public void fromBin(BinServer.WorldBin bin) {
+        level = bin.getLevel();
+        long uid = getOwnerUid();
+        for (Map.Entry<Integer, BinServer.SceneBin> entry : bin.getSceneMapMap().entrySet()) {
+            int sceneId = entry.getKey();
+            BinServer.SceneBin sceneBin = entry.getValue();
+            Scene scene = SceneMgr.createScene(sceneId, ownPlayer);
+            scene.fromBin(sceneBin);
+            if (sceneMap.put(sceneId, scene) != null) {
+                throw new UnknownLogicException("scene already exist, uid:" + uid + " scene_id:" + sceneId);
+            }
+        }
+    }
+
+    public void toBin(BinServer.WorldBin.Builder bin) {
+        bin.setLevel(level);
+        for (Map.Entry<Integer, Scene> entry : sceneMap.entrySet()) {
+            int sceneId = entry.getKey();
+            Scene scene = entry.getValue();
+            BinServer.SceneBin.Builder sceneBinBuilder = BinServer.SceneBin.newBuilder();
+            scene.toBin(sceneBinBuilder);
+            bin.getSceneMapMap().put(sceneId, sceneBinBuilder.build());
+        }
+    }
+
+
     @Override
     public void init() {
         super.init();
@@ -69,6 +97,14 @@ public class PlayerWorld extends World{
             }
             mainScene.init();
             sceneMap.put(mainSceneId, mainScene);
+        }
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        for (Scene scene : sceneMap.values()) {
+            scene.start();
         }
     }
 

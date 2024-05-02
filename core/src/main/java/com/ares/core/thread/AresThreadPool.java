@@ -3,6 +3,7 @@ package com.ares.core.thread;
 import com.ares.core.bean.AresMsgIdMethod;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.core.thread.task.EventBiFunction;
+import com.ares.core.thread.task.EventCommBiFunction;
 import com.ares.core.thread.task.EventFunction;
 import com.ares.core.thread.task.EventThFunction;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,16 @@ public abstract class AresThreadPool {
 
 
     public <T> void execute(long hashCode, EventBiFunction<T> method, long p1, T p2) {
+        try {
+            IMessageExecutor iMessageExecutor = getChannelIMessageExecutor(hashCode);
+            iMessageExecutor.execute(p1, p2, method);
+        } catch (Exception e) {
+            log.error("---error-- ", e);
+        }
+    }
+
+
+    public <T1, T2> void execute(long hashCode, EventCommBiFunction<T1, T2> method, T1 p1, T2 p2) {
         try {
             IMessageExecutor iMessageExecutor = getChannelIMessageExecutor(hashCode);
             iMessageExecutor.execute(p1, p2, method);

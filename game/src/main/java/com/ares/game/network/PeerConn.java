@@ -29,6 +29,14 @@ public class PeerConn extends PeerConnBase {
     private OnDiscoveryWatchService onDiscoveryWatchService;
     private final Map<Long, GamePlayerInterTransferInfo> playerIdContext = new ConcurrentHashMap<>();
 
+    public long getPlayerThreadHash(long uid) {
+        GamePlayerInterTransferInfo gamePlayerInterTransferInfo = playerIdContext.get(uid);
+        if (gamePlayerInterTransferInfo == null) {
+            return 0L;
+        }
+        return gamePlayerInterTransferInfo.getThreadHashCode();
+    }
+
     //send msg to team by router server
     public void routerToTeam(long uid, int msgId, Message body) {
         routerTo(ServerType.TEAM, uid, msgId, body);
@@ -48,14 +56,28 @@ public class PeerConn extends PeerConnBase {
         send(ServerType.GATEWAY, uid, msgId, errCode);
     }
 
-    public void recordPlayerFromContext(ServerType serverType, long playerId, ChannelHandlerContext channelHandlerContext) {
-        GamePlayerInterTransferInfo gamePlayerInterTransferInfo = playerIdContext.get(playerId);
+    public GamePlayerInterTransferInfo recordPlayerFromContext(ServerType serverType, long uid, long gSid, ChannelHandlerContext channelHandlerContext) {
+        GamePlayerInterTransferInfo gamePlayerInterTransferInfo = playerIdContext.get(uid);
         if (gamePlayerInterTransferInfo == null) {
             gamePlayerInterTransferInfo = new GamePlayerInterTransferInfo();
             gamePlayerInterTransferInfo.setContext(serverType.getValue(), channelHandlerContext.channel());
-            playerIdContext.put(playerId, gamePlayerInterTransferInfo);
+            playerIdContext.put(uid, gamePlayerInterTransferInfo);
         }
+        gamePlayerInterTransferInfo.setGateSid(gSid);
         gamePlayerInterTransferInfo.setContext(serverType.getValue(), channelHandlerContext.channel());
+        return gamePlayerInterTransferInfo;
+    }
+
+    public GamePlayerInterTransferInfo getPLayerInnerTransInfo(long uid) {
+        return playerIdContext.get(uid);
+    }
+
+    public GamePlayerInterTransferInfo getPlayerLastGatewayChannel(long uid) {
+        GamePlayerInterTransferInfo gamePlayerInterTransferInfo = playerIdContext.get(uid);
+        if (gamePlayerInterTransferInfo == null) {
+            return null;
+        }
+        return gamePlayerInterTransferInfo;
     }
 
     @Override

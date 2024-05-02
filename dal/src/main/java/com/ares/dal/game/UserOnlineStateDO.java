@@ -8,20 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserOnlineStateDO extends RedisCasDO {
-    private String tsrId;
+    private String tmSrId;
     private String gmSrId;
-    private String gtSrId;
+    private long targetId;
 
-    public void setServerId(String serverId, int serverType) {
-        if (serverType == ServerType.TEAM.getValue()) {
-            tsrId = serverId;
-            return;
-        }
-        if (serverType == ServerType.GAME.getValue()) {
-            gmSrId = serverId;
-        }
-        if (serverType == ServerType.GATEWAY.getValue()) {
-            gtSrId = serverId;
-        }
-    }
 }

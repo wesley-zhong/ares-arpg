@@ -12,8 +12,6 @@ import com.ares.discovery.DiscoveryService;
 import com.ares.game.configuration.GameConfiguration;
 import com.ares.game.configuration.ThreadPoolType;
 import com.ares.game.localservice.PlayerLocalService;
-import com.ares.game.service.PlayerRoleService;
-import com.ares.game.service.PlayerSceneMap;
 import com.ares.transport.bean.ServerNodeInfo;
 import com.ares.transport.bean.TcpConnServerInfo;
 import com.game.protoGen.ProtoCommon;
@@ -34,8 +32,6 @@ public class GameMsgHandler implements AresServerTcpHandler {
 
     @Autowired
     private PeerConn peerConn;
-    @Autowired
-    private PlayerSceneMap playerSceneMap;
 
     @Autowired
     private GameConfiguration gameConfiguration;
@@ -75,11 +71,9 @@ public class GameMsgHandler implements AresServerTcpHandler {
                 return;
             }
             //按player 所在的scene 分线程处理
-            //  AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.INSTANCE.selectVirtualThreadPool(VirtualThreadPoolType.LOGIC.getValue());
             AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
-            long playerSceneId = playerSceneMap.getPlayerSceneId(uid);
-            logicProcessThreadPool.execute(uid, aresTKcpContext, calledMethod, uid, paraObj);
-            //    processNetworkMessage(uid, aresTKcpContext, calledMethod, uid, paraObj, msgHeader);
+            long playerSceneId = peerConn.getPlayerThreadHash(uid) ;//playerSceneMap.getPlayerSceneId(uid);
+            logicProcessThreadPool.execute(playerSceneId, aresTKcpContext, calledMethod, uid, paraObj);
         }
     }
 
