@@ -1,0 +1,39 @@
+server:
+  port: 6080
+  type: 2
+spring:
+  application:
+    name: gateway.V1
+  cloud:
+    config:
+      enabled: false
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+game-server:
+  servers:
+    - id: 100
+      ip: 127.0.0.1
+      port: 8081
+
+discovery:
+  endpoints:
+    - http://localhost:2379
+    - http://localhost:2379
+  watch-servers:
+    - service-name-prefix: game.V1
+redis:
+  url: "redis://172.18.2.101:6379/0"
+
+netty:
+  server:
+    workerCount: 8
+    packet_limit: 524288
+  client:
+    workerCount: 8
+    CONN_COUNT: 8
+    SO_SNDBUF: 8388608
+    SO_RCVBUF: 8388608
+    WATER_MARK: 8388608

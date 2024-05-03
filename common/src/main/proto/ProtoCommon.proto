@@ -1,0 +1,278 @@
+syntax = "proto3";
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+enum ErrCode {
+  SUCCESS = 0;
+  UNKNOWN = 1;
+  FAILED = 2;
+  INVALID_LOGIN_TOKEN = 3;
+  INVALID_GAME_TICKET = 4;
+  INVALID_PARAM = 10;
+  NAME_LENGTH_INVALID = 11;
+  NOTICE_LENGTH_INVALID = 12;
+  COST_NOT_ENOUGH = 13;
+  ERR_ALREADY_IN_SCENE = 14;
+  ERR_NOT_IN_SCENE = 15;
+  ERR_NOT_EXIST_SCENE = 16;
+  ENTITY_NOT_CONSTRUCT_CORRECT = 17;
+  COMPONENT_NOT_EXIST = 18;
+  COMPONENT_CONSTRUCT_ERROR = 19;
+  ENTER_SCENE_TOKEN_INVALID = 20;
+  SCENE_IS_FULL = 21;
+
+  //------team-ERROR  -500-600-----------
+  TEAM_ERROR_ALREADY_IN_TEAM =500;
+  TEAM_NOT_EXIST = 501;
+  TEAM_REACH_MAX = 502;
+}
+
+// REQ<->RES 客户端到服务器请求应答
+// NTF 服务端到客户端的通知
+// PUSH 客户端到服务器的通知
+enum MsgId {
+  INVALID = 0;
+  ERROR_MESSAGE = 1;
+  HEART_BEAT_REQUEST = 2;
+  HEART_BEAT_RESPONSE = 3;
+  ACCOUNT_LOGIN_REQ = 10;
+  ACCOUNT_LOGIN_RES = 11;
+  LOGOUT_REQUEST = 12;
+  LOGOUT_RESPONSE = 13;
+  KICK_OUT_REQUEST = 14;
+  KICK_OUT_RESPONSE = 15;
+
+  GAME_LOGIN_REQ = 16;
+  GAME_LOGIN_RES = 17;
+
+  // old_scene 100-199
+  OLD_CREATE_SCENE_REQ = 100;
+  OLD_CREATE_SCENE_RES = 101;
+  OLD_CREATE_SCENE_FINISH_NTF = 102;
+  OLD_SCENE_LIST_REQ = 103;
+  OLD_SCENE_LIST_RES = 104;
+  OLD_ENTER_SCENE_REQ = 105;
+  OLD_ENTER_SCENE_RES = 106;
+  OLD_ENTER_DEFAULT_SCENE_REQ = 107;
+  OLD_ENTER_DEFAULT_SCENE_RES = 108;
+  OLD_PLAYER_ENTER_SCENE_NTF = 109;
+  OLD_PLAYER_LEAVE_SCENE_NTF = 110;
+  OLD_LEAVE_SCENE_REQ = 111;
+  OLD_LEAVE_SCENE_RES = 112;
+  OLD_SCENE_MESSAGE_PUSH = 113;
+  OLD_SYNC_SCENE_MESSAGE_NTF = 114;
+  OLD_SERVER_SCENE_FINISH_LOADING_NTF = 115;
+  OLD_CLIENT_SCENE_FINISH_LOADING_REQ = 116;
+  OLD_CLIENT_SCENE_FINISH_LOADING_RES = 117;
+  OLD_RESET_SCENE_REQ = 118;
+  OLD_RESET_SCENE_RES = 119;
+  OLD_CLIENT_SYNC_MOVE_PUSH = 120;
+  OLD_PLAYER_MOVE_TO_NTF = 121;
+
+  // scene 200-299
+  PLAYER_ENTER_SCENE_NTF = 200;
+  ENTER_SCENE_READY_REQ = 201;
+  ENTER_SCENE_READY_RES = 202;
+  SCENE_INIT_FINISH_REQ = 203;
+  SCENE_INIT_FINISH_RES = 204;
+  ENTER_SCENE_DONE_REQ = 205;
+  ENTER_SCENE_DONE_RES = 206;
+  POST_ENTER_SCENE_REQ = 207;
+  POST_ENTER_SCENE_RES = 208;
+  LEAVE_SCENE_REQ = 209;
+  LEAVE_SCENE_RES = 210;
+  SCENE_ENTITY_APPEAR_NTF = 211;
+  SCENE_ENTITY_DISAPPEAR_NTF = 212;
+  SCENE_PLAYER_LOCATION_NTF = 213;
+  SCENE_TRANS_TO_POINT_REQ = 214;
+  SCENE_TRANS_TO_POINT_RES = 215;
+  ENTITY_JUMP_NTF = 216;
+  SCENE_CREATE_ENTITY_REQ = 217;
+  SCENE_CREATE_ENTITY_RES = 218;
+  SCENE_DESTROY_ENTITY_REQ = 219;
+  SCENE_DESTROY_ENTITY_RES = 220;
+  ENTITY_FORCE_SYNC_REQ = 221;
+  ENTITY_FORCE_SYNC_RES = 222;
+  CLIENT_TRANSMIT_REQ = 223;
+  CLIENT_TRANSMIT_RES = 224;
+  SCENE_PLAYER_INFO_NTF = 225;
+  WORLD_PLAYER_LOCATION_NTF = 226;
+  PERSONAL_SCENE_JUMP_REQ = 227;
+  PERSONAL_SCENE_JUMP_RES = 228;
+  PLAYER_ENTER_SCENE_INFO_NTF = 229;
+  JOIN_PLAYER_SCENE_REQ = 230;
+  JOIN_PLAYER_SCENE_RES = 231;
+  SCENE_KICK_PLAYER_REQ = 232;
+  SCENE_KICK_PLAYER_RES = 233;
+  SCENE_KICK_PLAYER_NTF = 234;
+  BACK_MY_WORLD_REQ = 235;
+  BACK_MY_WORLD_RES = 236;
+  SCENE_TIME_NTF = 237;
+  ENTER_SCENE_PEER_NTF = 238;
+  JOIN_PLAYER_FAIL_NTF = 239;
+  SCENE_ENTITIES_MOVE_REQ = 240;
+  SCENE_ENTITIES_MOVE_RES = 241;
+  SCENE_ENTITIES_MOVE_NTF = 242;
+  WORLD_DATA_NTF = 243;
+  WORLD_PLAYER_INFO_NTF = 244;
+  SCENE_DATA_NTF = 245;
+  PLAYER_EYE_POINT_STATE_NTF = 246;
+  SCENE_ENTITY_MOVE_NTF = 247;
+
+  //  team 500-600
+  TEAM_CREATE_REQ = 500;
+  TEAM_CREATE_RES = 501;
+  TEAM_INFO_NTF = 502;
+  //----
+  TEAM_LIST_REQ= 503;
+  TEAM_LIST_RES = 504;
+  //------
+  TEAM_DETAIL_REQ =505;
+  TEAM_DETAIL_RES = 506;
+
+  TEAM_JOIN_REQ = 507;
+  TEAM_JOIN_RES = 508;
+  TEAM_EXIT_REQ = 509;
+  TEAM_DISMISS = 510;
+
+
+
+  //fortest
+
+  LOGIN_INIT_REQUEST = 2000;
+  PERFORMANCE_TEST_REQ = 2001;
+  PERFORMANCE_TEST_RES = 2002;
+  DIRECT_TO_TEAM_REQ = 2003;
+  DIRECT_TO_TEAM_RES = 2004;
+  RPC_REQ_TEST = 2005;
+  MAP_AOI_TEST_REQ = 2006;
+  MAP_AOP_TEST_RES = 2007;
+}
+
+enum GameModuleId {
+  GMT_Default = 0;
+
+  // 1000-1999 for player
+  GMI_PlayerBasic = 1000;
+  GMI_PlayerScene = 1001;
+  GMI_PlayerItem = 1002;
+  GMI_PlayerAvatar = 1003;
+
+  // 2000-2999 for scene
+  GMI_SceneSight = 2000;
+}
+
+// 世界类型
+enum WorldType
+{
+  WORLD_NONE = 0; // 未定义
+  WORLD_PLAYER = 1; // 玩家大世界
+};
+
+// 场景类型
+enum SceneType
+{
+  SCENE_NONE = 0; // 未定义
+  SCENE_WORLD = 1; // 玩家的世界场景
+  SCENE_DUNGEON = 2; // 地下城副本
+  SCENE_ROOM = 3; // 房间
+};
+
+enum VisionLevelType {
+    VISION_LEVEL_NORMAL = 0;         // 正常视距:80m内可见
+    VISION_LEVEL_LITTLE_REMOTE = 1;  // 较远视距: 160m内可见
+    VISION_LEVEL_REMOTE = 2;         // 远视距: 1000m内可见
+    VISION_LEVEL_SUPER = 3;          // 超级视距: 4000m内可见
+    VISION_LEVEL_NEARBY = 4;         // 近视距: 40m内可见
+    VISION_LEVEL_SUPER_NEARBY = 5;   // 超近视距: 20m内可见
+}
+
+// 联机模式设置
+enum MpSettingType
+{
+  MP_SETTING_NO_ENTER = 0;     // 不允许进入
+  MP_SETTING_ENTER_FREELY = 1; // 随意进入
+  MP_SETTING_ENTER_AFTER_APPLY = 2;  // 申请后进入
+}
+
+enum LifeState
+{
+  LIFE_NONE = 0; // 未定义
+  LIFE_ALIVE = 1; // 活着
+  LIFE_DEAD = 2; // 死亡
+  LIFE_REVIVE = 3; // 复活中
+}
+
+// 向量
+message Vector
+{
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+//向量 *100, 保留两位小数
+message Vector3Int
+{
+  int32 x = 1;
+  int32 y = 2;
+  int32 z = 3;
+}
+
+message OnlinePlayerInfo
+{
+  int64 uid = 1;
+  string nickname = 2;
+  int32 player_level = 3;
+  int32 avatar_id = 4;        // 玩家头像
+  MpSettingType mp_setting_type = 5;
+  int32 cur_player_num_in_world = 6;
+  int32 world_level = 7;     // 大世界等级
+}
+
+message MsgHeader{
+  int32 seqNo = 1; //序列号
+  int32 reqId = 2; //请求Id 从1：开始， 0：表示 push,  >0: rpc
+  int32 msgId = 3; //消息id
+  int32 crc = 4;  //messageBody crc
+  int32 errCode = 5;
+  int64 uid = 6;  //  to roleId
+  int32 routerTo = 7; // router to server type Only for the msg to send to router
+}
+
+message HeartBeatRequest {
+  int64 clientTime = 1; // 客户端时间
+}
+
+message HeartBeatResponse {
+  int64 clientTime = 1; // 客户端时间
+  int64 serverTime = 2; // 服务器时间
+}
+
+//only for test
+message  RpcReqTest{
+  int32 someId = 1;
+  string  someStr = 2;
+}
+//only for test
+message RpcReqRespons{
+  int32 someId2 = 1;
+  string  someStr2 = 2;
+}
+
+message  AoiTestReq{
+  int32  posX = 1;
+  int32  posY = 2;
+  int32  width = 4;
+  int32  height = 5;
+}
+
+message  Entity{
+  int64  id = 1;
+  bytes  body =2;
+}
+
+message  AoiTestRes{
+  repeated  Entity entities = 1;
+  repeated int64 delIds = 2;
+}
