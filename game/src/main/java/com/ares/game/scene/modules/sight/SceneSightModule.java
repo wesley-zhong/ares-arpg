@@ -52,13 +52,13 @@ public abstract class SceneSightModule extends SceneModule {
     // entity离开场景
     public abstract Collection<Entity> removeEntity(Entity entity);
 
-    public static class EntityMoveToResult {
+    public static class EntityMoveToRet {
         public Collection<Entity> missEntities;
         public Collection<Entity> meetEntities;
     }
 
     // entity在场景中移动
-    public abstract EntityMoveToResult entityMoveTo(Entity entity, Vector3 dest_pos);
+    public abstract EntityMoveToRet entityMoveTo(Entity entity, Vector3 destPos);
 
     // 查询所有视距级别，entity附近满足visitor条件的entity集合
     public abstract void visitGridsInSight(Entity entity, Visitor visitor);

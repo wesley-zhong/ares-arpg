@@ -1,7 +1,7 @@
 package com.ares.game.service;
 
 import com.ares.game.network.PeerConn;
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import com.game.protoGen.ProtoInner;
 import com.game.protoGen.ProtoTeam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class TeamService {
     private PeerConn peerConn;
 
     public void teamCreateReq(long uid, ProtoTeam.CreateTeamReq createTeamReq) {
-        GamePlayer player = playerRoleService.getPlayer(uid);
+        Player player = playerRoleService.getPlayer(uid);
         ProtoTeam.TeamMemberInfo owner = ProtoTeam.TeamMemberInfo.newBuilder().setActorId(uid)
                 .setNickName(player.getBasicModule().getNickName()).build();
 
@@ -28,7 +28,7 @@ public class TeamService {
     }
 
     public void teamJoinReq(long uid, ProtoTeam.JoinTeamReq joinTeamReq) {
-        GamePlayer player = playerRoleService.getPlayer(uid);
+        Player player = playerRoleService.getPlayer(uid);
         ProtoTeam.TeamMemberInfo newMember = ProtoTeam.TeamMemberInfo.newBuilder().setActorId(uid)
                 .setNickName(player.getBasicModule().getNickName()).build();
 

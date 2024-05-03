@@ -6,9 +6,9 @@ import com.game.protoGen.ProtoCommon;
 
 public abstract class PlayerModule extends GameModule.Module {
     private final ProtoCommon.GameModuleId moduleId;
-    protected final GamePlayer player;
+    protected final Player player;
 
-    public PlayerModule(ProtoCommon.GameModuleId moduleId, GamePlayer player) {
+    public PlayerModule(ProtoCommon.GameModuleId moduleId, Player player) {
         this.moduleId = moduleId;
         this.player = player;
         this.player.addModule(this);
@@ -19,7 +19,7 @@ public abstract class PlayerModule extends GameModule.Module {
         return moduleId;
     }
 
-    public GamePlayer getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 

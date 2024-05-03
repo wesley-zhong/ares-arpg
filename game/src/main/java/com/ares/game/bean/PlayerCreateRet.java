@@ -1,8 +1,9 @@
 package com.ares.game.bean;
 
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 
 public class PlayerCreateRet {
-    public GamePlayer gamePlayer;
-    public  boolean isNew;
+    public Player player;
+    public boolean isNew = false;
+    public boolean loadFromMem = false;
 }

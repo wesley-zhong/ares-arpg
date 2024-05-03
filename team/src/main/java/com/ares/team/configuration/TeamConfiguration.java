@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Lazy;
 @Configuration
 @ComponentScan("com.ares")
 public class TeamConfiguration implements InitializingBean {
-
     @Autowired
     private DiscoveryService discoveryService;
 

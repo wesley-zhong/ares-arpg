@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginRequest {
-    private int areaId;
     private String accountId;
+    private String channel;
+    private String password;
 }

@@ -2,7 +2,7 @@ package com.ares.game.scene;
 
 import com.ares.core.excetion.LogicException;
 import com.ares.game.network.PeerConn;
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import com.ares.game.service.PlayerRoleService;
 import com.game.protoGen.ProtoCommon;
 import com.game.protoGen.ProtoOldScene;
@@ -116,7 +116,7 @@ public class OldSceneMgr implements InitializingBean {
         if (scene == null){
             throw new LogicException(ProtoCommon.ErrCode.UNKNOWN_VALUE, "");
         }
-        GamePlayer player = getPlayer(actorid);
+        Player player = getPlayer(actorid);
         if (player == null){
             throw new LogicException(ProtoCommon.ErrCode.UNKNOWN_VALUE, "");
         }
@@ -195,7 +195,7 @@ public class OldSceneMgr implements InitializingBean {
         scene.clientSyncMove(actor_id, push);
     }
 
-    public GamePlayer getPlayer(long uid) {
+    public Player getPlayer(long uid) {
         return playerRoleService.getPlayer(uid);
     }
 

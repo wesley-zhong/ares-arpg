@@ -8,5 +8,4 @@ import lombok.Setter;
 public class SdkLoginRequest {
     private String accountId;
     private String token; //sdk token
-    private int areaId;
 }

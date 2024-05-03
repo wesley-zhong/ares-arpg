@@ -7,38 +7,42 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
-{
+public class AppTest
+        extends TestCase {
     /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
-    {
-        super( testName );
+
+
+    public AppTest(String testName) {
+        super(testName);
     }
 
     /**
      * @return the suite of tests being tested
      */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    public static Test suite() {
+        return new TestSuite(AppTest.class);
     }
 
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
-    {
+    public void testApp() {
         long start = System.currentTimeMillis();
-        for(int i = 0 ; i < 10000; i ++){
+        for (int i = 0; i < 10000; i++) {
             byte[] bytes = new byte[512];
         }
         long end = System.currentTimeMillis();
-        System.out.println("-----cost time = " +(end - start));
-        assertTrue( true );
+        System.out.println("-----cost time = " + (end - start));
+        assertTrue(true);
+
     }
+
+    private String createExpensiveGraph(String key) {
+        return null;
+    }
+
 }

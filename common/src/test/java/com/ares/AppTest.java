@@ -1,6 +1,8 @@
 package com.ares;
 
+import com.ares.common.util.LRUCache;
 import com.game.protoGen.ProtoInner;
+import com.google.common.cache.LoadingCache;
 import com.google.protobuf.InvalidProtocolBufferException;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -49,5 +51,18 @@ public class AppTest
 //
 //        ProtoInner.MsgHeader msgHeader = ProtoInner.MsgHeader.parseFrom(builder1.build().toByteArray());
         assertTrue( true );
+    }
+
+    public void testLru() throws Exception {
+        LRUCache<Integer, String> loadingCache = new LRUCache<>(2);
+        loadingCache.put(1,"1");
+        loadingCache.put(2,"2");
+        loadingCache.get(1);
+        loadingCache.get(9);
+        loadingCache.get(9);
+        //loadingCache.get(2);
+        loadingCache.put(3,"3");
+        String s = loadingCache.get(1);
+        assertTrue(s.equals("1"));
     }
 }

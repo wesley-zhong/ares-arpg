@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginResponse {
-    private int areaId;
     private String accountId;
     private  long uid;
-    private String secret;
-    private String serverAddr;
+    private String token;
+    private String serverIp;
+    private int port;
 }

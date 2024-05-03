@@ -149,7 +149,7 @@ public class SceneGridSightModule extends SceneSightModule {
     }
 
     @Override
-    public EntityMoveToResult entityMoveTo(Entity entity, Vector3 dest_pos) {
+    public EntityMoveToRet entityMoveTo(Entity entity, Vector3 destPos) {
         return null;
     }
 

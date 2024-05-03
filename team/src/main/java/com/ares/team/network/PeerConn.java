@@ -3,6 +3,7 @@ package com.ares.team.network;
 
 import com.ares.common.bean.ServerType;
 import com.ares.discovery.DiscoveryService;
+import com.ares.team.discovery.OnDiscoveryWatchService;
 import com.ares.transport.bean.ServerNodeInfo;
 import com.ares.transport.peer.PeerConnBase;
 import com.google.protobuf.Message;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class PeerConn extends PeerConnBase {
     @Autowired
-    private DiscoveryService discoveryService;
+    private OnDiscoveryWatchService onDiscoveryWatchService;
     private final Map<Long, ChannelHandlerContext> playerIdContext = new ConcurrentHashMap<>();
 
     public void recordPlayerRouterContext(long uid, ChannelHandlerContext channelHandlerContext){

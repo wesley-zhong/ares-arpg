@@ -18,7 +18,7 @@ message AccountLoginReq {
 message AccountLoginRes {
   int32 errorCode = 1; // 错误码
   int64 serverTime = 2; // 服务器当前时间 MS
-  int32  uid = 3;       //player id
+  int64  uid = 3;       //player id
   string gameSrvIp = 4;
   int32  gameSrvPort = 5;
   string gameToken = 6;//  进入gameServ 时需要带上

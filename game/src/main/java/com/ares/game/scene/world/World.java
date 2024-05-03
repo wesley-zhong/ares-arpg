@@ -2,15 +2,16 @@ package com.ares.game.scene.world;
 
 import com.ares.common.math.Vector3;
 import com.ares.common.util.ForeachPolicy;
-import com.ares.core.utils.TimeUtils;
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import com.ares.game.scene.Scene;
-import com.ares.game.scene.SceneUtil;
 import com.game.protoGen.ProtoCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 public abstract class World {
@@ -25,7 +26,7 @@ public abstract class World {
 
     public static class WorldPlayerInfo
     {
-        public GamePlayer player;
+        public Player player;
         public int curSceneId = 0;
         public long enterTime = 0;    // 开始进入时间
         public Vector3 lastMainPos;      // 离开mainScene时的pos和rot
@@ -89,12 +90,12 @@ public abstract class World {
     public abstract void kickAllPlayer(int reason, boolean canKickOwner);
 
     // uid玩家是否在该大世界中
-    public boolean isPlayerIn(int uid) {
+    public boolean isPlayerIn(long uid) {
         return playerInfoMap.containsKey(uid);
     }
 
     // 查找本世界的玩家
-    GamePlayer findPlayer(long uid) {
+    Player findPlayer(long uid) {
         WorldPlayerInfo playerInfo = playerInfoMap.get(uid);
         if (playerInfo != null) {
             return playerInfo.player;
@@ -103,84 +104,31 @@ public abstract class World {
     }
 
     // 玩家准备进入大世界，占位
-    public int playerPreEnter(GamePlayer player) {
-        long uid = player.getUid();
-        if (isWorldFull())
-        {
-            log.debug("uid: " + uid + " playerPreEnter fails, world full");
-            return -1;
-        }
-        if (slotInfoMap.containsKey(uid)) {
-            log.warn("uid: " + uid + " already preEnter world, owner: " + ownerUid);
-        }
-        WorldPlayerSlotInfo slotInfo = new WorldPlayerSlotInfo();
-        slotInfo.uid = uid;
-        slotInfo.preEnterTime = TimeUtils.currentTimeMillis();
-        slotInfo.nickname = player.getBasicModule().getNickName();
-        slotInfoMap.put(uid, slotInfo);
-
-        log.debug("[WORLD] uid: " + uid + " pre-Enter world, owner: " + ownerUid);
-        return 0;
+    public void playerPreEnter(Player player) {
     }
 
     // 玩家进入大世界
-    public int playerEnter(GamePlayer player) {
-        return 0;
+    public void playerEnter(Player player) {
     }
 
     // 玩家离开大世界，已经完成退场流程
-    public int playerLeave(GamePlayer player, int leaveSceneId) {
-        return 0;
+    public void playerLeave(Player player, int leaveSceneId) {
     }
 
     // 玩家进入某个scene
-    public void onPlayerEnterScene(GamePlayer player, Scene scene) {
-        long uid = player.getUid();
-        WorldPlayerInfo playerInfo = playerInfoMap.get(uid);
-        if (playerInfo == null)
-        {
-            log.debug("player_info_map_ not found uid: " + uid + " owner:" + getOwnerUid());
-            return;
-        }
-
-        log.debug("[WORLD] uid: " + uid + " enterScene: " + scene.getSceneId() + " scene owner: " + scene.getOwnerUid());
-
-        playerInfo.curSceneId = scene.getSceneId();
+    public void onPlayerEnterScene(Player player, Scene scene) {
     }
 
     // 玩家退出某个scene
-    public void onPlayerLeaveScene(GamePlayer player, Scene scene) {
-        long uid = player.getUid();
-        WorldPlayerInfo playerInfo = playerInfoMap.get(uid);
-        if (playerInfo == null)
-        {
-            log.debug("player_info_map_ not found uid: " + uid + " owner:" + getOwnerUid());
-            return;
-        }
-
-        log.debug("[WORLD] uid: " + uid + " leaveScene: " + scene.getSceneId() + " scene owner: " + scene.getOwnerUid());
-        if (SceneUtil.isWorldScene(scene.getSceneType()))
-        {
-//            AvatarPtr avatar_ptr = player.getCurAvatar();
-//            if (avatar_ptr != nullptr)
-//            {
-//                player_info.last_main_pos = avatar_ptr->getPosition();
-//                player_info.last_main_rot = avatar_ptr->getRotation();
-//                player_info.is_pos_valid = true;
-//            }
-//            else
-//            {
-//                LOG_WARNING << "uid: " << uid << " getCurAvatar fails";
-//            }
-        }
+    public void onPlayerLeaveScene(Player player, Scene scene) {
     }
 
-    public int foreachPlayer(Function<GamePlayer, ForeachPolicy> func) {
-        List<GamePlayer> players = new ArrayList<GamePlayer>();
+    public int foreachPlayer(Function<Player, ForeachPolicy> func) {
+        List<Player> players = new ArrayList<Player>();
         for (WorldPlayerInfo playerInfo : playerInfoMap.values()) {
             players.add(playerInfo.player);
         }
-        for (GamePlayer player : players)
+        for (Player player : players)
         {
             if (func.apply(player) != ForeachPolicy.CONTINUE)
             {
@@ -196,5 +144,9 @@ public abstract class World {
 
     // 同步大世界中玩家的基本数据
     protected void notifyAllPlayerInfo() {
+    }
+
+    // 断线重连，重新同步world的数据
+    public void notifyWorldData(Player player) {
     }
 }

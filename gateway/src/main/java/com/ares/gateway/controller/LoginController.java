@@ -4,9 +4,10 @@ import com.ares.core.annotation.MsgId;
 import com.ares.core.service.AresController;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.core.utils.AresContextThreadLocal;
+import com.ares.dal.game.UserTokenService;
 import com.ares.discovery.DiscoveryService;
-import com.ares.discovery.utils.NetUtils;
 import com.ares.gateway.service.SessionService;
+import com.ares.transport.bean.ServerNodeInfo;
 import com.game.protoGen.ProtoCommon;
 import com.game.protoGen.ProtoGame;
 import com.game.protoGen.ProtoInner;
@@ -23,23 +24,30 @@ public class LoginController implements AresController {
     private SessionService sessionService;
     @Autowired
     private DiscoveryService discoveryService;
+    @Autowired
+    private UserTokenService userTokenService;
 
     /*
      暂时方案，应该走login server
      */
     @MsgId(ProtoCommon.MsgId.ACCOUNT_LOGIN_REQ_VALUE)
     public ProtoGame.AccountLoginRes accountLoginRequest(long uid, ProtoGame.AccountLoginReq loginRequest) {
+
+
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
         log.info("-------receive from ={} msg ={}", aresTKcpContext, loginRequest);
-        // sessionService.loginRequest(aresTKcpContext, loginRequest);
+        ServerNodeInfo myselfNodeInfo = discoveryService.getEtcdRegister().getMyselfNodeInfo();
         return ProtoGame.AccountLoginRes.newBuilder()
-                .setUid(1000)
-                .setGameSrvIp(NetUtils.getIpAddress().get(0))
-                .setGameSrvPort(8081).build();
+                .setUid(uid)
+                .setGameSrvIp(myselfNodeInfo.getIp())
+                .setGameSrvPort(myselfNodeInfo.getPort()).build();
     }
 
     @MsgId(ProtoCommon.MsgId.GAME_LOGIN_REQ_VALUE)
     public void gameLogin(long uid, ProtoGame.GameLoginReq gameLoginReq) {
+        // first check player token
+        //    boolean ret = userTokenService.checkToken(gameLoginReq.getUid(), gameLoginReq.getGameToken());
+
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
         sessionService.gameLogin(aresTKcpContext, gameLoginReq);
     }

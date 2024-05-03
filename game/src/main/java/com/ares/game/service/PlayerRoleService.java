@@ -1,26 +1,27 @@
 package com.ares.game.service;
 
+import com.ares.common.util.LRUCache;
 import com.ares.game.DO.RoleDO;
 import com.ares.game.bean.TimerBeanTest;
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
 public class PlayerRoleService {
+    private int MAX_PLAYER_CACHE = 2000;
     // this should be use lru replaced
-    private final Map<Long, GamePlayer> playerMap = new ConcurrentHashMap<>();
 
-    public GamePlayer getPlayer(long uid) {
-        return playerMap.get(uid);
+
+    private LRUCache<Long, Player> playerLRUCache = new LRUCache<>(MAX_PLAYER_CACHE);
+
+    public Player getPlayer(long uid) {
+        return playerLRUCache.get(uid);
     }
 
-    public void cachePlayer(GamePlayer gamePlayer) {
-        playerMap.put(gamePlayer.getUid(), gamePlayer);
+    public void cachePlayer(Player player) {
+        playerLRUCache.put(player.getUid(), player);
     }
 
 //    public GamePlayer createGamePlayer(long uid, String name) {

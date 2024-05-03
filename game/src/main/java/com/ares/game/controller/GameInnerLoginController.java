@@ -1,15 +1,10 @@
 package com.ares.game.controller;
 
-import com.ares.common.bean.ServerType;
 import com.ares.core.annotation.MsgId;
 import com.ares.core.service.AresController;
-import com.ares.core.tcp.AresTKcpContext;
-import com.ares.core.utils.AresContextThreadLocal;
-import com.ares.dal.game.UserOnlineService;
-import com.ares.discovery.DiscoveryService;
 import com.ares.game.DO.RoleDO;
 import com.ares.game.network.PeerConn;
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import com.ares.game.service.PlayerLoginService;
 import com.ares.game.service.PlayerRoleService;
 import com.game.protoGen.ProtoCommon;
@@ -48,7 +43,7 @@ public class GameInnerLoginController implements AresController {
 
     @MsgId(ProtoCommon.MsgId.PERFORMANCE_TEST_REQ_VALUE)
     public void performanceTest(long uid, ProtoGame.PerformanceTestReq req) {
-        GamePlayer player = playerRoleService.getPlayer(uid);
+        Player player = playerRoleService.getPlayer(uid);
         if (player == null) {
             log.error(" uid ={} not found", uid);
             return;

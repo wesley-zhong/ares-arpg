@@ -1,6 +1,6 @@
 package com.ares.game.player.modules.basic;
 
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import com.ares.game.player.PlayerModule;
 import com.game.protoGen.BinServer;
 import com.game.protoGen.ProtoCommon;
@@ -18,7 +18,7 @@ public class PlayerBasicModule extends PlayerModule {
     private int exp;
     private String nickName;
 
-    public PlayerBasicModule(GamePlayer player) {
+    public PlayerBasicModule(Player player) {
         super(ProtoCommon.GameModuleId.GMI_PlayerBasic, player);
     }
 

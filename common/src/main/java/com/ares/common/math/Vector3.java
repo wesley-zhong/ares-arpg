@@ -1,5 +1,8 @@
 package com.ares.common.math;
 
+import com.game.protoGen.BinServer;
+import com.game.protoGen.ProtoCommon;
+
 import java.util.Objects;
 
 public class Vector3 {
@@ -24,6 +27,14 @@ public class Vector3 {
         this.z = v.z;
     }
 
+    public static Vector3 fromBin(BinServer.VectorBin bin) {
+        return new Vector3(bin.getX(), bin.getY(), bin.getZ());
+    }
+
+    public static Vector3 fromClient(ProtoCommon.Vector pb) {
+        return new Vector3(pb.getX(), pb.getY(), pb.getZ());
+    }
+
     public float getX() {
         return x;
     }
@@ -34,6 +45,23 @@ public class Vector3 {
 
     public float getZ() {
         return z;
+    }
+
+    public void toBin(BinServer.VectorBin.Builder bin) {
+        bin.setX(x);
+        bin.setY(y);
+        bin.setZ(z);
+    }
+
+    public void toClient(ProtoCommon.Vector.Builder pb) {
+        pb.setX(x);
+        pb.setY(y);
+        pb.setZ(z);
+    }
+
+    public static float getDistance(Vector3 pos1, Vector3 pos2)
+    {
+        return (float) Math.sqrt(Math.pow(pos2.x - pos1.x, 2) + Math.pow(pos2.y - pos1.y, 2) + Math.pow(pos2.z - pos1.z, 2));
     }
 
     @Override

@@ -11,7 +11,7 @@ import com.ares.game.configuration.ThreadPoolType;
 import com.ares.game.dao.RoleDAO;
 import com.ares.game.network.GamePlayerInterTransferInfo;
 import com.ares.game.network.PeerConn;
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import com.game.protoGen.ProtoInner;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -49,7 +49,7 @@ public class PlayerLoginService {
         //load player data
         PlayerCreateRet playerCreateRet = loadOrCreateGamePlayerData(uid);
         //cache player info
-        playerRoleService.cachePlayer(playerCreateRet.gamePlayer);
+        playerRoleService.cachePlayer(playerCreateRet.player);
 
         //second run logic thread
         AresThreadPool logicProcessThreadPool = LogicThreadPoolGroup.INSTANCE.INSTANCE.selectThreadPool(ThreadPoolType.LOGIC.getValue());
@@ -62,9 +62,10 @@ public class PlayerLoginService {
     private PlayerCreateRet loadOrCreateGamePlayerData(long uid) {
         PlayerCreateRet playerCreateRet = new PlayerCreateRet();
         // first get from local memory
-        GamePlayer player = playerRoleService.getPlayer(uid);
+        Player player = playerRoleService.getPlayer(uid);
         if (player != null) {
-            playerCreateRet.gamePlayer = player;
+            playerCreateRet.loadFromMem = true;
+            playerCreateRet.player = player;
             return playerCreateRet;
         }
 
@@ -76,41 +77,41 @@ public class PlayerLoginService {
             playerCreateRet.isNew = true;
         }
         player.init();
-        playerCreateRet.gamePlayer = player;
+        playerCreateRet.player = player;
         return playerCreateRet;
     }
 
 
     //run on  logic thread  this process login logic after player data loaded
     private void playerLoginOnDataLoaded(long sid, PlayerCreateRet playerCreateRet) {
-        GamePlayer gamePlayer = playerCreateRet.gamePlayer;
-        gamePlayer.start();
-        gamePlayer.onLogin(playerCreateRet.isNew);
-        sendPlayerLoginResponse(gamePlayer.getUid(), sid);
-        log.info("  ###########  player uid ={} sid ={} login finished", gamePlayer.getUid(), sid);
+        Player player = playerCreateRet.player;
+        player.start();
+        player.login(playerCreateRet.isNew, playerCreateRet.loadFromMem, 0, false);
+        sendPlayerLoginResponse(player.getUid(), sid);
+        log.info("  ###########  player uid ={} sid ={} login finished", player.getUid(), sid);
     }
 
 
-    private GamePlayer loadGamePlayerFromDB(long uid) {
+    private Player loadGamePlayerFromDB(long uid) {
         RoleDO roleDO = roleDAO.getById(uid);
         if (roleDO == null) {
             return null;
         }
-        GamePlayer gamePlayer = new GamePlayer(uid);
-        //   gamePlayer.fromBin(roleDO);
-        return gamePlayer;
+        Player player = new Player(uid, peerConn);
+        //   player.fromBin(roleDO);
+        return player;
     }
 
-    private GamePlayer createPlayer(long uid) {
-        GamePlayer gamePlayer = new GamePlayer(uid);
-        gamePlayer.onFirstLogin();
-        gamePlayer.getBasicModule().setNickName("name _" + uid);
+    private Player createPlayer(long uid) {
+        Player player = new Player(uid, peerConn);
+        player.onFirstLogin();
+        player.getBasicModule().setNickName("name _" + uid);
 
         RoleDO roleDO = new RoleDO();
         roleDO.setId(uid);
-        gamePlayer.toBin(roleDO);
+        player.toBin(roleDO);
         roleDAO.insert(roleDO);
-        return gamePlayer;
+        return player;
     }
 
     private GamePlayerInterTransferInfo recordPlayerContextAndThreadHash(long uid, ProtoInner.InnerGameLoginRequest request, ChannelHandlerContext context) {
@@ -125,7 +126,7 @@ public class PlayerLoginService {
 
 
     private void sendPlayerLoginResponse(long pid, long sid) {
-        GamePlayer player = playerRoleService.getPlayer(pid);
+        Player player = playerRoleService.getPlayer(pid);
         if (player == null) {
             log.error(" pid={} not found", pid);
             return;

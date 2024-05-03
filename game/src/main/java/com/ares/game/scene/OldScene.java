@@ -2,7 +2,7 @@ package com.ares.game.scene;
 
 import com.ares.common.math.Vector3;
 import com.ares.core.excetion.LogicException;
-import com.ares.game.player.GamePlayer;
+import com.ares.game.player.Player;
 import com.ares.game.scene.entity.EntityTRS;
 import com.game.protoGen.ProtoCommon;
 import com.game.protoGen.ProtoOldScene;
@@ -23,7 +23,7 @@ public class OldScene {
     private boolean defaultScene = false;
     private Map<Long, Long> playerEntityIdMap = new HashMap<>();
     private Map<Long, Integer> playerProfessionMap = new HashMap<>();
-    private List<GamePlayer> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     private Map<Long, EntityTRS> playerTrsMap = new HashMap<>();
 
     public int getSceneId() {
@@ -44,7 +44,7 @@ public class OldScene {
     }
 
 
-    void initPlayerTRS(GamePlayer player)
+    void initPlayerTRS(Player player)
     {
         Vector3 born_position = new Vector3(0,0,0);
         Vector3 born_rotation = new Vector3(0,0,0);
@@ -59,7 +59,7 @@ public class OldScene {
 
     void pbSyncTRS(long actor_id, ProtoOldScene.EntityTRS trs)
     {
-        GamePlayer player = sceneMgr.getPlayer(actor_id);
+        Player player = sceneMgr.getPlayer(actor_id);
         if (player == null)
             return;
 
@@ -81,7 +81,7 @@ public class OldScene {
     void announcePlayerEnterScene(long actorid)
     {
         // broadcast actor enter scene
-        GamePlayer player = sceneMgr.getPlayer(actorid);
+        Player player = sceneMgr.getPlayer(actorid);
         if (player == null)
             return;
 
@@ -103,7 +103,7 @@ public class OldScene {
         }
 
         // Tell this actor other actors enter scene
-        for (GamePlayer player1 : players)
+        for (Player player1 : players)
         {
             if (player1.getUid() != actorid)
             {
@@ -134,7 +134,7 @@ public class OldScene {
         }
         log.info("actor enter scene [actor_id:{}] [scene_id:{}]", actor_id, sceneId);
 
-        GamePlayer player = sceneMgr.getPlayer(actor_id);
+        Player player = sceneMgr.getPlayer(actor_id);
         if (player == null) {
             throw new LogicException(ProtoCommon.ErrCode.UNKNOWN_VALUE, "player not found");
         }
@@ -170,10 +170,10 @@ public class OldScene {
     {
         if (playerEntityIdMap.containsKey(actor_id))
         {
-            Iterator<GamePlayer> iterator = players.iterator();
+            Iterator<Player> iterator = players.iterator();
             while (iterator.hasNext())
             {
-                GamePlayer player = iterator.next();
+                Player player = iterator.next();
                 if (player.getUid() == actor_id)
                 {
                     iterator.remove();
@@ -231,12 +231,12 @@ public class OldScene {
         broadcast(msgId, message, players, filterPlayerId);
     }
 
-    void broadcast(ProtoCommon.MsgId msgId, Message message, List<GamePlayer> playerList, long filterPlayerId) {
-        for (GamePlayer gamePlayer : playerList) {
-            if (gamePlayer.getUid() == filterPlayerId)
+    void broadcast(ProtoCommon.MsgId msgId, Message message, List<Player> playerList, long filterPlayerId) {
+        for (Player player : playerList) {
+            if (player.getUid() == filterPlayerId)
                 continue;
 
-            sceneMgr.getPeerConn().sendGateWayMsg(gamePlayer.getUid(), msgId.getNumber(), message);
+            sceneMgr.getPeerConn().sendGateWayMsg(player.getUid(), msgId.getNumber(), message);
         }
     }
 }

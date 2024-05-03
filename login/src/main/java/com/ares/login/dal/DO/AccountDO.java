@@ -12,6 +12,5 @@ import lombok.Setter;
 @MdbName("account")
 public class AccountDO extends CommDO {
     private long uid;
-    private int areaId;
     private String channel; //渠道
 }

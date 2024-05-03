@@ -1,6 +1,5 @@
 package com.ares.game.service;
 
-import com.ares.game.network.PeerConn;
 import com.ares.game.scene.OldSceneMgr;
 import com.game.protoGen.ProtoOldScene;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import java.util.List;
 public class OldSceneService {
     @Autowired
     private OldSceneMgr oldSceneMgr;
-    @Autowired
-    private PeerConn peerConn;
 
     public ProtoOldScene.OldCreateSceneRes createSceneReq(long uid, ProtoOldScene.OldCreateSceneReq createSceneReq) {
         ProtoOldScene.OldCreateSceneRes.Builder builder = ProtoOldScene.OldCreateSceneRes.newBuilder();
