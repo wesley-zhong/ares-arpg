@@ -91,7 +91,10 @@ public class EtcdDiscovery {
 
     private void setServerList(String key, ServerNodeInfo serverNodeInfo) {
         synchronized (lock) {
-            serverList.put(key, serverNodeInfo);
+            ServerNodeInfo exist = serverList.put(key, serverNodeInfo);
+            if(exist != null){
+                return;
+            }
             onNodeChangeFun.apply(WatchEvent.EventType.PUT, serverNodeInfo);
         }
     }
