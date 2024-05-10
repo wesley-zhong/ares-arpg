@@ -1,0 +1,55 @@
+syntax = "proto3";
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+message CreateTeamReq{
+  string team_name = 1;
+}
+
+
+//TEAM_CREATE_RES
+// TEAM_INFO_NTF
+//TEAM_JOIN_RES
+//TEAM_DETAIL_RES
+message TeamInfo{
+  int64 team_id = 1;
+  string team_name = 2;
+  int32 cur_num = 3;
+  int32 max_num = 4;
+  string team_leader = 5;
+  repeated TeamMemberInfo member_list = 6; //update, add
+  repeated int64 delete_member_list = 7;
+}
+
+message TeamMemberInfo{
+  int64 actor_id = 1;
+  string nick_name = 2;
+  int32 level = 3;
+  string fromGsrId = 4;
+}
+
+//TEAM_DETAIL_REQ
+message GetTeamDetailReq{
+  int64 team_id = 1;
+}
+
+
+//TEAM_JOIN_REQ
+message JoinTeamReq{
+  int64 team_id = 1;
+}
+
+//TEAM_EXIT_REQ
+message ExitTeamReq{
+}
+message DismissTeamReq{
+}
+
+message GetTeamListReq{
+}
+
+message GetTeamListRes{
+  repeated TeamInfo team_list = 1;
+}
+
+
