@@ -1,0 +1,60 @@
+syntax = "proto3";
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+import "ProtoCommon.proto";
+
+// 存储(背包或仓库)通知(S->C)
+message PlayerStoreNtf
+{
+  StoreType store_type = 1;           // 存储类型
+  repeated Item item_list = 2;        // 所有道具
+}
+
+// 存储(背包或仓库)中道具增加通知(S->C)
+message StoreItemChangeNtf
+{
+  StoreType store_type = 1;           // 存储类型
+  repeated Item item_list = 2;        // 增加的道具
+}
+
+// 存储(背包或仓库)中道具删除通知(S->C)
+message StoreItemDelNtf
+{
+  StoreType store_type = 1;       // 存储类型
+  repeated int64 guid_list = 2;  // 道具唯一ID
+}
+
+//message ItemHint
+//{
+//  int32 item_id = 1;
+//  int32 count = 2;
+//  bool is_new = 3;
+//}
+//
+//// 获得道具提示（只做展示）
+//message ItemAddHintNotify
+//{
+//  repeated ItemHint item_list = 1; //
+//  PbVector position = 2;             // 获取物品的场景位置
+//  bool is_position_valid = 3;      // position是否有效
+//  int32 reason = 4;               // 获得道具原因 ActionReasonType
+//  int32 quest_id = 5;             // 任务ID
+//}
+
+// 使用背包中的道具
+message UseItemReq
+{
+  int64 guid = 1;    // 唯一ID
+  int32 count = 2;   // 使用个数(只针对可堆叠类道具)
+  int64 target_guid = 3;     // 道具使用的目标角色
+  int32 option_idx = 4;     // 从1开始的选项序号
+}
+
+message UseItemRes
+{
+  int64 guid = 2;        // 唯一ID
+  int32 item_id = 3;     // 道具ID
+  int64 target_guid = 4;     // 道具使用的目标角色
+  int32 option_idx = 5;     // 从1开始的选项序号
+}

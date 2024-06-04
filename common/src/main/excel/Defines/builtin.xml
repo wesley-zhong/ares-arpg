@@ -1,0 +1,31 @@
+<module name="">
+
+    <enum name="Quality" comment="品质">
+        <var name="WHITE" alias="白" comment="白"/>
+        <var name="GREEN" alias="绿"/>
+        <var name="BLUE" alias="蓝"/>
+        <var name="PURPLE" alias="紫"/>
+        <var name="ORANGE" alias="橙"/>
+    </enum>
+    <enum name="CoinType">
+        <var name="DIAMOND" alias="钻石" value="1"/>
+        <var name="GOLD" alias="金币" value="2"/>
+        <var name="SILVER" alias="银币" value="3"/>
+    </enum>
+
+    <bean name="vector2" valueType="1" sep=",">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+    </bean>
+    <bean name="vector3" valueType="1" sep=",">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+        <var name="z" type="float"/>
+    </bean>
+    <bean name="vector4" valueType="1" sep=",">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+        <var name="z" type="float"/>
+        <var name="w" type="float"/>
+    </bean>
+</module>

@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+// REQ<->RES 客户端到服务器请求应答
+// NTF 服务端到客户端的通知
+// PUSH 客户端到服务器的通知
+enum MsgId {
+  INVALID = 0;
+  ERROR_MESSAGE = 1;
+  HEART_BEAT_PUSH = 3; // req=HeartBeatPush,desc="客户端心跳 请求"
+  HEART_BEAT_NTF = 4;// res=HeartBeatNtf, ,desc="客户端心跳 返回"
+
+
+  LOGOUT_REQ = 12;   // req=,desc="退出进行账号登录 请求"
+  LOGOUT_RES = 13;// res=LogoutRes,desc="退出进行账号登录 请求 返回"
+  KICK_OUT_REQ = 14;
+  KICK_OUT_RES = 15;
+
+  GAME_LOGIN_PUSH = 16;// req=GameLoginPush,desc="进入游戏服务器，获取玩家游戏数据"
+  GAME_LOGIN_NTF = 17; // res=GameLoginNtf,desc="获取玩家游戏数据"
+
+  // scene 200-299
+  PLAYER_ENTER_SCENE_NTF = 200; // res=PlayerEnterSceneNtf
+  ENTER_SCENE_READY_REQ = 201;  // req=EnterSceneReadyReq
+  ENTER_SCENE_READY_RES = 202;  // res=EnterSceneReadyRes
+  SCENE_INIT_FINISH_REQ = 203;  // req=SceneInitFinishReq
+  SCENE_INIT_FINISH_RES = 204;  // res=SceneInitFinishRes
+  ENTER_SCENE_DONE_REQ = 205; // req=EnterSceneDoneReq
+  ENTER_SCENE_DONE_RES = 206; // res=EnterSceneDoneRes
+  POST_ENTER_SCENE_REQ = 207; // req=PostEnterSceneReq
+  POST_ENTER_SCENE_RES = 208; // res=PostEnterSceneRes
+  LEAVE_SCENE_REQ = 209;  // req=LeaveSceneReq
+  LEAVE_SCENE_RES = 210;  // res=LeaveSceneRes
+  SCENE_ENTITY_APPEAR_NTF = 211;  // res=SceneEntityAppearNtf
+  SCENE_ENTITY_DISAPPEAR_NTF = 212; // res=SceneEntityDisappearNtf
+  SCENE_PLAYER_LOCATION_NTF = 213;  // res=ScenePlayerLocationNtf
+  SCENE_TRANS_TO_POINT_REQ = 214; // req=SceneTransToPointReq
+  SCENE_TRANS_TO_POINT_RES = 215; // res=SceneTransToPointRes
+  ENTITY_JUMP_NTF = 216;  // res=EntityJumpNtf
+  PLAYER_EYE_POINT_STATE_NTF = 217; // res=PlayerEyePointStateNtf
+  SCENE_ENTITIES_MOVE_PUSH = 218; // req=SceneEntitiesMovePush
+  SCENE_ENTITIES_MOVE_NTF = 220;  // res=SceneEntitiesMoveNtf
+  ENTITY_FORCE_SYNC_REQ = 221;  // req=EntityForceSyncReq
+  ENTITY_FORCE_SYNC_RES = 222;  // res=EntityForceSyncRes
+  CLIENT_TRANSMIT_REQ = 223;  // req=ClientTransmitReq
+  CLIENT_TRANSMIT_RES = 224;  // res=ClientTransmitRes
+  SCENE_PLAYER_INFO_NTF = 225;  // res=ScenePlayerInfoNtf
+  WORLD_PLAYER_LOCATION_NTF = 226;  // res=WorldPlayerLocationNtf
+  PERSONAL_SCENE_JUMP_REQ = 227;  // req=PersonalSceneJumpReq
+  PERSONAL_SCENE_JUMP_RES = 228;  // res=PersonalSceneJumpRes
+  PLAYER_ENTER_SCENE_INFO_NTF = 229;  // res=PlayerEnterSceneInfoNtf
+  JOIN_PLAYER_SCENE_REQ = 230;  // req=JoinPlayerSceneReq
+  JOIN_PLAYER_SCENE_RES = 231;  // res=JoinPlayerSceneRes
+  SCENE_KICK_PLAYER_REQ = 232;  // req=SceneKickPlayerReq
+  SCENE_KICK_PLAYER_RES = 233;  // res=SceneKickPlayerRes
+  SCENE_KICK_PLAYER_NTF = 234;  // res=SceneKickPlayerNtf
+  BACK_MY_WORLD_REQ = 235;  // req=BackMyWorldReq
+  BACK_MY_WORLD_RES = 236;  // res=BackMyWorldRes
+  SCENE_TIME_NTF = 237; // res=SceneTimeNtf
+  ENTER_SCENE_PEER_NTF = 238; // res=EnterScenePeerNtf
+  JOIN_PLAYER_FAIL_NTF = 239; // res=JoinPlayerFailNtf
+  WORLD_DATA_NTF = 240; // res=WorldDataNtf
+  WORLD_PLAYER_INFO_NTF = 241;  // res=WorldPlayerInfoNtf
+  SCENE_DATA_NTF = 242; // res=SceneDataNtf
+
+  //  team 500-600
+
+  TEAM_CREATE_PUSH = 500; // req=CreateTeamPush,desc="创建队伍"
+  TEAM_CREATE_NTF = 501;// res=TeamInfoNtf,desc="创建队伍后的队伍数据"
+  TEAM_INFO_NTF = 502; // res=TeamInfoNtf,desc="队伍数据变更后通知"
+  TEAM_LIST_PUSH = 503;// req=GetTeamListPush,desc="获取所有队伍列表 请求"
+  TEAM_LIST_NTF = 504;// res=GetTeamListNtf,desc="获取所有队伍列表 数据"
+  TEAM_DETAIL_PUSH = 505;// req=GetTeamDetailPush,desc="获取队伍最新数据"
+  TEAM_DETAIL_NTF = 506;// res=TeamInfoNtf,desc="队伍数据变更后通知"
+  TEAM_JOIN_PUSH = 507;// req=JoinTeamPush,desc="获取队伍最新数据"
+  TEAM_JOIN_NTF = 508; // res=TeamInfoNtf,desc="发给当前玩家join 结果"
+  TEAM_EXIT_PUSH = 509; // req=ExitTeamPush,desc="退出队伍"
+  TEAM_EXIT_NTF = 510;// res=ExistTeamNtf,desc="退出队伍返回结果，给当前玩家"
+  TEAM_DISMISS_PUSH = 511;//req=DismissTeamPush,desc="解散队伍"
+  TEAM_DISMISS_NTF = 512;//res=DismissTeamNtf,desc="解散队伍通知"
+  TEAM_START_GAME_NTF = 513;//res=TeamStartGameNtf,desc="开始游戏"
+  TEAM_OWN_NTF = 514;// res=TeamInfoNtf,desc="玩家所在部队,当玩家登录后,服务器会主动通知"
+  TEAM_START_GAME_PUSH = 515;//req=TeamStartGamePush,desc="房主开始游戏"
+  //fortest
+
+  LOGIN_INIT_REQUEST = 2000;
+  PERFORMANCE_TEST_REQ = 2001;
+  PERFORMANCE_TEST_RES = 2002;
+  DIRECT_TO_TEAM_REQ = 2003;
+  DIRECT_TO_TEAM_RES = 2004;
+  RPC_REQ_TEST = 2005;
+  MAP_AOI_TEST_REQ = 2006;
+  MAP_AOP_TEST_RES = 2007;
+}

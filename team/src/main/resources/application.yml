@@ -1,0 +1,36 @@
+server:
+  port: 9080
+  type: 5
+
+spring:
+  application:
+    name: team.V1
+  cloud:
+    config:
+      enabled: false
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
+
+
+discovery:
+  endpoints:
+    - http://localhost:2379
+
+  watch-servers:
+    - service-name-prefix: router.V1
+    - service-name-prefix: game.V1
+
+redis:
+  url: "redis://172.18.2.101:6379/0"
+
+netty:
+  server:
+    workerCount: 8
+  client:
+    CONN_COUNT: 8
+    SO_SNDBUF: 8388608
+    SO_RCVBUF: 8388608
+    WATER_MARK: 8388608

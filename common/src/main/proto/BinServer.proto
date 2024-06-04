@@ -1,0 +1,115 @@
+syntax = "proto3";
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+// 向量
+message VectorBin
+{
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+// 玩家基本数据
+message PlayerBasicModuleBin
+{
+  int32 level = 1;   // 等级
+  int32 exp = 2; // 经验
+  string nickname = 3;    // 昵称
+  int32 total_game_time = 4;   // 总共的游戏时间
+  int64 guid_seq_id = 5;
+}
+
+// 包括Weapon和Reliquary,需要额外的参数控制
+message ItemParamBin
+{
+  int32 item_id = 1;
+  int32 count = 2;
+  int32 level = 3;
+}
+
+// 材料
+message MaterialBin
+{
+  int32 count = 1;               // 数量
+}
+
+// 装备
+// 圣遗物
+message ReliquaryBin
+{
+  int32 level = 1;   // 装备的等级
+  int32 exp = 2;     // 装备经验
+}
+
+// 武器
+message WeaponBin
+{
+  int32 level = 1;       // 装备等级
+  int32 exp = 2;         // 经验
+}
+
+message EquipBin
+{
+  oneof detail
+  {
+    ReliquaryBin reliquary = 101; // 圣遗物
+    WeaponBin weapon = 102;       // 武器
+  }
+  bool is_locked = 1;               // 是否锁定
+}
+
+// 道具
+message ItemBin
+{
+  int32 item_type = 1;           // 道具类型
+  int32 item_id = 2;             // 道具ID
+  fixed64 guid = 3;               // 唯一ID
+  oneof detail
+  {
+    MaterialBin material = 101;         // 材料
+    EquipBin equip = 102;               // 装备
+  }
+}
+
+// 道具容器
+message ItemStoreBin
+{
+  // 基类字段
+  repeated ItemBin item_list = 1;  // 所有道具
+}
+
+// 玩家道具数据
+message PlayerItemModuleBin
+{
+  ItemStoreBin pack_store = 1; // 背包
+}
+
+// 场景数据
+message SceneBin
+{
+  int32 scene_id = 1;
+}
+
+// 大世界数据
+message WorldBin
+{
+  repeated SceneBin scene_list = 1;    // 所有场景的数据
+  uint32 level = 2;                    // 当前大世界等级
+}
+
+// 玩家场景数据
+message PlayerSceneModuleBin
+{
+  WorldBin world = 1;                     // 大世界的数据
+  uint32 my_cur_scene_id = 2;             // 当前所在自己世界场景
+  uint32 my_prev_scene_id = 3;            // 之前自己的场景
+}
+
+// bin字段结构
+message PlayerDataBin
+{
+  PlayerBasicModuleBin basic_bin = 1; // 存储等级、经验等基本数据的模块
+  PlayerItemModuleBin item_bin = 2; // 道具模块
+  PlayerSceneModuleBin scene_bin = 3; // 场景模块
+}

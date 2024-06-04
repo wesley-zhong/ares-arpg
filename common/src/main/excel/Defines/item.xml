@@ -1,0 +1,47 @@
+<module name="item">
+
+	<enum name="ItemType">
+		<var name="VIRTUAL" alias="虚拟道具" value="1"/>
+		<var name="MATERIAL" alias="材料" value="2"/>
+		<var name="WEAPON" alias="武器" value="3"/>
+	</enum>
+
+	<bean name="Item" comment="道具">
+		<var name="id" type="int" comment="道具id"/>
+		<var name="name" type="string"/>
+		<var name="type" type="ItemType"/>
+		<var name="stack_limit" type="int"/>
+		<var name="quality" type="Quality"/>
+		<var name="dropable" type="bool"/>
+		<var name="icon" type="string" group="c"/>
+		<var name="desc" type="string" group="c"/>
+	</bean>
+	<table name="TbItem" value="Item" input="通用道具表@item/道具系统表.xlsx" comment="道具表"/>
+
+	<bean name="ItemMiscConfig">
+		<var name="bag_capacity" type="int" comment="背包容量"/>
+	</bean>
+
+	<table name="TbItemMiscConfig" value="ItemMiscConfig" mode="one" input="杂项配置表@item/道具系统表.xlsx"/>
+
+	<enum name="ItemLimitType">
+		<var name="NONE" value="0" comment="未定义"/>
+		<var name="UNLIMITED" value="1" comment="不限制数量的产出来源（商店、烹饪合成等）"/>
+		<var name="GM" value="2" comment="GM指令"/>
+		<var name="QUEST" value="3" comment="常规任务奖励"/>
+	</enum>
+
+	<enum name="ItemLimitRefreshType">
+		<var name="NONE" value="0" comment="未定义"/>
+		<var name="DAILY" value="1" comment="每日刷新"/>
+		<var name="MONTHLY" value="2" comment="每月刷新"/>
+		<var name="PERSISTENT" value="3" comment="不刷新"/>
+	</enum>
+
+	<bean name="ItemLimit" comment="产出限制">
+		<var name="type" type="ItemLimitType"/>
+		<var name="refresh_type" type="ItemLimitRefreshType"/>
+	</bean>
+	<table name="TbItemLimit" value="ItemLimit" input="产出限制表@item/产出限制表.xlsx" comment="产出限制表"/>
+
+</module>

@@ -1,0 +1,208 @@
+syntax = "proto3";
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+// 世界类型
+enum PbWorldType
+{
+  WORLD_NONE = 0; // 未定义
+  WORLD_PLAYER = 1; // 玩家大世界
+};
+
+// 场景类型
+enum SceneType
+{
+  SCENE_NONE = 0; // 未定义
+  SCENE_WORLD = 1; // 玩家的世界场景
+  SCENE_DUNGEON = 2; // 地下城副本
+  SCENE_ROOM = 3; // 房间
+};
+
+enum VisionLevelType {
+    VISION_LEVEL_NORMAL = 0;         // 正常视距:80m内可见
+    VISION_LEVEL_LITTLE_REMOTE = 1;  // 较远视距: 160m内可见
+    VISION_LEVEL_REMOTE = 2;         // 远视距: 1000m内可见
+    VISION_LEVEL_SUPER = 3;          // 超级视距: 4000m内可见
+    VISION_LEVEL_NEARBY = 4;         // 近视距: 40m内可见
+    VISION_LEVEL_SUPER_NEARBY = 5;   // 超近视距: 20m内可见
+    VISION_LEVEL_NUM = 6;            // 枚举数量
+}
+
+// 联机模式设置
+enum MpSettingType
+{
+  MP_SETTING_NO_ENTER = 0;     // 不允许进入
+  MP_SETTING_ENTER_FREELY = 1; // 随意进入
+  MP_SETTING_ENTER_AFTER_APPLY = 2;  // 申请后进入
+}
+
+enum LifeState
+{
+  LIFE_NONE = 0; // 未定义
+  LIFE_ALIVE = 1; // 活着
+  LIFE_DEAD = 2; // 死亡
+  LIFE_REVIVE = 3; // 复活中
+}
+
+// 向量
+message PbVector
+{
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+//向量 *100, 保留两位小数
+message Vector3Int
+{
+  int32 x = 1;
+  int32 y = 2;
+  int32 z = 3;
+}
+
+message EmptyMsg{
+
+}
+
+message OnlinePlayerInfo
+{
+  int64 uid = 1;
+  string nickname = 2;
+  int32 player_level = 3;
+  int32 avatar_id = 4;        // 玩家头像
+  MpSettingType mp_setting_type = 5;
+  int32 cur_player_num_in_world = 6;
+  int32 world_level = 7;     // 大世界等级
+}
+
+message MsgHeader{
+  int32 seqNo = 1; //序列号
+  int32 reqId = 2; //请求Id 从1：开始， 0：表示 push,  >0: rpc
+  int32 msgId = 3; //消息id
+  int32 crc = 4;  //messageBody crc
+  int32 errCode = 5;
+  int64 uid = 6;  //  to roleId
+  int32 routerTo = 7; // router to server type Only for the msg to send to router
+}
+
+message HeartBeatRequest {
+  int64 clientTime = 1; // 客户端时间
+}
+
+message HeartBeatResponse {
+  int64 clientTime = 1; // 客户端时间
+  int64 serverTime = 2; // 服务器时间
+}
+
+//only for test
+message  RpcReqTest{
+  int32 someId = 1;
+  string  someStr = 2;
+}
+//only for test
+message RpcReqRespons{
+  int32 someId2 = 1;
+  string  someStr2 = 2;
+}
+
+message  AoiTestReq{
+  int32  posX = 1;
+  int32  posY = 2;
+  int32  width = 4;
+  int32  height = 5;
+}
+
+message  Entity{
+  int64  id = 1;
+  string  body =2;
+}
+
+message  AoiTestRes{
+  repeated  Entity entities = 1;
+  repeated int64 delIds = 2;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// 道具系统
+
+// 存储类型
+enum StoreType
+{
+  STORE_NONE = 0;     // 无
+  STORE_PACK = 1;     // 道具包裹
+  STORE_DEPOT = 2;    // 道具仓库
+}
+
+// 装备
+message Reliquary
+{
+  int32 level = 1;   // 装备的等级
+  int32 exp = 2;     // 装备经验
+}
+
+// 武器
+message Weapon
+{
+  int32 level = 1;       // 等级
+  int32 exp = 2;         // 经验
+}
+
+message PbMaterial
+{
+  int32 count = 1;        // 数量
+}
+
+message Equip
+{
+//  oneof detail
+//  {
+    Reliquary reliquary = 1;
+    Weapon weapon = 2;
+//  }
+  bool is_locked = 3;         // 是否锁定
+}
+
+// 道具
+message Item
+{
+  int32 item_id = 1;
+  int64 guid = 2;            // 唯一ID
+ // oneof detail
+  //{
+    PbMaterial material = 5;  // 材料
+    Equip equip = 6;        // 装备
+ // }
+}
+
+enum VirtualItem
+{
+  ITEM_VIRTUAL_NONE = 0;
+  ITEM_VIRTUAL_AVATAR_EXP = 1;
+  ITEM_VIRTUAL_PLAYER_EXP = 2;
+}
+
+message ItemParam
+{
+  int32 item_id = 1;
+  int32 count = 2;
+}
+
+// 包括Weapon和Reliquary,需要额外的参数控制
+message EquipParam
+{
+  int32 item_id = 1;
+  int32 item_num = 2;
+  int32 item_level = 3;
+}
+
+// EquipParam/EquipParamList 需要解析Db中的奖励列表，字段名最好不要修改
+message EquipParamList
+{
+  repeated EquipParam item_list = 1;
+}
+
+message Reward
+{
+  int32 reward_id = 1;
+  repeated ItemParam item_list = 2;
+}

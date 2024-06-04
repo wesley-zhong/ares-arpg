@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+
+message TeamMemberInfo {
+    int64 actor_id = 1;
+    string nick_name = 2;
+    int32 level = 3;
+    string fromGsrId = 4;
+    bool online = 5;
+}
+message TeamInfo {
+    int64 team_id = 1;
+    string team_name = 2;
+    int32 cur_num = 3;
+    int32 max_num = 4;
+    string team_leader = 5;
+    repeated TeamMemberInfo member_list = 6; //update, add
+    repeated int64 delete_member_list = 7;
+}
+
+message CreateTeamPush {
+    string team_name = 1;
+    string des = 2;
+}
+
+message TeamInfoNtf {
+    TeamInfo teamInfo = 1;
+}
+message GetTeamListPush {
+}
+
+message GetTeamListNtf {
+    repeated TeamInfo team_list = 1;
+}
+
+//TEAM_DETAIL_REQ
+message GetTeamDetailPush {
+    int64 team_id = 1;
+}
+
+//TEAM_JOIN_REQ
+message JoinTeamPush {
+    int64 team_id = 1;
+}
+
+//TEAM_EXIT_REQ
+message ExitTeamPush {
+}
+message ExistTeamNtf {
+    int32 errCode = 1; //0: success  >0: other error
+}
+
+message DismissTeamPush {
+}
+message DismissTeamNtf {
+    int64 operatorId = 1;
+}
+
+message  TeamStartGameNtf{
+    int64 teamId = 1;
+    string sceneId = 2;
+}
+
+message  TeamStartGamePush{
+
+}
+
+
+

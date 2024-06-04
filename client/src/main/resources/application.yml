@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      enabled:  false
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+

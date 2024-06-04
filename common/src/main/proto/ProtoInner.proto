@@ -1,0 +1,186 @@
+syntax = "proto3";
+
+import "ProtoTeam.proto";
+
+option java_package = "com.game.protoGen";
+option go_package = "/protoGen";
+
+enum InnerErrCode {
+  INNER_SUCCESS = 0;
+}
+
+
+enum InnerMsgId {
+  INNER_INVALID = 0;
+  INNER_SERVER_HAND_SHAKE_REQ = -1;
+  INNER_SERVER_HAND_SHAKE_RES = -2;
+
+  INNER_HEART_BEAT_REQ = -3;
+  INNER_HEART_BEAT_RES = -4;
+
+  INNER_TO_GAME_LOGIN_REQ = -10;
+  INNER_TO_GAME_LOGIN_RES = -11;
+
+  INNER_TO_WORLD_LOGIN_REQ = -12;
+  INNER_TO_WORLD_LOGIN_RES = -13;
+
+  INNER_PLAYER_DISCONNECT_REQ = -14;
+  INNER_PLAYER_DISCONNECT_RES = -15;
+
+  INNER_PLAYER_KICK_OUT_REQ = -16;
+
+
+  INNER_CREATE_TEAM_REQ = -116;
+  INNER_CREATE_TEAM_RES = -117;
+  INNER_JOIN_TEAM_REQ = -118;
+  INNER_JOIN_TEAM_RES = -119;
+  INNER_TEAM_START_GAME = -120;
+
+
+  INNER_PLAYER_MOVED_GAME_SERVER = -2000;
+  INNER_PLAYER_MOVED_IN_TO_TEAM_SERVER = -2001;
+  INNER_PLAYER_MOVED_OUT_TEAM_SERVER = -2002;
+
+
+  //performance test
+
+  INNER_GATEWAY_PERFORMANCE_REQ = -2000000;
+  INNER_GATEWAY_PERFORMANCE_RES = -2000001;
+}
+
+enum GameModuleId {
+  GMT_Default = 0;
+
+  // 1000-1999 for player
+  GMI_PlayerBasic = 1000;
+  GMI_PlayerScene = 1001;
+  GMI_PlayerItem = 1002;
+  GMI_PlayerAvatar = 1003;
+
+  // 2000-2999 for scene
+  GMI_SceneSight = 2000;
+}
+
+// 用于统计加道具或其他行为的通用原因
+enum ActionReasonType
+{
+  ACTION_REASON_NONE = 0;
+  ACTION_REASON_QUEST_ITEM = 1;     // 任务道具
+  ACTION_REASON_QUEST_REWARD = 2;   // 任务奖励
+  ACTION_REASON_TRIFLE = 3;         // 掉落物
+  ACTION_REASON_SHOP = 4;           // 商店购买
+  ACTION_REASON_COMPOUND = 9;                 // 烹饪食材合成
+  ACTION_REASON_COOK = 10;                    // 烹饪
+  ACTION_REASON_GATHER = 11;                  // 采集
+  ACTION_REASON_MAIL_ATTACHMENT = 12;         // 领取邮件附件
+  ACTION_REASON_GM = 38;                      // GM指令
+  ACTION_REASON_OPEN_CHEST = 39;              // 开宝箱
+
+  ACTION_REASON_PLAYER_USE_ITEM = 1001;       // 玩家使用道具
+  ACTION_REASON_DROP_ITEM = 1002;             // 扔到地上
+}
+
+enum VirtualItemId
+{
+    VIRTUAL_ITEM_NONE = 0;
+    VIRTUAL_ITEM_DIAMOND_COIN = 101; // 钻石
+    VIRTUAL_ITEM_GOLD_COIN = 102; // 金币
+    VIRTUAL_ITEM_SILVER_COIN = 103; // 银币
+}
+
+message InnerHeartBeatRequest {
+
+}
+
+message InnerHeartBeatResponse {
+
+}
+
+message InnerGameLoginRequest {
+  int64 sid = 1;
+  int64 targetId = 2;
+}
+
+message InnerGameLoginResponse {
+  int64 uid = 1;
+  int64 sid = 2;
+  int32 errCode = 3;
+}
+
+message InnerGameKickOutReq {
+  int64 sid = 1;
+}
+
+
+message InnerPlayerDisconnectRequest {
+  int64 sid = 1;
+}
+
+
+
+message InnerLogoutNotify {
+  int64 roleId = 1;
+  int64 sessionId = 2;
+}
+
+message InnerLoginInitNotify {
+  int64 roleId = 1;
+}
+
+message InnerSceneChangeReq {
+  int64 targetId = 1;
+  string gameSrvId = 2;
+}
+
+message InnerTeamMoveToReq{
+  string  moveToTeamSrvId = 1;
+}
+
+message InnerServerHandShakeReq {
+  string serviceName = 1;
+  string serviceId = 2;
+  int32 areaId = 3;
+  int32 id = 4;
+}
+
+message InnerServerHandShakeRes {
+  string serviceName = 1;
+  string serviceId = 2;
+  int32 areaId = 3;
+}
+
+message KickOutRequest {
+  int64 uid = 1;
+  int32 reason = 2;
+}
+
+message KickOutResponse {
+  int64 uid = 1;
+}
+
+
+message InnerCreateTeamReq {
+  TeamMemberInfo teamMember = 1;
+  string teamName = 2;
+  string teamDes = 3;
+}
+
+message InnerJoinTeamReq {
+  int64 teamId = 1;
+  TeamMemberInfo teamMember = 2;
+  string  lastTeamServiceId = 3;//上一此所在的服务器id
+}
+
+message InnerCreateTeamRes {
+  int64 owner = 1;
+  TeamInfo teamInfo = 2;
+  int32 errCode = 3;
+}
+message InnerTeamMemberJoinTargetPlayerScene_NTF {
+  int64 targetId = 1;
+  string gameServiceId = 2;
+  int32 sceneTid = 3;
+  int64 teamId = 4;
+}
+
+

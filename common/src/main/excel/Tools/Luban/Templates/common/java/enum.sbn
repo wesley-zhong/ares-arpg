@@ -1,0 +1,49 @@
+{{~if __namespace_with_top_module != ''~}}
+package {{__namespace_with_top_module}};
+{{~end~}}
+
+{{~if __this.comment != '' ~}}
+/**
+ * {{escape_comment __this.comment}}
+ */
+{{~end~}}
+public enum {{__name}} {
+    {{~ for item in __this.items ~}}
+{{~if item.comment_or_alias != '' ~}}
+    /**
+     * {{escape_comment item.comment_or_alias}}
+     */
+{{~end~}}    
+    {{item.name}}({{item.int_value}}),
+    {{~end~}}
+    ;
+
+    {{~ for item in __this.items ~}}
+{{~if item.comment_or_alias != '' ~}}
+    /**
+     * {{escape_comment item.comment_or_alias}}
+     */
+{{~end~}}    
+    public static final int {{item.name}}_VALUE = {{item.int_value}};
+    {{~end~}}
+
+    private final int value;
+
+    private {{__name}}(int value){
+        this.value = value;
+    }
+
+    public int getNumber() {
+        return value;
+    }
+
+    public static {{__name}} forNumber(int value) {
+        switch(value) {
+            {{~ for item in __this.items ~}}
+            case {{item.int_value}}: return {{item.name}};
+            {{~end~}}            
+            default:
+                throw new java.lang.IllegalArgumentException("invalid value " + value + " for {{__name}}");
+        }
+    }
+}
