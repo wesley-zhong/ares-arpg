@@ -129,12 +129,12 @@ public class TeamService {
     public void startTeam(long uid, ProtoTeam.TeamStartGamePush teamStartGamePush) {
         TeamPlayer teamPlayer = teamPlayerMgr.getTeamPlayer(uid);
         if (teamPlayer == null) {
-            log.error("uid = {} not found", uid);
+            log.error("startTeam uid = {} not found", uid);
             return;
         }
         Team team = teamPlayer.getTeam();
         if (team == null) {
-            log.error(" uid = {} no team", uid);
+            log.error("startTeam uid = {} no team", uid);
             return;
         }
         if (team.getState() != TeamStateEnum.CREATED) {
@@ -158,6 +158,10 @@ public class TeamService {
         String gameServiceId = selectGameServer(team);
         log.info("team id ={}  start game select game server ={}", team.getId(), gameServiceId);
         for (TeamPlayer teamPlayer : team.getTeamMembers().values()) {
+            //房主不切换
+            if (teamPlayer.getUid() == team.getOwnerId()) {
+                continue;
+            }
             ProtoInner.InnerTeamMemberJoinTargetPlayerScene_NTF.Builder builder = ProtoInner.InnerTeamMemberJoinTargetPlayerScene_NTF.newBuilder();
             builder.setTargetId(team.getOwner().getUid());
             builder.setGameServiceId(gameServiceId);
@@ -206,6 +210,19 @@ public class TeamService {
                 .addDeleteMemberList(teamPlayer.getUid()).build();
         ProtoTeam.TeamInfoNtf teamInfoNtf = ProtoTeam.TeamInfoNtf.newBuilder().setTeamInfo(teamInfoUpdateInfo).build();
         teamBroadCast(team, ProtoMsgId.MsgId.TEAM_INFO_NTF_VALUE, teamInfoNtf);
+    }
+
+    public void teamInvitePlayer(long uid, ProtoTeam.TeamInvitePush invitePush) {
+        TeamPlayer teamPlayer = teamPlayerMgr.getTeamPlayer(uid);
+        if (teamPlayer == null) {
+            log.error("========== teamInvite player uid ={} not found", uid);
+            return;
+        }
+        ProtoTeam.TeamInviteNtf inviteNtf = ProtoTeam.TeamInviteNtf.newBuilder()
+                .setTeamId(teamPlayer.getTeam().getId())
+                .setInvitorId(uid)
+                .build();
+        peerConn.routerToGame(invitePush.getUid(), ProtoMsgId.MsgId.TEAM_INVITE_NTF_VALUE, inviteNtf);
     }
 
     private void teamBroadCast(Team team, int msgId, Message body) {

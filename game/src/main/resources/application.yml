@@ -1,6 +1,8 @@
 server:
   port: 7080
   type: 3
+  group-id: 0
+  max-player-count: 20
 spring:
   application:
     name: game.V1

@@ -38,7 +38,7 @@ public class PlayerLoginService {
      */
     // run on login thread (io)
     public void gamePlayerInnerLogin(long uid, ProtoInner.InnerGameLoginRequest gameInnerLoginRequest) {
-        log.info("======== gameInnerLoginRequest  uid ={}", uid);
+        log.info("======== gameInnerLoginRequest  uid ={} req={}", uid, gameInnerLoginRequest);
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
         GamePlayerInterTransferInfo playerInterTransferInfo = peerConn.getPlayerLastGatewayChannel(uid);
         // 通知上一个gateway 踢人

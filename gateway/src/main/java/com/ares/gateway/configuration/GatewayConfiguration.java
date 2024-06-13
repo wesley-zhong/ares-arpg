@@ -77,7 +77,7 @@ public class GatewayConfiguration implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         discoveryService.registerMyWorkId();
-        CoroHandle.init();
+    //    CoroHandle.init();
         LogicThreadPoolGroup logicThreadPoolGroup = new LogicThreadPoolGroup(1);
         logicThreadPoolGroup.createThreadPool(ThreadPoolType.LOGIN.getValue(), 8);
     }

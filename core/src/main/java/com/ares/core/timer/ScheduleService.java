@@ -20,14 +20,18 @@ public class ScheduleService {
     }
 
     public <T> AresTimerTask<?> executeTimerTaskWithMS(long hashCode, EventFunction<T> function, T extraData, long timeOut) {
-        return executeTimerTask(hashCode, function, extraData, timeOut, TimeUnit.MILLISECONDS);
+        return executeTimerTask(hashCode, function, extraData, timeOut, TimeUnit.MILLISECONDS, 1);
+    }
+
+    public <T> AresTimerTask<?> executeTimerTaskWithMS(long hashCode, EventFunction<T> function, T extraData, long timeOut, int maxCount) {
+        return executeTimerTask(hashCode, function, extraData, timeOut, TimeUnit.MILLISECONDS, maxCount);
     }
 
     public <T> AresTimerTask<?> executeTimerTaskWithMS(EventFunction<T> function, T extraData, long timeOut) {
-        return executeTimerTask(0, function, extraData, timeOut, TimeUnit.MILLISECONDS);
+        return executeTimerTask(0, function, extraData, timeOut, TimeUnit.MILLISECONDS, 1);
     }
 
-    public <T> AresTimerTask<?> executeTimerTask(long hashCode, EventFunction<T> function, T extraData, long timeOut, TimeUnit timeUnit) {
+    public <T> AresTimerTask<?> executeTimerTask(long hashCode, EventFunction<T> function, T extraData, long timeOut, TimeUnit timeUnit, int exeCount) {
         AresTimerTask aresTimerTask = AresTimerTask.NewTimerTask(extraData, function);
         Timeout timeout = HASHED_WHEEL_TIMER.newTimeout(aresTimerTask, timeOut, timeUnit);
         aresTimerTask.setAresTimerTaskConsumer(aresTimerTaskConsumer);
@@ -35,5 +39,18 @@ public class ScheduleService {
         aresTimerTask.setExecuteHashCode(hashCode);
         //log.info("--add  timer task ={}  timer task now count ={}", timerTask, HASHED_WHEEL_TIMER.pendingTimeouts());
         return aresTimerTask;
+    }
+
+    public <T> void tryExecuteTimerTaskForNext(AresTimerTask<T> aresTimerTask) {
+        if (aresTimerTask.reachMaxTimes()) {
+            return;
+        }
+        //was canceled by player
+        if (!aresTimerTask.isValid()) {
+            return;
+        }
+        aresTimerTask.increaseCurCount();
+        Timeout timeout = HASHED_WHEEL_TIMER.newTimeout(aresTimerTask, aresTimerTask.getTimeOut(), aresTimerTask.getTimeUnit());
+        aresTimerTask.setTimeout(timeout);
     }
 }

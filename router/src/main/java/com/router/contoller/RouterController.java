@@ -53,6 +53,6 @@ public class RouterController implements AresController {
         UserOnlineStateDO userOnlineStateDO = userOnlineService.getUserOnlineStateDO(uid);
         ProtoInner.InnerJoinTeamReq newJoinTeamReq = joinTeamReq.toBuilder().setLastTeamServiceId(userOnlineStateDO.getTmSrId()).build();
         peerConn.send(ServerType.TEAM.getValue(), serverId, uid, ProtoInner.InnerMsgId.INNER_JOIN_TEAM_REQ_VALUE, newJoinTeamReq);
-        log.info("uid ={} join team  ={}  target team service ={} cur team service={}", uid, tcpConnServerInfo.getServerNodeInfo().getServiceId(), userOnlineStateDO.getGmSrId());
+        log.info("uid ={} join team  ={}  target team service ={} cur team service={}", uid, joinTeamReq.getTeamId(), tcpConnServerInfo.getServerNodeInfo().getServiceId(), userOnlineStateDO.getGmSrId());
     }
 }

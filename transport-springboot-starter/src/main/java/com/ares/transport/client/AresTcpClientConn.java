@@ -60,12 +60,13 @@ public class AresTcpClientConn implements InitializingBean {
         bs = new Bootstrap();
         bs.group(bossGroup)
                 .channel(useLinux ? EpollSocketChannel.class : NioSocketChannel.class)
-//                .option(ChannelOption.SO_KEEPALIVE, true)
+                .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .option(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(waterMark, waterMark))
                 .option(ChannelOption.SO_SNDBUF, soSndBuf)
                 .option(ChannelOption.SO_RCVBUF, soRevBuf)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS,1000)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) {

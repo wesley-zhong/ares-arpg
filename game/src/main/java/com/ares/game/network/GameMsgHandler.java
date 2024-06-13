@@ -44,17 +44,18 @@ public class GameMsgHandler implements AresServerTcpHandler {
         ProtoCommon.MsgHeader msgHeader = aresPacket.getRecvHeader();
         AresMsgIdMethod calledMethod = serviceMgr.getCalledMethod(aresPacket.getMsgId());
         long uid = msgHeader.getUid();
-        log.info("------------receive msgId ={} uid ={} bodylen={}",
-                msgHeader.getMsgId(), msgHeader.getUid(), aresPacket.getRecvByteBuf().readableBytes());
+      //  log.info("------------receive msgId ={} uid ={} bodylen={}",
+         //       msgHeader.getMsgId(), msgHeader.getUid(), aresPacket.getRecvByteBuf().readableBytes());
         // no msg method call should proxy to others
         if (calledMethod == null) {
             int fromServerType = fromServerType(aresTKcpContext);
             if (fromServerType == ServerType.GATEWAY.getValue()) {
-                peerConn.redirectRouterToTeam(uid, aresPacket);
+
+                peerConn.redirectRouterToTeam(uid, aresPacket.retain());
                 return;
             } //this should be from router server
             if (fromServerType == ServerType.ROUTER.getValue()) {
-                peerConn.redirectToGateway(uid, aresPacket);
+                peerConn.redirectToGateway(uid, aresPacket.retain());
                 return;
             }
             log.error("XXX error from={}  msgHeader ={}", aresPacket, msgHeader);

@@ -17,6 +17,7 @@ public class ServerNodeInfo {
     private int port;
     private int onlineCount;
     private int id;
+    private int groupId;
     private Map<String, String> metaData = new HashMap<>();
 
     @Override

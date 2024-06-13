@@ -2,6 +2,7 @@ package com.ares.game.network;
 
 
 import com.ares.common.bean.ServerType;
+import com.ares.common.util.LRUCache;
 import com.ares.core.bean.AresPacket;
 import com.ares.game.discovery.OnDiscoveryWatchService;
 import com.ares.transport.bean.ServerNodeInfo;
@@ -15,19 +16,20 @@ import io.netty.buffer.CompositeByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
 @Slf4j
-public class PeerConn extends PeerConnBase {
+public class PeerConn extends PeerConnBase implements InitializingBean {
     @Autowired
     private OnDiscoveryWatchService onDiscoveryWatchService;
-    private final Map<Long, GamePlayerInterTransferInfo> playerIdContext = new ConcurrentHashMap<>();
+    @Value("${server.max-player-count:20000}")
+    private int maxPlayerCount;
+    private LRUCache<Long, GamePlayerInterTransferInfo> playerIdContext;
 
     public long getPlayerThreadHash(long uid) {
         GamePlayerInterTransferInfo gamePlayerInterTransferInfo = playerIdContext.get(uid);
@@ -139,7 +141,7 @@ public class PeerConn extends PeerConnBase {
                 .writeByte(header.length)
                 .writeBytes(header);
 
-        byteBufs.addComponents(true, buffer, aresPacket.getRecvByteBuf().retain());
+        byteBufs.addComponents(true, buffer, aresPacket.getRecvByteBuf());
         innerRedirectTo(ServerType.ROUTER, uid, byteBufs);
     }
 
@@ -148,5 +150,10 @@ public class PeerConn extends PeerConnBase {
     // this can not be called by logic
     public void redirectToGateway(long uid, AresPacket aresPacket) {
         innerRedirectTo(ServerType.GATEWAY, uid, aresPacket);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        playerIdContext = new LRUCache<>(maxPlayerCount);
     }
 }

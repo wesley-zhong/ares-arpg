@@ -19,16 +19,10 @@ public final class Tables
         JsonElement load(String file) throws java.io.IOException;
     }
 
-    /**
-     * 道具表
-     */
     private final cfg.item.TbItem _tbitem;
     public cfg.item.TbItem getTbItem() { return _tbitem; }
     private final cfg.item.TbItemMiscConfig _tbitemmiscconfig;
     public cfg.item.TbItemMiscConfig getTbItemMiscConfig() { return _tbitemmiscconfig; }
-    /**
-     * 产出限制表
-     */
     private final cfg.item.TbItemLimit _tbitemlimit;
     public cfg.item.TbItemLimit getTbItemLimit() { return _tbitemlimit; }
 

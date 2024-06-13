@@ -127,7 +127,7 @@ public class PlayerItemModule extends PlayerModule {
                 return itemList;
             }
 
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemId);
             if (itemConfig == null)
             {
                 log.warn("findItemBaseConfig failed, itemId:" + itemId);
@@ -332,7 +332,7 @@ public class PlayerItemModule extends PlayerModule {
 
         for (ItemParam itemParam : itemParamList)
         {
-            cfg.item.Item ItemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item ItemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (ItemConfig == null)
             {
                 log.warn("findItemConfig failed, uid:" + player.getUid() + " itemId:" + itemParam.itemId);
@@ -361,7 +361,7 @@ public class PlayerItemModule extends PlayerModule {
     public void addItemByParamBatchWithStackLimit(List<ItemParam> itemParamList, ActionReason reason)
     {
         itemParamList.removeIf(itemParam -> {
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (itemConfig == null) {
                 log.warn("not find  material_config,item id:" + itemParam.itemId);
                 return true;
@@ -402,7 +402,7 @@ public class PlayerItemModule extends PlayerModule {
         List<ItemParam> itemParamListNoVirtual = new ArrayList<>();
         for (ItemParam itemParam : curItemParamList)
         {
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (itemConfig == null)
             {
                 log.error("findItemConfig failed, uid:" + player.getUid() + " itemId:" + itemParam.itemId);
@@ -502,7 +502,7 @@ public class PlayerItemModule extends PlayerModule {
         List<Item> itemListNoVirtual = new ArrayList<>();
         for (Item item : curItemList)
         {
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(item.getItemId());
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(item.getItemId());
             if (itemConfig == null)
             {
                 log.error("findItemConfig failed, uid:" + player.getUid() + " itemId:" + item.getItemId());
@@ -558,7 +558,7 @@ public class PlayerItemModule extends PlayerModule {
                 log.error("item_count is 0, itemId:" + itemParam.itemId + " player:" + player);
                 return -1;
             }
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (itemConfig == null)
             {
                 log.warn("findItemConfig failed, uid:" + player.getUid() + " itemId:" + itemParam.itemId);
@@ -603,7 +603,7 @@ public class PlayerItemModule extends PlayerModule {
         List<ItemParam> itemParamListNoVirtual = new ArrayList<>();
         for (ItemParam itemParam : itemParamList)
         {
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (itemConfig == null)
             {
                 throw new UnknownLogicException("findItemConfig failed, uid:" + player.getUid() + " itemId:" + itemParam.itemId);
@@ -688,7 +688,7 @@ public class PlayerItemModule extends PlayerModule {
 
     public int getPackMaterialCount(int itemId)
     {
-        cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemId);
+        cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemId);
         if (itemConfig == null)
         {
             log.warn("findItemConfig failed, uid:" + player.getUid() + " itemId:" + itemId);

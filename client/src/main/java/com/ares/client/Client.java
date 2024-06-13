@@ -20,7 +20,7 @@ public class Client implements InitializingBean {
     private LoginService loginService;
     @Value("${uidStart:100}")
     private int fromUid;
-    @Value("${playerCount:1}")
+    @Value("${playerCount:100}")
     public int PLAYER_COUNT;
     @Value("${gatewayIp:localhost}")
     private String gatewayIp;
@@ -47,7 +47,7 @@ public class Client implements InitializingBean {
 
     private void multiPlayerLogin(){
         for (int i = 0; i < PLAYER_COUNT; ++i) {
-            ClientPlayer clientPlayer = new ClientPlayer(113256321);
+            ClientPlayer clientPlayer = new ClientPlayer(123 +i);
             Channel channel = aresTcpClientConn.connect(gatewayIp, port);
             clientPlayer.setContext(channel);
             PlayerMgr.Instance.addClientPlayer(clientPlayer);

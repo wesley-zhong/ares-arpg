@@ -1,7 +1,6 @@
 package com.ares.team.bean.timer;
 
 import com.ares.core.thread.AresThreadPool;
-import com.ares.core.thread.LogicProcessThreadPool;
 import com.ares.core.thread.LogicThreadPoolGroup;
 import com.ares.core.timer.AresTimerTask;
 import com.ares.core.timer.ScheduleService;

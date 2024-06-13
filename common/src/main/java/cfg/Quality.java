@@ -9,52 +9,49 @@
 
 package cfg;
 
-/**
- * 品质
- */
 public enum Quality {
     /**
      * 白
      */
-    WHITE(0),
+    WHITE(1),
     /**
      * 绿
      */
-    GREEN(1),
+    GREEN(2),
     /**
      * 蓝
      */
-    BLUE(2),
+    BLUE(3),
     /**
      * 紫
      */
-    PURPLE(3),
+    PURPLE(4),
     /**
      * 橙
      */
-    ORANGE(4),
+    ORANGE(5),
     ;
 
     /**
      * 白
      */
-    public static final int WHITE_VALUE = 0;
+    public static final int WHITE_VALUE = 1;
     /**
      * 绿
      */
-    public static final int GREEN_VALUE = 1;
+    public static final int GREEN_VALUE = 2;
     /**
      * 蓝
      */
-    public static final int BLUE_VALUE = 2;
+    public static final int BLUE_VALUE = 3;
     /**
      * 紫
      */
-    public static final int PURPLE_VALUE = 3;
+    public static final int PURPLE_VALUE = 4;
     /**
      * 橙
      */
-    public static final int ORANGE_VALUE = 4;
+    public static final int ORANGE_VALUE = 5;
 
     private final int value;
 
@@ -68,11 +65,11 @@ public enum Quality {
 
     public static Quality forNumber(int value) {
         switch(value) {
-            case 0: return WHITE;
-            case 1: return GREEN;
-            case 2: return BLUE;
-            case 3: return PURPLE;
-            case 4: return ORANGE;
+            case 1: return WHITE;
+            case 2: return GREEN;
+            case 3: return BLUE;
+            case 4: return PURPLE;
+            case 5: return ORANGE;
             default:
                 throw new java.lang.IllegalArgumentException("invalid value " + value + " for Quality");
         }

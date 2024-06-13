@@ -208,7 +208,7 @@ public abstract class PeerConnBase {
                 .writeByte(header.length)
                 .writeBytes(header);
 
-        byteBufs.addComponents(true, buffer, aresPacket.getRecvByteBuf().retain());
+        byteBufs.addComponents(true, buffer, aresPacket.getRecvByteBuf());
         channelHandlerContext.writeAndFlush(byteBufs);
     }
 }

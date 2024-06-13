@@ -40,7 +40,7 @@ public abstract class Item {
     }
 
     public void init(boolean isFirstCreate) {
-        cfg.item.Item itemConfig = getItemConfig();
+        cfg.Item itemConfig = getItemConfig();
         if (itemConfig == null)
         {
             throw new UnknownLogicException("getItemConfig failed, itemId:" + itemId);
@@ -78,7 +78,7 @@ public abstract class Item {
     // 检查是否可以被消耗
     public abstract int checkConsume();
 
-    public cfg.item.Item getItemConfig() {
+    public cfg.Item getItemConfig() {
         return ExcelConfigMgr.getTables().getTbItem().get(itemId);
     }
 

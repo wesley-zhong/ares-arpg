@@ -1,6 +1,8 @@
 server:
   port: 6080
   type: 2
+  group-id: 0
+  max-player-count: 2000
 spring:
   application:
     name: gateway.V1

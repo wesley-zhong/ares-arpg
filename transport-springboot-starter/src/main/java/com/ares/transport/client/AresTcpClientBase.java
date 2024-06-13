@@ -27,7 +27,7 @@ public abstract class AresTcpClientBase implements AresTcpClient {
             while (true) {
                 try {
                     connectCheck();
-                    Thread.sleep(5000);
+                    Thread.sleep(8000);
                 } catch (Exception e) {
                     log.error("-----conn error", e);
                 }
@@ -40,9 +40,10 @@ public abstract class AresTcpClientBase implements AresTcpClient {
         for (Map<String, TcpConnServerInfo> serverInfoMap : serviceIdInstances) {
             for (TcpConnServerInfo tcpConnServerInfo : serverInfoMap.values()) {
                 int lostConnect = tcpConnServerInfo.checkLostConnect();
-                if(lostConnect ==0){
-                   continue;
+                if (lostConnect == 0) {
+                    continue;
                 }
+                log.info("-----------connect check- do connect serverNode={} count ={}", tcpConnServerInfo.getServerNodeInfo(), lostConnect);
                 doConnect(tcpConnServerInfo, lostConnect);
             }
         }

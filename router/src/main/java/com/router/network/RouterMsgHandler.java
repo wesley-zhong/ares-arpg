@@ -46,7 +46,7 @@ public class RouterMsgHandler implements AresTcpHandler {
         }
         int length = aresPacket.getRecvByteBuf().readableBytes();
         Object paraObj = calledMethod.getParser().parseFrom(new ByteBufInputStream(aresPacket.getRecvByteBuf(), length));
-        logicProcessThreadPool.execute(aresTKcpContext, calledMethod, uid, paraObj);
+        logicProcessThreadPool.execute(uid, aresTKcpContext, calledMethod, uid, paraObj);
     }
 
     @Override

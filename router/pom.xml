@@ -15,12 +15,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.ares</groupId>-->
-<!--            <artifactId>dal</artifactId>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>com.ares</groupId>
             <artifactId>discovery-springboot-starter</artifactId>

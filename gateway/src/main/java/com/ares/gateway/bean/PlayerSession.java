@@ -1,6 +1,7 @@
 package com.ares.gateway.bean;
 
 import com.ares.core.tcp.AresTKcpContext;
+import com.ares.core.timer.AresTimerTask;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ public class PlayerSession {
     private long sid;
     private AresTKcpContext aresTKcpContext;
     private boolean valid;
+    private AresTimerTask<?> aresTimerTask;
 
     public void cacheMySelf() {
         aresTKcpContext.cacheObj(this);
@@ -36,6 +38,6 @@ public class PlayerSession {
 
     @Override
     public String toString() {
-        return "uid:" + uid + " sid:"+sid +" from:" + aresTKcpContext.getCtx().channel();
+        return "uid:" + uid + " sid:" + sid + " from:" + aresTKcpContext.getCtx().channel();
     }
 }

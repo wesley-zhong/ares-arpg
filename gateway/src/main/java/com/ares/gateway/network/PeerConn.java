@@ -2,6 +2,7 @@ package com.ares.gateway.network;
 
 
 import com.ares.common.bean.ServerType;
+import com.ares.common.util.LRUCache;
 import com.ares.core.bean.AresPacket;
 import com.ares.gateway.discovery.OnDiscoveryWatchService;
 import com.ares.transport.bean.ServerNodeInfo;
@@ -14,20 +15,20 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.CompositeByteBuf;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
 @Slf4j
-public class PeerConn extends PeerConnBase {
+public class PeerConn extends PeerConnBase implements InitializingBean {
     @Autowired
     private OnDiscoveryWatchService onDiscoveryWatchService;
-
-    private final Map<Long, Channel> playerPeerContext = new ConcurrentHashMap<>();
+    @Value("${server.max-player-count:20000}")
+    private int maxPlayerCount;
+    private LRUCache<Long, Channel> playerPeerContext;
 
     public void sendToGameMsg(long uid, int msgId, Message body) {
         send(ServerType.GAME, uid, msgId, body);
@@ -79,7 +80,12 @@ public class PeerConn extends PeerConnBase {
                 .writeByte(header.length)
                 .writeBytes(header);
 
-        byteBufs.addComponents(true, buffer, aresPacket.getRecvByteBuf().retain());
+        byteBufs.addComponents(true, buffer, aresPacket.getRecvByteBuf());
         channelHandlerContext.writeAndFlush(byteBufs);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        playerPeerContext = new LRUCache<>(maxPlayerCount);
     }
 }

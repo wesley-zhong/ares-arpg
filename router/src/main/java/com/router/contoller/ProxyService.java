@@ -18,20 +18,15 @@ public class ProxyService {
         ProtoCommon.MsgHeader msgHeader = aresPacket.getRecvHeader();
         int msgId = msgHeader.getMsgId();
         int toServerType = msgHeader.getRouterTo();
-        log.info(" proxy uid = {} msgId ={} to server type ={}", uid, msgId, toServerType);
-        try {
-            if (toServerType == ServerType.TEAM.getValue()) {
-                peerConn.directToTeam(uid, aresPacket);
-                return;
-            }
-            if (toServerType == ServerType.GAME.getValue()) {
-                peerConn.directToGame(uid, aresPacket);
-                return;
-            }
-            log.error("XXXXXXXXXXXXXXX from uid  ={}  msgId ={} to server type ={} error", uid, msgId, toServerType);
-        } finally {
-            aresPacket.release();
+       // log.info(" proxy uid = {} msgId ={} to server type ={}", uid, msgId, toServerType);
+        if (toServerType == ServerType.TEAM.getValue()) {
+            peerConn.directToTeam(uid, aresPacket);
+            return;
         }
+        if (toServerType == ServerType.GAME.getValue()) {
+            peerConn.directToGame(uid, aresPacket);
+            return;
+        }
+        log.error("XXXXXXXXXXXXXXX from uid  ={}  msgId ={} to server type ={} error", uid, msgId, toServerType);
     }
-
 }

@@ -1,6 +1,8 @@
 server:
   port: 8080
   type: 4
+  group-id: 0
+  max-player-count: 2000
 spring:
   application:
     name: router.V1

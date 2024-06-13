@@ -27,9 +27,9 @@ public class DiscoveryServiceImpl implements DiscoveryService, ApplicationRunner
     private List<String> watchServicePrefix;
     private static final long LOCK_TIMEOUT_SECONDS = 5;
 
-    public void init(String[] endpoints, int serverType, String appName, int port, int areaId, List<String> watchServicePrefix, BiFunction<WatchEvent.EventType, ServerNodeInfo, Void> onNodeChangeFun) {
+    public void init(String[] endpoints, int serverType, String appName, int port, int groupId, List<String> watchServicePrefix, BiFunction<WatchEvent.EventType, ServerNodeInfo, Void> onNodeChangeFun) {
         etcdClient = Client.builder().keepaliveTime(null).endpoints(endpoints).build();
-        etcdRegister = new EtcdRegister(etcdClient, serverType, appName, port, areaId);
+        etcdRegister = new EtcdRegister(etcdClient, serverType, appName, port, groupId);
         etcdDiscovery = new EtcdDiscovery(etcdClient, onNodeChangeFun);
         this.watchServicePrefix = watchServicePrefix;
     }
@@ -70,7 +70,6 @@ public class DiscoveryServiceImpl implements DiscoveryService, ApplicationRunner
         if (!ret) {
             return 0;
         }
-
         try {
             GetResponse getResponse = etcdClient.getKVClient().get(SequenceUtils.bytesOf(serviceNodeIdKey), GetOption.builder().isPrefix(true).build()).get();
             List<KeyValue> kvs = getResponse.getKvs();
@@ -83,8 +82,8 @@ public class DiscoveryServiceImpl implements DiscoveryService, ApplicationRunner
 
             for (KeyValue keyValue : kvs) {
                 indexId++;
-                int workId = SequenceUtils.toInt(keyValue.getValue());// keyValue.getValue().toString(StandardCharsets.UTF_8);
-                String serviceId = SequenceUtils.toString(keyValue.getKey());// keyValue.getKey().toString(StandardCharsets.UTF_8);
+                int workId = SequenceUtils.toInt(keyValue.getValue());
+                String serviceId = SequenceUtils.toString(keyValue.getKey());
                // log.info("serviceId = {} index ={}", serviceId, workId);
                 if (serviceId.equals(myServiceId)) {
                     return workId;

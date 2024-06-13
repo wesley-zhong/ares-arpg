@@ -1,6 +1,7 @@
 server:
   port: 4080
   type: 1
+  group-id: 0
   tcp-port: 5080
 
 spring:
@@ -17,8 +18,7 @@ spring:
 
 discovery:
   endpoints:
-    - http://localhost:2379
-    - http://localhost:2379
+    - http://172.18.2.101:2379
   watch-servers:
     - service-name-prefix: gateway.V1
     - service-name-prefix: router.V1

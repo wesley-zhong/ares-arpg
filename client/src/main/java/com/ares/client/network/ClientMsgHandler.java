@@ -34,7 +34,7 @@ public class ClientMsgHandler implements AresTcpHandler {
     public void handleMsgRcv(AresTKcpContext aresTKcpContext) throws IOException {
         AresPacket aresPacket = aresTKcpContext.getRcvPackage();
         ProtoCommon.MsgHeader msgHeader = aresPacket.getRecvHeader();
-        log.info("-------------------  receive header  ={}", msgHeader);
+     //   log.info("-------------------  receive header  ={}", msgHeader);
         AresMsgIdMethod calledMethod = serviceMgr.getCalledMethod(msgHeader.getMsgId());
         if (calledMethod == null) {
             log.error("msgId ====== {} not register", msgHeader.getMsgId());

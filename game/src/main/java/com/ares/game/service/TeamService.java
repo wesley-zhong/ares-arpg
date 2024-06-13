@@ -63,26 +63,28 @@ public class TeamService {
         }
         ServerNodeInfo mySelfNodeInfo = onDiscoveryWatchService.getMySelfNodeInfo();
         String targetServiceId = innerTeamStartGameNFC.getGameServiceId();
-        if (!targetServiceId.equals(mySelfNodeInfo.getServiceId())) {//需要迁移game server
-            //change to another game server
-            //local server should do something to clear data
-            peerConn.removePlayerContext(uid);
-            log.info("*******************  send msg move uid={} to game server ={}", uid, targetServiceId);
-            ProtoInner.InnerSceneChangeReq build = ProtoInner.InnerSceneChangeReq.newBuilder()
-                    .setTargetId(innerTeamStartGameNFC.getTargetId())
-                    .setGameSrvId(innerTeamStartGameNFC.getGameServiceId())
-                    .build();
-            peerConn.sendGateWayMsg(uid, ProtoInner.InnerMsgId.INNER_PLAYER_MOVED_GAME_SERVER_VALUE, build);
-            peerConn.sendRouter(uid, ProtoInner.InnerMsgId.INNER_PLAYER_MOVED_GAME_SERVER_VALUE, build);
-        }
+        //   if (!targetServiceId.equals(mySelfNodeInfo.getServiceId())) {// 暂时   需要迁移game server
+        //change to another game server
+        //local server should do something to clear data
+        log.info("*******************  send msg move uid={} to game server ={} to start game", uid, targetServiceId);
+        ProtoInner.InnerSceneChangeReq build = ProtoInner.InnerSceneChangeReq.newBuilder()
+                .setTargetId(innerTeamStartGameNFC.getTargetId())
+                .setGameSrvId(innerTeamStartGameNFC.getGameServiceId())
+                .build();
+        peerConn.sendGateWayMsg(uid, ProtoInner.InnerMsgId.INNER_PLAYER_MOVED_GAME_SERVER_VALUE, build);
+        peerConn.sendRouter(uid, ProtoInner.InnerMsgId.INNER_PLAYER_MOVED_GAME_SERVER_VALUE, build);
+        //   }
         //send to player start game
-        log.info("*************  send uid ={} to start game ", uid);
+
         ProtoTeam.TeamStartGameNtf teamStartNtf = ProtoTeam.TeamStartGameNtf.newBuilder()
                 .setSceneId("scene_1")
                 .setTeamId(innerTeamStartGameNFC.getTeamId())
+                .setTargetId(innerTeamStartGameNFC.getTargetId())
                 .build();
         peerConn.sendGateWayMsg(uid, ProtoMsgId.MsgId.TEAM_START_GAME_NTF_VALUE, teamStartNtf);
 
+        playerRoleService.removePlayer(player);
+        peerConn.removePlayerContext(uid);
         //player enter scene
     }
 }

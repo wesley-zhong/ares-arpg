@@ -2,29 +2,29 @@ package com.ares.team.network;
 
 
 import com.ares.common.bean.ServerType;
-import com.ares.discovery.DiscoveryService;
+import com.ares.common.util.LRUCache;
 import com.ares.team.discovery.OnDiscoveryWatchService;
-import com.ares.transport.bean.ServerNodeInfo;
 import com.ares.transport.peer.PeerConnBase;
 import com.google.protobuf.Message;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
 @Slf4j
-public class PeerConn extends PeerConnBase {
+public class PeerConn extends PeerConnBase implements InitializingBean {
     @Autowired
     private OnDiscoveryWatchService onDiscoveryWatchService;
-    private final Map<Long, ChannelHandlerContext> playerIdContext = new ConcurrentHashMap<>();
+    @Value("${server.max-player-count:20000}")
+    private int maxPlayerCount;
+    private LRUCache<Long, ChannelHandlerContext> playerIdContext;
 
-    public void recordPlayerRouterContext(long uid, ChannelHandlerContext channelHandlerContext){
+    public void recordPlayerRouterContext(long uid, ChannelHandlerContext channelHandlerContext) {
         playerIdContext.put(uid, channelHandlerContext);
     }
 
@@ -42,9 +42,9 @@ public class PeerConn extends PeerConnBase {
         if (channelHandlerContext != null) {
             return channelHandlerContext.channel();
         }
-        return  null;
+        return null;
 
-  //      ServerNodeInfo serverNodeInfo = discoveryService.getEtcdDiscovery().getServerList().get(serverType);
+        //      ServerNodeInfo serverNodeInfo = discoveryService.getEtcdDiscovery().getServerList().get(serverType);
         //rewrite
 
 //        if (channelHandlerContext == null || !channelHandlerContext.channel().isActive()) {
@@ -57,5 +57,10 @@ public class PeerConn extends PeerConnBase {
 //            return routerContext;
 //        }
         //  return channelConMap.values().iterator().next();
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        playerIdContext = new LRUCache<>(maxPlayerCount);
     }
 }

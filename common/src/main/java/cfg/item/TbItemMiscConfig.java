@@ -14,14 +14,14 @@ import com.google.gson.JsonElement;
 
 
 public final class TbItemMiscConfig {
-    private final cfg.item.ItemMiscConfig _data;
+    private final cfg.ItemMiscConfig _data;
 
-    public final cfg.item.ItemMiscConfig data() { return _data; }
+    public final cfg.ItemMiscConfig data() { return _data; }
 
     public TbItemMiscConfig(JsonElement _buf) {
         int n = _buf.getAsJsonArray().size();
         if (n != 1) throw new SerializationException("table mode=one, but size != 1");
-        _data = cfg.item.ItemMiscConfig.deserialize(_buf.getAsJsonArray().get(0).getAsJsonObject().getAsJsonObject());
+        _data = cfg.ItemMiscConfig.deserialize(_buf.getAsJsonArray().get(0).getAsJsonObject().getAsJsonObject());
     }
 
 

@@ -93,4 +93,9 @@ public class TeamController implements AresController {
     public void teamStartGame(long uid, ProtoTeam.TeamStartGamePush teamStartGamePush) {
         teamService.startTeam(uid, teamStartGamePush);
     }
+
+    @MsgId(ProtoMsgId.MsgId.TEAM_INVITE_PUSH_VALUE)
+    public void invitePlayer(long uid, ProtoTeam.TeamInvitePush invitePush){
+        teamService.teamInvitePlayer(uid, invitePush);
+    }
 }

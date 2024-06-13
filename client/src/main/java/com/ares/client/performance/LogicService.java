@@ -65,7 +65,7 @@ public class LogicService {
     }
 
     // SCENE begin
-    public void enterSceneReady(ClientPlayer clientPlayer, int token) {
+    public void  enterSceneReady(ClientPlayer clientPlayer, int token) {
         ProtoScene.EnterSceneReadyReq.Builder builder = ProtoScene.EnterSceneReadyReq.newBuilder();
         builder.setEnterSceneToken(token);
         clientPlayer.send(ProtoMsgId.MsgId.ENTER_SCENE_READY_REQ_VALUE, builder.build());
@@ -104,7 +104,7 @@ public class LogicService {
                         .setState(ProtoScene.MotionState.MOTION_STANDBY)
                 .build());
         builder.addEntityMoveInfoList(moveInfo.build());
-        clientPlayer.send(ProtoMsgId.MsgId.SCENE_ENTITIES_MOVE_PUSH_VALUE, builder.build());
+     //   clientPlayer.send(ProtoMsgId.MsgId.SCENE_ENTITIES_MOVE_PUSH_VALUE, builder.build());
     }
     // SCENE end
 }

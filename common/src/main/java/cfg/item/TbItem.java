@@ -13,28 +13,25 @@ import luban.*;
 import com.google.gson.JsonElement;
 
 
-/**
- * 道具表
- */
 public final class TbItem {
-    private final java.util.HashMap<Integer, cfg.item.Item> _dataMap;
-    private final java.util.ArrayList<cfg.item.Item> _dataList;
+    private final java.util.HashMap<Integer, cfg.Item> _dataMap;
+    private final java.util.ArrayList<cfg.Item> _dataList;
     
     public TbItem(JsonElement _buf) {
-        _dataMap = new java.util.HashMap<Integer, cfg.item.Item>();
-        _dataList = new java.util.ArrayList<cfg.item.Item>();
+        _dataMap = new java.util.HashMap<Integer, cfg.Item>();
+        _dataList = new java.util.ArrayList<cfg.Item>();
         
         for (com.google.gson.JsonElement _e_ : _buf.getAsJsonArray()) {
-            cfg.item.Item _v;
-            _v = cfg.item.Item.deserialize(_e_.getAsJsonObject());
+            cfg.Item _v;
+            _v = cfg.Item.deserialize(_e_.getAsJsonObject());
             _dataList.add(_v);
             _dataMap.put(_v.id, _v);
         }
     }
 
-    public java.util.HashMap<Integer, cfg.item.Item> getDataMap() { return _dataMap; }
-    public java.util.ArrayList<cfg.item.Item> getDataList() { return _dataList; }
+    public java.util.HashMap<Integer, cfg.Item> getDataMap() { return _dataMap; }
+    public java.util.ArrayList<cfg.Item> getDataList() { return _dataList; }
 
-    public cfg.item.Item get(int key) { return _dataMap.get(key); }
+    public cfg.Item get(int key) { return _dataMap.get(key); }
 
 }

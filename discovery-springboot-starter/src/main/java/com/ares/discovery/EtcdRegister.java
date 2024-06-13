@@ -19,25 +19,26 @@ public class EtcdRegister {
     private final Client client;
     private final String appName;
     private final int port;
-    private final int areaId;
+    private final int groupId;
     private final int serveType;
     private ServerNodeInfo serverNodeInfo;
 
-    public EtcdRegister(Client client, int serverType, String appName, int port, int areaId) {
+    public EtcdRegister(Client client, int serverType, String appName, int port, int groupId) {
         this.client = client;
         this.appName = appName;
         this.port = port;
-        this.areaId = areaId;
+        this.groupId = groupId;
         this.serveType = serverType;
 
         String addr = NetUtils.getIpAddress().get(0);
-        String serviceId = NetUtils.createServiceId(appName, addr, port, areaId);
+        String serviceId = NetUtils.createServiceId(appName, addr, port, groupId);
         serverNodeInfo = new ServerNodeInfo();
         serverNodeInfo.setIp(addr);
         serverNodeInfo.setPort(port);
         serverNodeInfo.setServiceId(serviceId);
         serverNodeInfo.setServiceName(appName);
         serverNodeInfo.setServerType(serveType);
+        serverNodeInfo.setGroupId(groupId);
     }
 
     public void startRegister() {
@@ -62,7 +63,6 @@ public class EtcdRegister {
     private Client getClient() {
         return client;
     }
-
     private void putWithLease(String key, String value) {
         Lease leaseClient = getClient().getLeaseClient();
 

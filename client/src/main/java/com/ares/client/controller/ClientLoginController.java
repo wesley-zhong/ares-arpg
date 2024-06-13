@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,6 +28,8 @@ public class ClientLoginController implements AresController {
     private LogicService logicService;
     @Value("${playerCount:1}")
     public int PLAYER_COUNT;
+    @Autowired
+    private List<BaseController> baseControllerList;
 
     private AtomicInteger loginSuccessCount = new AtomicInteger(0);
 
@@ -37,20 +40,14 @@ public class ClientLoginController implements AresController {
         ClientPlayer clientPlayer = PlayerMgr.Instance.getClientPlayer(uid);
         AresTKcpContext aresTKcpContext = AresContextThreadLocal.get();
         aresTKcpContext.cacheObj(clientPlayer);
+
+        for(BaseController baseController : baseControllerList){
+            baseController.onPlayerLoginFinished(clientPlayer, response);
+        }
       // sendHeartBeatReq(aresTKcpContext);
 //        logicService.sendDirectToTeam(clientPlayer);
 //        logicService.sendRpcTest(clientPlayer);
-     //  logicService.createTeam(clientPlayer, "team_name_1");
-         // dismissTeam(clientPlayer);
-      //  logicService.startGame(clientPlayer);
 
-        //\
-       logicService.joinTeam(clientPlayer, 190044720647373824L);
-        //   logicService.exitTeam(clientPlayer, 1713345874421L);
-        //logicService.getAllTeamList(clientPlayer);
-        // logicService.getAllTeamList(clientPlayer);
-        //   logicService.enterDefaultScene(clientPlayer, 1);
-//        logicService.sendRpcTest(clientPlayer);
         int nowCount = loginSuccessCount.incrementAndGet();
         log.info("###### clientId ={} login success  now count={} targetCount ={}", uid, loginSuccessCount, PLAYER_COUNT);
         if (PLAYER_COUNT - nowCount < 10) {
@@ -102,7 +99,7 @@ public class ClientLoginController implements AresController {
 
     @MsgId(ProtoMsgId.MsgId.DIRECT_TO_TEAM_RES_VALUE)
     public void onWorldResponse(long uid, ProtoGame.DirectToWorldRes res) {
-        log.info("==============  DIRECT_TO_TEAM_RES_VALUE response ={} ", res);
+     //   log.info("==============  DIRECT_TO_TEAM_RES_VALUE response ={} ", res);
         ClientPlayer clientPlayer = PlayerMgr.Instance.getClientPlayer(uid);
         ProtoGame.DirectToWorldReq testReq = ProtoGame.DirectToWorldReq.newBuilder()
                 .setSomeIdAdd(System.currentTimeMillis())

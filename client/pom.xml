@@ -44,28 +44,6 @@
             </extension>
         </extensions>
         <plugins>
-            <!-- protobuf 编译组件 -->
-            <plugin>
-                <groupId>org.xolstice.maven.plugins</groupId>
-                <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.5.1</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>
-                    <protocArtifact>com.google.protobuf:protoc:3.25.3:exe:${os.detected.classifier}</protocArtifact>
-                    <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
-                    <!--设置是否在生成java文件之前清空outputDirectory的文件，默认值为true，设置为false时也会覆盖同名文件-->
-                    <clearOutputDirectory>false</clearOutputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

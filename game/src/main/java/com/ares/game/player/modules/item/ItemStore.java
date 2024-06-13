@@ -177,7 +177,7 @@ public abstract class ItemStore {
 //                    + " item_id:" + item.getItemId() + " guid:" + item.getGuid());
 //        }
 //
-//        cfg.item.Item itemConfig = item.getItemConfig();
+//        cfg.Item itemConfig = item.getItemConfig();
 //        if (itemConfig == null)
 //        {
 //            throw new UnknownLogicException("getItemConfig fails, uid:" + player.getUid()
@@ -361,7 +361,7 @@ public abstract class ItemStore {
         for (Item item : itemList)
         {
             int itemId = item.getItemId();
-            cfg.item.Item itemConfig = item.getItemConfig();
+            cfg.Item itemConfig = item.getItemConfig();
             if (itemConfig == null)
             {
                 throw new UnknownLogicException("getItemConfig fails, uid:" + player.getUid()
@@ -412,7 +412,7 @@ public abstract class ItemStore {
 //        int total_add_furniture_count = 0;
         for (ItemParam itemParam : itemParamMap.values())
         {
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (itemConfig == null)
             {
                 log.warn("findItemConfig failed, uid:" + player.getUid() + " item_id:" + itemParam.itemId);
@@ -562,7 +562,7 @@ public abstract class ItemStore {
             }
 
             int itemId = item.getItemId();
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemId);
             if (itemConfig == null)
             {
                 throw new UnknownLogicException("findItemConfig failed, uid:" + player.getUid() + " item_id:" + itemId);
@@ -701,7 +701,7 @@ public abstract class ItemStore {
             int itemId = itemParam.itemId;
             int count = itemParam.count;
 
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (itemConfig == null)
             {
                 log.warn("findItemConfig failed, uid:" + player.getUid() + " item_id:" + itemParam.itemId);
@@ -778,7 +778,7 @@ public abstract class ItemStore {
 
         for (ItemParam itemParam : itemParamList)
         {
-            cfg.item.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
+            cfg.Item itemConfig = ExcelConfigMgr.getTables().getTbItem().get(itemParam.itemId);
             if (itemConfig == null)
             {
                 log.warn("findItemConfig failed, uid:" + player.getUid() + " item_id:" + itemParam.itemId);

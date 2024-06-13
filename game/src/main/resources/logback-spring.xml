@@ -5,7 +5,8 @@
     <property name="FILE_NAME" value="game"/>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>%yellow(%date{yyyy-MM-dd HH:mm:ss SSS}) |%highlight(%-5level) |%blue(%thread) |%blue(%file:%line)|%msg%n</Pattern>
+            <Pattern>%yellow(%date{yyyy-MM-dd HH:mm:ss SSS}) |%highlight(%-5level) |%blue(%thread) |%blue(%file:%line)|%msg%n
+            </Pattern>
         </encoder>
     </appender>
     <!--<appender name="AsynFILE" class="net.logstash.logback.appender.LoggingEventAsyncDisruptorAppender">-->
@@ -15,7 +16,7 @@
             <!-- daily rollover -->
             <fileNamePattern>${LOG_HOME}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.zip</fileNamePattern>
             <maxHistory>20</maxHistory>
-            <maxFileSize>500MB</maxFileSize>
+            <maxFileSize>300MB</maxFileSize>
         </rollingPolicy>
 
         <!--<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
@@ -28,15 +29,21 @@
         <!--</encoder>-->
 
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{25} - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
-    <!--</appender>-->
+
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE"/>
+        <queueSize>10000</queueSize>
+        <!-- 设置队列入队时非阻塞，当队列满时会直接丢弃日志，但是对性能提升极大 -->
+        <neverBlock>true</neverBlock>
+    </appender>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="ASYNC_FILE"/>
     </root>
 
 </configuration>

@@ -4,10 +4,7 @@ import com.ares.core.annotation.MsgId;
 import com.ares.core.service.AresController;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.core.utils.AresContextThreadLocal;
-import com.ares.dal.game.UserTokenService;
-import com.ares.discovery.DiscoveryService;
 import com.ares.gateway.service.SessionService;
-import com.ares.transport.bean.ServerNodeInfo;
 import com.game.protoGen.ProtoGame;
 import com.game.protoGen.ProtoInner;
 import com.game.protoGen.ProtoMsgId;
@@ -22,11 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LoginController implements AresController {
     @Autowired
     private SessionService sessionService;
-    @Autowired
-    private DiscoveryService discoveryService;
-    @Autowired
-    private UserTokenService userTokenService;
-
 
     @MsgId(ProtoMsgId.MsgId.GAME_LOGIN_PUSH_VALUE)
     public void gameLogin(long uid, ProtoGame.GameLoginPush gameLoginReq) {

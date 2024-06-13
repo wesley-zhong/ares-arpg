@@ -88,7 +88,7 @@ public class GateWayMsgHandler implements AresServerTcpHandler {
             return;
         }
         if (playerSession != null) {
-            peerConn.innerRedirectTo(ServerType.GAME, playerSession.getUid(), aresPacket);
+            peerConn.innerRedirectTo(ServerType.GAME, playerSession.getUid(), aresPacket.retain());
             return;
         }
         log.error("客户端没有登录，但发了别的包");
@@ -120,6 +120,9 @@ public class GateWayMsgHandler implements AresServerTcpHandler {
         if (cacheObj instanceof PlayerSession disConnectedPlayerSession) {
             log.info("----- playerSession={} ", aresTKcpContext, disConnectedPlayerSession);
             PlayerSession playerSession = sessionService.getPlayerSession(disConnectedPlayerSession.getUid());
+            if (playerSession == null) {
+                return;
+            }
             if (playerSession.getSid() != disConnectedPlayerSession.getSid()) {
                 log.warn("onClientClosed uid = {} have re-login", disConnectedPlayerSession.getUid());
                 return;

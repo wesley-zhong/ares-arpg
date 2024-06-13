@@ -1,6 +1,7 @@
 package com.ares.gateway.service;
 
 import com.ares.common.bean.ServerType;
+import com.ares.common.util.LRUCache;
 import com.ares.core.bean.AresPacket;
 import com.ares.core.tcp.AresTKcpContext;
 import com.ares.dal.game.UserOnlineService;
@@ -16,12 +17,12 @@ import com.google.protobuf.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.concurrent.NotThreadSafe;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -32,7 +33,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 @Slf4j
 @NotThreadSafe
-public class SessionServiceImp implements SessionService {
+public class SessionServiceImp implements SessionService, InitializingBean {
     @Autowired
     private PeerConn peerConn;
     @Autowired
@@ -41,10 +42,12 @@ public class SessionServiceImp implements SessionService {
     private OnDiscoveryWatchService onDiscoveryWatchService;
     @Autowired
     private UserOnlineService userOnlineService;
+    @Value("${server.max-player-count:20000}")
+    private int maxPlayerCount;
 
     private AtomicLong sidGen = new AtomicLong(System.currentTimeMillis());
 
-    private final Map<Long, PlayerSession> playerSessionMap = new ConcurrentHashMap<>();
+    private LRUCache<Long, PlayerSession> playerSessionMap;
 
 
     @Override
@@ -102,6 +105,18 @@ public class SessionServiceImp implements SessionService {
                 .build();
         peerConn.send(channel, loginRequest.getUid(), ProtoInner.InnerMsgId.INNER_TO_GAME_LOGIN_REQ_VALUE, innerLoginRequest);
         peerConn.recordPlayerPeerChannel(loginRequest.getUid(), channel);
+
+        //设置超时 only for example 其实不用，用心跳包即可
+//        if (playerSession.getAresTimerTask() != null) {
+//            playerSession.getAresTimerTask().cancel();
+//        }
+//        AresTimerTask<?> aresTimerTask = ScheduleService.INSTANCE.executeTimerTaskWithMS(loginRequest.getUid(), this::onPlayerLonginGamsrvTimeOut, playerSession, 10000);
+//        playerSession.setAresTimerTask(aresTimerTask);
+    }
+
+    private void onPlayerLonginGamsrvTimeOut(PlayerSession playerSession) {
+        log.error("player id ={} login timeout ,should be close session,", playerSession.getUid());
+        playerSession.close();
     }
 
     private UserOnlineStateDO createCurUserOnlineStateDO() {
@@ -191,17 +206,17 @@ public class SessionServiceImp implements SessionService {
         UserOnlineStateDO ret = userOnlineService.setUserOnlineStatus(uid, userOnlineStateDO);
         if (!ret.getGmSrId().equals(innerSceneChangeReq.getGameSrvId()) || ret.getTargetId() != innerSceneChangeReq.getTargetId()) {
             log.error("XXXXXXXXXXXXXXXXXXXX  playerChangeScene  req={}  changed failed", innerSceneChangeReq);
-
             return;
         }
 
         Channel channel = tcpConnServerInfo.hashChannel(uid);
         ProtoInner.InnerGameLoginRequest innerLoginRequest = ProtoInner.InnerGameLoginRequest.newBuilder()
                 .setTargetId(innerSceneChangeReq.getTargetId())
-                .setSid(sidGen.incrementAndGet()).build();
+                .setSid(playerSession.getSid()).build();
 
         peerConn.send(channel, uid, ProtoInner.InnerMsgId.INNER_TO_GAME_LOGIN_REQ_VALUE, innerLoginRequest);
         peerConn.recordPlayerPeerChannel(uid, channel);
+        log.info("############# uid ={} changed to gameServer={} targetId ={}", uid, tcpConnServerInfo.getServerNodeInfo(), innerSceneChangeReq.getTargetId());
     }
 
     @Override
@@ -279,5 +294,10 @@ public class SessionServiceImp implements SessionService {
         int online = playerSessionMap.size();
         myNodeInfo.setOnlineCount(online);
         discoveryService.getEtcdRegister().updateServerNodeInfo(myNodeInfo);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        playerSessionMap = new LRUCache<>(maxPlayerCount);
     }
 }

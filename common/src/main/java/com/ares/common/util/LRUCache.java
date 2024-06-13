@@ -1,63 +1,42 @@
 package com.ares.common.util;
 
-import com.google.common.cache.*;
+import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
+import com.googlecode.concurrentlinkedhashmap.EvictionListener;
+import com.googlecode.concurrentlinkedhashmap.Weighers;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class LRUCache<K, V> {
+    private final ConcurrentLinkedHashMap<K, V> cache;
+    private EvictionListener<K, V> removeListener = new EvictionListener<K, V>() {
+        @Override
+        public void onEviction(K k, V v) {
+            log.info("key = {} lru removed", k);
+        }
+    };
 
-    private final LoadingCache<K, V> cache;
-    private OnRemoved<K, V> onRemoved;
-    //  private V EMPTY =  new ();
-
-    public LRUCache(CacheLoader<K, V> loader, int maxSize, OnRemoved<K, V> onRemovedListener) {
-        this.cache = CacheBuilder.newBuilder()
-                .maximumSize(maxSize)
-                .removalListener(new RemovalListener<Object, Object>() {
-                    @Override
-                    public void onRemoval(RemovalNotification<Object, Object> notification) {
-                        onRemoved.apply((K) notification.getKey(), (V) notification.getValue());
-                    }
-                })
-                .build(loader);
-    }
-
-    public LRUCache(int maxSize, OnRemoved<K, V> onRemovedListener) {
-        this.onRemoved = onRemovedListener;
-        this.cache = CacheBuilder.newBuilder()
-                .maximumSize(maxSize)
-                .removalListener(new RemovalListener<Object, Object>() {
-                    @Override
-                    public void onRemoval(RemovalNotification<Object, Object> notification) {
-                        onRemoved.apply((K) notification.getKey(), (V) notification.getValue());
-                    }
-                })
-                .build(new CacheLoader<K, V>() {
-                    @Override
-                    public V load(K key) throws Exception {
-                        return null;
-                    }
-                });
-    }
 
     public LRUCache(int maxSize) {
-        this.cache = CacheBuilder.newBuilder()
-                .maximumSize(maxSize)
-                .build(new CacheLoader<K, V>() {
-                    @Override
-                    public V load(K key) throws Exception {
-                        return null;
-                    }
-                });
+        this.cache = new ConcurrentLinkedHashMap.Builder<K, V>()
+                .maximumWeightedCapacity(maxSize)
+                .initialCapacity(maxSize)
+                .listener(removeListener)
+                .weigher(Weighers.singleton()).build();
     }
 
-    public synchronized V get(K key) {
-        try {
-            return cache.get(key);
-        } catch (Exception e) {
-        }
-        return null;
+    public V get(K key) {
+        return cache.get(key);
     }
 
-    public synchronized void put(K key, V value) {
-        cache.put(key, value);
+    public V put(K key, V value) {
+        return cache.put(key, value);
+    }
+
+    public V remove(K key) {
+        return cache.remove(key);
+    }
+
+    public int size(){
+        return cache.size();
     }
 }

@@ -13,21 +13,23 @@ public class ExcelConfigMgr {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelConfigMgr.class);
 
     private static final String dirPath = "./excel-json";
-    private static volatile Tables tables;
+    private static volatile ExcelConfig excelConfig;
 
     public static void load() throws IOException {
-        Tables tables1 = new Tables(file -> JsonParser.parseString(
+        Tables tables = new Tables(file -> JsonParser.parseString(
                 new String(Files.readAllBytes(Paths.get(dirPath, file + ".json")), "UTF-8")));
-        tables = tables1;
+        ExcelConfig config = new ExcelConfig(tables);
+        config.afterLoad();
 
+        excelConfig = config;
         LOGGER.info("load succeed");
     }
 
     // 返回值：true 成功，false 失败
     public static boolean reload() {
-        Tables tables1;
+        Tables tables;
         try {
-            tables1 = new Tables(file -> JsonParser.parseString(
+            tables = new Tables(file -> JsonParser.parseString(
                     new String(Files.readAllBytes(Paths.get(dirPath, file + ".json")), "UTF-8")));
         }
         catch (IOException e) {
@@ -35,12 +37,25 @@ public class ExcelConfigMgr {
             return false;
         }
 
-        tables = tables1;
+        ExcelConfig config = new ExcelConfig(tables);
+        try {
+            config.afterLoad();
+        }
+        catch (Exception e) {
+            LOGGER.error("reload error", e);
+            return false;
+        }
+
+        excelConfig = config;
         LOGGER.info("reload succeed");
         return true;
     }
 
     public static Tables getTables() {
-        return tables;
+        return excelConfig.getTables();
+    }
+
+    public static ExcelConfig getExcelConfig() {
+        return excelConfig;
     }
 }

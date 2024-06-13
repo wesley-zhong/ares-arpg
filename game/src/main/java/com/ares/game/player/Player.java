@@ -18,11 +18,7 @@ import com.ares.game.scene.VisionContext;
 import com.ares.game.scene.entity.avatar.Avatar;
 import com.ares.game.scene.world.PlayerWorld;
 import com.ares.game.scene.world.World;
-import com.game.protoGen.BinServer;
-import com.game.protoGen.ProtoCommon;
-import com.game.protoGen.ProtoErrorCode;
-import com.game.protoGen.ProtoMsgId;
-import com.game.protoGen.ProtoScene;
+import com.game.protoGen.*;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import lombok.Getter;
@@ -239,7 +235,7 @@ public class Player extends PlayerModuleContainer {
         if (enterSceneState != PlayerSceneModule.EnterSceneState.ENTER_SCENE_NONE
                 && enterSceneState != PlayerSceneModule.EnterSceneState.ENTER_SCENE_POST) {
             // 只是打印LOG，不阻塞
-            log.info("beginEnterScene state " + enterSceneState + " with last one not finish, uid:" + getUid());
+            log.error("beginEnterScene state " + enterSceneState + " with last one not finish, uid:" + getUid());
         }
 
         // 记录传送目标
@@ -289,11 +285,11 @@ public class Player extends PlayerModuleContainer {
     public ProtoScene.EnterSceneReadyRes enterSceneReady(ProtoScene.EnterSceneReadyReq req) {
         // 进入场景的条件检查
         if (req.getEnterSceneToken() != sceneModule.getEnterSceneToken()) {
-            log.debug("[ENTER_SCENE] token not match, client_token:" + req.getEnterSceneToken() + " server_token:" + sceneModule.getEnterSceneToken());
+            log.error("[ENTER_SCENE] token not match, client_token:" + req.getEnterSceneToken() + " server_token:" + sceneModule.getEnterSceneToken());
             throw new FyLogicException(ProtoErrorCode.ErrCode.ENTER_SCENE_TOKEN_INVALID_VALUE);
         }
         if (sceneModule.getEnterSceneState() != PlayerSceneModule.EnterSceneState.ENTER_SCENE_NOTIFY) {
-            log.debug("EnterSceneState is not EnterSceneNotify, uid:" + getUid());
+            log.error("EnterSceneState is not EnterSceneNotify, uid:" + getUid());
             throw new UnknownLogicException("EnterSceneState is not EnterSceneNotify");
         }
 
@@ -468,7 +464,7 @@ public class Player extends PlayerModuleContainer {
 
     public ProtoScene.SceneInitFinishRes sceneInitFinish(ProtoScene.SceneInitFinishReq req) {
         if (req.getEnterSceneToken() != sceneModule.getEnterSceneToken()) {
-            log.debug("[ENTER_SCENE] token not match, client_token:" + req.getEnterSceneToken() + " server_token:" + sceneModule.getEnterSceneToken());
+            log.error("[ENTER_SCENE] token not match, client_token: {}  server_token:{}", req.getEnterSceneToken(), sceneModule.getEnterSceneToken());
             throw new FyLogicException(ProtoErrorCode.ErrCode.ENTER_SCENE_TOKEN_INVALID_VALUE);
         }
 

@@ -2,6 +2,7 @@ package com.router.network;
 
 
 import com.ares.common.bean.ServerType;
+import com.ares.common.util.LRUCache;
 import com.ares.core.bean.AresPacket;
 import com.ares.dal.game.UserOnlineService;
 import com.ares.dal.game.UserOnlineStateDO;
@@ -12,22 +13,22 @@ import com.router.bean.RouterPlayerInterTransferInfo;
 import com.router.discovery.OnDiscoveryWatchService;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @Component
 @Slf4j
-public class PeerConn extends PeerConnBase {
+public class PeerConn extends PeerConnBase implements InitializingBean {
     @Autowired
     private UserOnlineService userOnlineService;
     @Autowired
     private OnDiscoveryWatchService onDiscoveryWatchService;
-    private int MAX_PLAYER_CACHE = 20000;
-    private Map<Long, RouterPlayerInterTransferInfo> routerPlayerInterTransferInfoMap = new ConcurrentHashMap<>();
+    @Value("${server.max-player-count:20000}")
+    private int maxPlayerCount;
+    private LRUCache<Long, RouterPlayerInterTransferInfo> routerPlayerInterTransferInfoMap;
 
 
     public void directToTeam(long uid, AresPacket aresPacket) {
@@ -89,7 +90,7 @@ public class PeerConn extends PeerConnBase {
         if (routerPlayerInterTransferInfo.getTeamCtx().getServiceId().equals(teamSrvId)) {
             return null;
         }
-
+        userOnlineService.resetTeamServId(uid, teamSrvId);
         Channel lastChanel = routerPlayerInterTransferInfo.getTeamCtx().getChannel();
         TcpConnServerInfo serverTcpConnInfo = getServerTcpConnInfo(teamSrvId);
         if (serverTcpConnInfo == null) {
@@ -124,5 +125,10 @@ public class PeerConn extends PeerConnBase {
             routerPlayerInterTransferInfoMap.put(uid, routerPlayerInterTransferInfo);
         }
         routerPlayerInterTransferInfo.setContext(serverNodeInfo, channel);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        routerPlayerInterTransferInfoMap = new LRUCache<>(maxPlayerCount);
     }
 }

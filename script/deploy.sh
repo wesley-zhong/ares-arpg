@@ -1,4 +1,4 @@
-git pull
+p4 sync
 cd ../
 mvn clean
 mvn package

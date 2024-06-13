@@ -33,6 +33,7 @@ public class UserOnlineService implements InitializingBean {
             "  end\n" +
             " if(existObj.ver == argObj.ver) then\n" +
             "   existObj.gmSrId = argObj.gmSrId\n" +
+            "   existObj.targetId = argObj.targetId\n" +
             " end\n" +
             "  existObj.ver = existObj.ver + 1\n" +
             "  strDataObj = cjson.encode(existObj)\n" +

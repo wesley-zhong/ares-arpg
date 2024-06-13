@@ -30,6 +30,13 @@ public class AresPacket {
         return 0;
     }
 
+    public AresPacket retain() {
+        if (recvByteBuf != null) {
+            recvByteBuf.retain();
+        }
+        return this;
+    }
+
     public ProtoCommon.MsgHeader parseHeader() throws IOException {
         recvByteBuf.skipBytes(4);
         int headerLen = recvByteBuf.readByte();
@@ -49,7 +56,7 @@ public class AresPacket {
         if (this.recvByteBuf != null) {
             aresPacket.recvByteBuf = this.recvByteBuf.retain();
         }
-        aresPacket.sendBody =  this.sendBody;
+        aresPacket.sendBody = this.sendBody;
         aresPacket.sendHeader = this.sendHeader;
         aresPacket.recvHeader = this.recvHeader;
         return aresPacket;

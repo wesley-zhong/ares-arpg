@@ -1,6 +1,8 @@
 server:
   port: 9080
   type: 5
+  group-id: 0
+  max-player-count: 20000
 
 spring:
   application:

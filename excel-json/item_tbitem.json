@@ -1,26 +1,23 @@
 [
   {
     "id": 10001,
-    "name": "白萝卜",
     "type": 2,
     "stack_limit": 999,
-    "quality": 0,
+    "quality": 1,
     "dropable": true
   },
   {
     "id": 10011,
-    "name": "铁矿石",
     "type": 2,
     "stack_limit": 999,
-    "quality": 0,
+    "quality": 1,
     "dropable": true
   },
   {
     "id": 20001,
-    "name": "木剑",
     "type": 3,
     "stack_limit": 1,
-    "quality": 0,
+    "quality": 1,
     "dropable": true
   }
 ]

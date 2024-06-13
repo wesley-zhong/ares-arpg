@@ -2,7 +2,6 @@ package com.ares.team;
 
 
 import com.ares.discovery.annotation.EnableAresDiscovery;
-import com.ares.transport.annotation.EnableAresTcpServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;

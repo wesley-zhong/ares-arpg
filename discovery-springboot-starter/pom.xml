@@ -26,6 +26,7 @@
             <groupId>io.etcd</groupId>
             <artifactId>jetcd-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.ares</groupId>
             <artifactId>transport-springboot-starter</artifactId>

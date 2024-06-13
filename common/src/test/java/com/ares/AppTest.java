@@ -36,21 +36,11 @@ public class AppTest
      * Rigourous Test :-)
      */
     public void testApp() throws InvalidProtocolBufferException {
-//        ProtoInner.MsgHeader.Builder builder = ProtoInner.MsgHeader.newBuilder()
-//                .setMsgId(111)
-//                .setReqId(123);
-//
-//
-//        ProtoInner.InnerMsgHeader innerMsgHeader = ProtoInner.InnerMsgHeader.parseFrom(builder.build().toByteArray());
-//
-//
-//        ProtoInner.InnerMsgHeader.Builder builder1 = ProtoInner.InnerMsgHeader.newBuilder().setRouterTo(111)
-//                .setReqId(4999)
-//                .setCrc(100)
-//                .setReqId(1000);
-//
-//        ProtoInner.MsgHeader msgHeader = ProtoInner.MsgHeader.parseFrom(builder1.build().toByteArray());
-        assertTrue( true );
+        LRUCache<Integer, String> lru = new LRUCache<>(3);
+        lru.put(1,"a");
+        lru.put(2,"a");
+        lru.put(3,"a");
+        lru.put(4,"a");
     }
 
     public void testLru() throws Exception {

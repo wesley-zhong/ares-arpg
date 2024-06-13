@@ -26,8 +26,8 @@ public class AresDiscoveryConfigure {
     @Value("${server.tcp-port:0}")
     private int serverTcpPort;
 
-    @Value("${area.id:0}")
-    private int areaId;
+    @Value("${server.group-id:0}")
+    private int groupId;
     @Value("${server.type:0}")
     private int serverType;
 
@@ -46,7 +46,7 @@ public class AresDiscoveryConfigure {
             }
         }
         int tcpPort = serverTcpPort == 0 ? serverPort : serverTcpPort;
-        etcdService.init(discoveryEndPoints.getEndpoints(), serverType, appName, tcpPort, areaId, watchPreFixes, onDiscoveryWatchService::onWatchServiceChange);
+        etcdService.init(discoveryEndPoints.getEndpoints(), serverType, appName, tcpPort, groupId, watchPreFixes, onDiscoveryWatchService::onWatchServiceChange);
         return etcdService;
     }
 }

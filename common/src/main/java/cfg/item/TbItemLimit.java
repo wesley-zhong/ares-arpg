@@ -13,28 +13,25 @@ import luban.*;
 import com.google.gson.JsonElement;
 
 
-/**
- * 产出限制表
- */
 public final class TbItemLimit {
-    private final java.util.HashMap<Integer, cfg.item.ItemLimit> _dataMap;
-    private final java.util.ArrayList<cfg.item.ItemLimit> _dataList;
+    private final java.util.HashMap<Integer, cfg.ItemLimit> _dataMap;
+    private final java.util.ArrayList<cfg.ItemLimit> _dataList;
     
     public TbItemLimit(JsonElement _buf) {
-        _dataMap = new java.util.HashMap<Integer, cfg.item.ItemLimit>();
-        _dataList = new java.util.ArrayList<cfg.item.ItemLimit>();
+        _dataMap = new java.util.HashMap<Integer, cfg.ItemLimit>();
+        _dataList = new java.util.ArrayList<cfg.ItemLimit>();
         
         for (com.google.gson.JsonElement _e_ : _buf.getAsJsonArray()) {
-            cfg.item.ItemLimit _v;
-            _v = cfg.item.ItemLimit.deserialize(_e_.getAsJsonObject());
+            cfg.ItemLimit _v;
+            _v = cfg.ItemLimit.deserialize(_e_.getAsJsonObject());
             _dataList.add(_v);
             _dataMap.put(_v.type, _v);
         }
     }
 
-    public java.util.HashMap<Integer, cfg.item.ItemLimit> getDataMap() { return _dataMap; }
-    public java.util.ArrayList<cfg.item.ItemLimit> getDataList() { return _dataList; }
+    public java.util.HashMap<Integer, cfg.ItemLimit> getDataMap() { return _dataMap; }
+    public java.util.ArrayList<cfg.ItemLimit> getDataList() { return _dataList; }
 
-    public cfg.item.ItemLimit get(int key) { return _dataMap.get(key); }
+    public cfg.ItemLimit get(int key) { return _dataMap.get(key); }
 
 }
